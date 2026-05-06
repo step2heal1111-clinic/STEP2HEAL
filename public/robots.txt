@@ -1,4 +1,1 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://step2heal.in/sitemap.xml
+temp

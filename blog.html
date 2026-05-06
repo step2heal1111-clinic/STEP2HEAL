@@ -2,14 +2,13 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XG3J8PES22"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-XG3J8PES22');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XG3J8PES22"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XG3J8PES22');
+    </script>
     
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
@@ -74,6 +73,40 @@
         bookingMessage: 'Hi Step2Heal! 👋 I\'d like to book a physiotherapy session. Could you please share the available slots? Thank you!',
         categories: ['All', 'Exercises', 'Recovery', 'Lifestyle'],
         posts: [
+            {
+                id: 4,
+                category: 'Lifestyle',
+                title: '5 things you\'ve been told about back pain that are probably wrong',
+                excerpt: 'Back pain is one of the most common reasons people visit a physiotherapist — and also one of the most misunderstood.',
+                content: `
+                    <p class='mb-4'>Back pain is one of the most common reasons people visit a physiotherapist — and also one of the most misunderstood. A lot of what we've been taught about it, often by well-meaning people, quietly makes things worse.</p>
+                    <p class='mb-6'>We're not here to blame anyone. These myths are everywhere — in family advice, old fitness culture, even some outdated medical guidance. But in our clinic, we see the consequences of them daily. So let's clear a few things up.</p>
+                    
+                    <h3 class='text-xl font-bold text-[#0d3b44] mb-2'>Myth 1: 'Rest is the best thing for a bad back.'</h3>
+                    <p class='mb-4'><strong>The truth:</strong> This one has done a lot of damage. Complete bed rest was standard advice for decades — and research has since shown it often prolongs recovery rather than speeds it up. When you stop moving, muscles weaken, joints stiffen, and the nervous system becomes more sensitised to pain signals. Gentle, appropriate movement — even on the worst days — is almost always better.</p>
+                    
+                    <h3 class='text-xl font-bold text-[#0d3b44] mb-2'>Myth 2: 'If it shows up on a scan, it must be causing my pain.'</h3>
+                    <p class='mb-4'><strong>The truth:</strong> MRIs and X-rays are incredibly useful tools — but they can also be misleading without context. Studies have scanned people with zero back pain and found disc bulges, degenerative changes, and other 'abnormalities' in a significant proportion of them. These findings are often just the normal wear of a life lived.</p>
+                    <blockquote class='border-l-4 border-teal-500 pl-4 py-2 italic text-gray-600 mb-4'>'A scan shows structure. It doesn't always tell you why you hurt.'</blockquote>
+                    
+                    <h3 class='text-xl font-bold text-[#0d3b44] mb-2'>Myth 3: 'A firm mattress is always better for your back.'</h3>
+                    <p class='mb-4'><strong>The truth:</strong> The reality is more nuanced: the best mattress is the one that keeps your spine in neutral alignment — and that varies by your body type, weight, and preferred sleep position. Medium-firm tends to work well for most people, but there's no universal answer.</p>
+                    
+                    <h3 class='text-xl font-bold text-[#0d3b44] mb-2'>Myth 4: 'Back pain means something is seriously wrong.'</h3>
+                    <p class='mb-4'><strong>The truth:</strong> For most people, back pain is rarely dangerous. The vast majority of episodes resolve within a few weeks with the right guidance. Of course, red flags like numbness in both legs or loss of bladder control warrant urgent attention, but a sore lower back after a long week is usually just your body asking for movement.</p>
+                    
+                    <h3 class='text-xl font-bold text-[#0d3b44] mb-2'>Myth 5: 'Once you have a bad back, you always will.'</h3>
+                    <p class='mb-4'><strong>The truth:</strong> This is damaging because it leads people to stop trying. The spine is remarkably resilient. With building strength and understanding movement quality, most people can return to a full, active life.</p>
+                    
+                    <p class='mt-6 font-bold text-[#0d3b44]'>So what actually helps?</p>
+                    <p class='mb-4'>Movement. Strength. Understanding your own body. Physiotherapy isn't about cracking things into place; it's about helping you build a body that works well for the life you want to live.</p>
+                `,
+                date: '2026-05-06',
+                displayDate: '6 May 2026',
+                author: 'Step2Heal Team',
+                readTime: '6 min read',
+                image: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&q=80&w=800'
+            },
             {
                 id: 1,
                 category: 'Exercises',
@@ -156,6 +189,29 @@
             document.body.style.overflow = 'auto';
             setTimeout(() => { this.selectedPost = null; }, 300);
         },
+        sharePost(post, e) {
+            if (e) e.stopPropagation();
+            const shareData = {
+                title: post.title,
+                text: post.excerpt,
+                url: window.location.href
+            };
+            
+            if (navigator.share) {
+                navigator.share(shareData).catch(() => this.copyToClipboard(post.title));
+            } else {
+                this.copyToClipboard(post.title);
+            }
+        },
+        copyToClipboard(title) {
+            const el = document.createElement('textarea');
+            el.value = `Check out this blog from Step2Heal: ${title} - ${window.location.href}`;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            // Custom simple toast would go here
+        },
         bookSession() {
             const url = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(this.bookingMessage)}`;
             window.open(url, '_blank');
@@ -175,7 +231,7 @@
           class="fixed w-full z-[60] transition-all duration-300 nav-blur">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center">
-                <div class="flex items-center gap-4 group cursor-pointer" onclick="window.location.href='index.html'">
+                <div class="flex items-center gap-4 group cursor-pointer" onclick="window.location.href='/'">
                     <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" alt="Step2Heal Logo" class="h-14 w-auto object-contain">
                     <div class="flex flex-col leading-none">
                         <span class="font-extrabold text-xl text-[#0d3b44] tracking-tight">Step2Heal</span>
@@ -265,8 +321,11 @@
                 <article @click="openPost(post)" class="card-hover group flex flex-col bg-white border border-gray-100 rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl animate-slide">
                     <div class="relative h-60 overflow-hidden">
                         <img :src="post.image" :alt="post.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute top-4 left-4">
+                        <div class="absolute top-4 left-4 flex justify-between w-full pr-8">
                             <span class="bg-white/95 backdrop-blur-md text-[#0d3b44] px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm" x-text="post.category"></span>
+                            <button @click="sharePost(post, $event)" class="bg-white/95 backdrop-blur-md p-2 rounded-full text-[#0d3b44] hover:bg-teal-600 hover:text-white transition-all shadow-sm">
+                                <i data-lucide="share-2" class="w-4 h-4"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="p-8 flex flex-col flex-1">
@@ -322,8 +381,11 @@
              x-transition:enter-start="scale-95 translate-y-8"
              x-transition:enter-end="scale-100 translate-y-0">
             
-            <!-- Modal Header -->
-            <div class="absolute top-6 right-6 z-10">
+            <!-- Modal Header Actions -->
+            <div class="absolute top-6 right-6 z-10 flex gap-2">
+                <button @click="sharePost(selectedPost)" class="p-3 bg-white/90 backdrop-blur rounded-full text-[#0d3b44] hover:bg-teal-50 hover:text-teal-600 transition-all shadow-lg">
+                    <i data-lucide="share-2" class="w-6 h-6"></i>
+                </button>
                 <button @click="closePost" class="p-3 bg-white/90 backdrop-blur rounded-full text-[#0d3b44] hover:bg-red-50 hover:text-red-600 transition-all shadow-lg">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
@@ -364,10 +426,16 @@
                             <p class="font-black text-[#0d3b44] text-lg">Was this helpful?</p>
                             <p class="text-sm text-gray-500">Reach out for a personalized consultation.</p>
                         </div>
-                        <button @click="bookSession" class="bg-[#0d3b44] text-white px-8 py-3 rounded-2xl font-bold hover:bg-teal-700 transition-all flex items-center gap-2">
-                            <span>Book an Appointment</span>
-                            <i data-lucide="calendar" class="w-4 h-4"></i>
-                        </button>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                             <button @click="sharePost(selectedPost)" class="bg-white text-[#0d3b44] border border-gray-200 px-8 py-3 rounded-2xl font-bold hover:bg-gray-100 transition-all flex items-center justify-center gap-2">
+                                <i data-lucide="share-2" class="w-4 h-4"></i>
+                                <span>Share Post</span>
+                            </button>
+                            <button @click="bookSession" class="bg-[#0d3b44] text-white px-8 py-3 rounded-2xl font-bold hover:bg-teal-700 transition-all flex items-center justify-center gap-2">
+                                <span>Book Appointment</span>
+                                <i data-lucide="calendar" class="w-4 h-4"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -15,7 +15,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Physiotherapy Tips & Health Blog | Step2Heal Noida</title>
+    <title>Physiotherapy Tips & Health Blog | Step2Heal</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -58,6 +58,11 @@
         .logo-img {
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
         }
+
+        /* Substack Specific Styling */
+        .substack-card {
+            background: linear-gradient(135deg, #0d3b44 0%, #1a5a66 100%);
+        }
     </style>
 </head>
 <body class="bg-white text-gray-900 selection:bg-teal-100 selection:text-[#0d3b44]" 
@@ -71,7 +76,7 @@
         isReading: false,
         whatsappNumber: '919773960242',
         bookingMessage: 'Hi Step2Heal! 👋 I\'d like to book a physiotherapy session. Could you please share the available slots? Thank you!',
-        categories: ['All', 'Exercises', 'Recovery', 'Lifestyle'],
+        categories: ['All', 'Substack', 'Exercises', 'Recovery', 'Lifestyle'],
         posts: [
             {
                 id: 4,
@@ -210,7 +215,6 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            // Custom simple toast would go here
         },
         bookSession() {
             const url = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(this.bookingMessage)}`;
@@ -271,7 +275,7 @@
     </div>
 
     <!-- Hero -->
-    <section class="blog-gradient pt-32 pb-16 md:pt-48 md:pb-24">
+    <section class="blog-gradient pt-32 pb-12 md:pt-48 md:pb-16">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-[#0d3b44] leading-tight tracking-tighter mb-6">
                 Recovery <span class="text-teal-600">Insights</span> & Movement.
@@ -281,7 +285,7 @@
             </p>
             
             <!-- Search & Sort -->
-            <div class="max-w-4xl mx-auto flex flex-col md:flex-row gap-4">
+            <div class="max-w-4xl mx-auto flex flex-col md:flex-row gap-4 mb-8">
                 <div class="flex-1 relative group">
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                         <i data-lucide="search" class="w-5 h-5 text-gray-400 group-focus-within:text-teal-600 transition-colors"></i>
@@ -301,6 +305,40 @@
         </div>
     </section>
 
+    <!-- Featured Substack Portal -->
+    <section class="max-w-7xl mx-auto px-4 mb-20" x-show="activeCategory === 'All' || activeCategory === 'Substack'">
+        <div class="substack-card rounded-[3rem] p-8 md:p-12 relative overflow-hidden group cursor-pointer shadow-2xl hover:shadow-teal-900/30 transition-all duration-500" onclick="window.open('https://step2heal.substack.com/', '_blank')">
+            <div class="relative z-10 flex flex-col lg:flex-row items-center gap-12">
+                <div class="flex-1 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-teal-300 text-xs font-black uppercase tracking-widest mb-6">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+                        </span>
+                        Live on Substack
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">Deep Dives & Health Deep-Learning.</h2>
+                    <p class="text-teal-50/80 text-lg md:text-xl mb-8 leading-relaxed">Join 100+ readers getting weekly updates on evidence-based recovery strategies, anatomy breakdowns, and long-form physiotherapy insights directly in their inbox.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <span class="inline-flex items-center justify-center gap-3 bg-white text-[#0d3b44] px-10 py-5 rounded-2xl font-black text-lg hover:bg-teal-50 transition-all transform group-hover:scale-105">
+                            Visit Our Newsletter
+                            <i data-lucide="external-link" class="w-5 h-5"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="lg:w-1/3 flex flex-col items-center justify-center space-y-4">
+                    <div class="w-24 h-24 bg-white/10 rounded-3xl flex items-center justify-center backdrop-blur-xl border border-white/20">
+                        <i data-lucide="book-open" class="w-12 h-12 text-teal-400"></i>
+                    </div>
+                    <p class="text-white/60 font-bold text-sm tracking-widest uppercase">step2heal.substack.com</p>
+                </div>
+            </div>
+            <!-- Decorative Elements -->
+            <div class="absolute -right-24 -top-24 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute -left-24 -bottom-24 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+        </div>
+    </section>
+
     <!-- Content -->
     <main class="max-w-7xl mx-auto px-4 pb-24">
         <!-- Categories -->
@@ -317,6 +355,25 @@
 
         <!-- Blog Grid -->
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Hybrid Static + Substack Entry -->
+            <template x-if="activeCategory === 'All' || activeCategory === 'Substack'">
+                <article onclick="window.open('https://step2heal.substack.com/', '_blank')" class="card-hover group flex flex-col bg-gray-50 border-2 border-dashed border-teal-100 rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl animate-slide relative">
+                    <div class="p-8 flex flex-col h-full text-center items-center justify-center space-y-6">
+                        <div class="p-4 bg-teal-100 rounded-full text-teal-600">
+                            <i data-lucide="newspaper" class="w-8 h-8"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-black text-[#0d3b44] mb-3">Latest from Substack</h3>
+                            <p class="text-gray-500 text-sm leading-relaxed">Access our full archives including clinical case studies and long-form therapeutic guides.</p>
+                        </div>
+                        <span class="inline-flex items-center gap-2 text-teal-600 font-black text-sm uppercase tracking-widest">
+                            Browse Platform
+                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </span>
+                    </div>
+                </article>
+            </template>
+
             <template x-for="post in filteredPosts" :key="post.id">
                 <article @click="openPost(post)" class="card-hover group flex flex-col bg-white border border-gray-100 rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl animate-slide">
                     <div class="relative h-60 overflow-hidden">
@@ -352,7 +409,7 @@
         </div>
 
         <!-- Empty State -->
-        <div x-show="filteredPosts.length === 0" class="py-20 text-center space-y-6">
+        <div x-show="filteredPosts.length === 0 && activeCategory !== 'Substack'" class="py-20 text-center space-y-6">
             <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto">
                 <i data-lucide="search-x" class="text-gray-300 w-10 h-10"></i>
             </div>
@@ -469,23 +526,20 @@
     <footer class="bg-white py-12 border-t border-gray-100">
         <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
             <div class="flex items-center gap-2">
-                <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" alt="S2H Logo" class="h-8 md:h-10 logo-img" onerror="this.src='https://ui-avatars.com/api/?name=S2H&background=0d3b44&color=fff'">
-                <div class="flex flex-col">
-                    <span class="font-bold text-[#0d3b44]">Step2Heal</span>
-                    <span class="text-[8px] italic text-orange-500">Where every step matters</span>
-                </div>
+                <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" alt="Step2Heal Logo" class="h-10 w-auto object-contain">
+                <span class="font-extrabold text-lg text-[#0d3b44]">Step2Heal</span>
             </div>
-            <p class="text-xs text-gray-400">© 2026 Step2Heal Advanced Physiotherapy and Rehabilitation Centre. Noida Sector 12. All rights reserved</p>
+            <p class="text-gray-400 text-sm">© 2026 Step2Heal Physiotherapy and Rehabilitation Centre Noida Sector 12. All rights reserved.</p>
             <div class="flex gap-6">
                 <a href="#" class="text-gray-400 hover:text-teal-600 transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
                 <a href="#" class="text-gray-400 hover:text-teal-600 transition-colors"><i data-lucide="facebook" class="w-5 h-5"></i></a>
-                <a href="#" class="text-gray-400 hover:text-teal-600 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                <a href="https://step2heal.substack.com/" target="_blank" class="text-gray-400 hover:text-orange-500 transition-colors font-bold text-sm tracking-tighter">SUBSTACK</a>
             </div>
         </div>
     </footer>
 
     <script>
-        // Initialize Lucide icons
+        // Initialize Lucide Icons
         lucide.createIcons();
     </script>
 </body>

@@ -74,164 +74,185 @@
 
     <style>
         :root {
-            --brand-dark: #0d3b44;
-            --brand-teal: #0d9488;
-            --brand-orange: #f97316;
-        }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
-        .nav-blur { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-        [x-cloak] { display: none !important; }
-        
-        .bg-mesh-dark {
-            background-color: #0d3b44;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(13, 148, 136, 0.3) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(249, 115, 22, 0.15) 0px, transparent 50%),
-                radial-gradient(at 50% 100%, rgba(13, 59, 68, 1) 0px, transparent 50%);
-            background-size: 200% 200%;
-            animation: meshMove 15s ease infinite;
+            --sea-deep: #072e33;
+            --sea-teal: #0d9488;
+            --sea-light: #2dd4bf;
+            --coral-orange: #f97316;
+            --water-glow: rgba(45, 212, 191, 0.2);
         }
 
-        @keyframes meshMove {
-            0% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-            100% { background-position: 0% 0%; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            overflow-x: hidden; 
+            background-color: var(--sea-deep);
+            color: white;
         }
 
-        .hero-glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
+        /* Undersea Background & Caustics */
+        .ocean-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(to bottom, #0d3b44, #072e33, #051a1d);
+            overflow: hidden;
+        }
+
+        .caustics {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/water.png');
+            opacity: 0.15;
+            filter: brightness(2) contrast(1.5);
+            animation: waterMove 20s linear infinite;
+        }
+
+        @keyframes waterMove {
+            from { background-position: 0 0; }
+            to { background-position: 500px 1000px; }
+        }
+
+        /* Floating Bubbles */
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: rise var(--duration) ease-in infinite;
+            z-index: 0;
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            20% { opacity: 0.4; }
+            80% { opacity: 0.4; }
+            100% { transform: translateY(-110vh) translateX(var(--drift)); opacity: 0; }
+        }
+
+        /* Glassmorphism Undersea Style */
+        .sea-glass {
+            background: rgba(13, 148, 136, 0.08);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
-        @keyframes float-slow {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(2deg); }
-        }
+        .nav-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        
+        /* Floating Animation */
         .float-anim { animation: float-slow 8s ease-in-out infinite; }
         .float-delayed { animation: float-slow 10s ease-in-out infinite; animation-delay: 2s; }
 
-        .text-glow {
-            text-shadow: 0 0 30px rgba(20, 184, 166, 0.3);
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(1deg); }
         }
 
-        .orange-tagline {
-            color: #f97316;
-            font-weight: 800;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
+        .text-glow-sea {
+            text-shadow: 0 0 20px rgba(45, 212, 191, 0.6);
         }
 
-        /* Step Indicator Styling */
-        .step-node {
-            position: relative;
-        }
-        .step-node::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            width: 2px;
-            height: 20px;
-            background: linear-gradient(to bottom, #0d9488, transparent);
-        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--sea-teal); border-radius: 10px; }
 
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #0d948840; border-radius: 10px; }
+        /* Smooth reveal on scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
-<body class="bg-white text-gray-900" x-data="{ scrolled: false, mobileMenu: false }">
+<body x-data="{ scrolled: false, mobileMenu: false }" @scroll.window="scrolled = (window.pageYOffset > 20)">
+
+    <!-- Ocean Background Layer -->
+    <div class="ocean-bg">
+        <div class="caustics"></div>
+        <!-- Bubbles generated by JS -->
+        <div id="bubble-container"></div>
+    </div>
 
     <!-- Navigation -->
-    <nav :class="scrolled ? 'shadow-md py-2 bg-white/95 scrolled' : 'py-6 bg-transparent'" 
-         @scroll.window="scrolled = (window.pageYOffset > 20)"
-         class="fixed w-full z-[60] transition-all duration-300 nav-blur border-b border-white/5">
+    <nav :class="scrolled ? 'py-3 bg-teal-950/80' : 'py-6 bg-transparent'" 
+         class="fixed w-full z-[60] transition-all duration-500 nav-blur border-b border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="relative flex items-center justify-between md:justify-center">
+            <div class="relative flex items-center justify-between">
                 
-                <!-- Left Links -->
-                <div class="hidden md:flex flex-1 items-center justify-end space-x-8 pr-16">
-                    <a href="https://step2heal.in" class="text-sm font-bold transition-colors" :class="scrolled ? 'text-gray-600 hover:text-teal-600' : 'text-white/90 hover:text-white'">Main</a>
-                    <div class="flex items-center gap-1.5 px-3 py-1 bg-white/10 rounded-full border border-white/10 backdrop-blur-sm">
-                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-orange-400"></i>
-                        <span class="text-[10px] font-black uppercase tracking-wider" :class="scrolled ? 'text-gray-500' : 'text-teal-50/80'">Noida Sector 12</span>
+                <!-- Logo -->
+                <div class="z-20 flex items-center gap-3">
+                    <div class="relative p-1 rounded-full bg-white shadow-lg hover:scale-110 transition-transform cursor-pointer" onclick="window.location.href='index.html'">
+                        <img src="https://step2heal.in/WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" alt="Step2Heal" class="h-12 w-12 object-contain rounded-full">
                     </div>
+                    <span class="font-black text-2xl tracking-tighter text-white">Step<span class="text-teal-400">2</span>Heal</span>
                 </div>
 
-                <!-- Center Logo -->
-                <div class="z-20">
-                    <div class="relative flex items-center justify-center p-1.5 rounded-full bg-white shadow-lg border-4 border-teal-500/10 hover:scale-105 transition-transform cursor-pointer" onclick="window.location.href='index.html'">
-                        <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" alt="Step2Heal" class="h-14 w-14 object-contain rounded-full">
-                    </div>
-                </div>
-
-                <!-- Right Links -->
-                <div class="hidden md:flex flex-1 items-center justify-start space-x-8 pl-16">
-                    <a href="#online-sessions" class="text-sm font-bold transition-colors" :class="scrolled ? 'text-gray-600 hover:text-teal-600' : 'text-white/90 hover:text-white'">Online Session</a>
-                    <a href="https://wa.me/919773960242" class="bg-[#0d9488] hover:bg-teal-700 text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest shadow-lg shadow-teal-900/20 transition-all">Book Session</a>
+                <!-- Desktop Links -->
+                <div class="hidden md:flex items-center space-x-10">
+                    <a href="https://step2heal.in" class="text-sm font-bold text-white/80 hover:text-teal-300 transition-colors">Main</a>
+                    <a href="#issue-grid" class="text-sm font-bold text-white/80 hover:text-teal-300 transition-colors">Conditions</a>
+                    <a href="#online-sessions" class="text-sm font-bold text-white/80 hover:text-teal-300 transition-colors">Online Session</a>
+                    <a href="https://wa.me/919773960242" class="bg-teal-500 hover:bg-teal-400 text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all active:scale-95">Book Session</a>
                 </div>
 
                 <!-- Mobile Menu Button -->
-                <button @click="mobileMenu = !mobileMenu" class="md:hidden p-2 ml-auto" :class="scrolled ? 'text-gray-900' : 'text-white'">
-                    <i data-lucide="menu"></i>
+                <button @click="mobileMenu = !mobileMenu" class="md:hidden p-2 text-white">
+                    <i data-lucide="menu" x-show="!mobileMenu"></i>
+                    <i data-lucide="x" x-show="mobileMenu"></i>
                 </button>
             </div>
         </div>
         
-        <!-- Mobile Menu Overlay -->
-        <div x-show="mobileMenu" x-transition x-cloak class="fixed inset-0 bg-[#0d3b44] z-50 flex flex-col p-8 md:hidden">
-            <div class="flex justify-between items-center mb-12">
-                <div class="flex items-center gap-3">
-                    <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" class="h-10 bg-white rounded-full p-1" alt="">
-                    <span class="font-black text-white text-xl">Step2Heal</span>
-                </div>
-                <button @click="mobileMenu = false" class="text-white"><i data-lucide="x"></i></button>
-            </div>
-            <div class="flex flex-col gap-6">
-                <a @click="mobileMenu = false" href="https://step2heal.in" class="text-2xl font-black text-white">Main Website</a>
-                <a @click="mobileMenu = false" href="#online-sessions" class="text-2xl font-black text-white">Online Sessions</a>
-                <a @click="mobileMenu = false" href="https://wa.me/919773960242" class="w-full bg-teal-500 text-white py-4 rounded-2xl font-black text-center">Book Now</a>
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenu" x-transition x-cloak class="fixed inset-0 bg-teal-950/95 z-50 flex flex-col p-8 md:hidden pt-24">
+            <div class="flex flex-col gap-8">
+                <a @click="mobileMenu = false" href="https://step2heal.in" class="text-3xl font-black text-white">Home</a>
+                <a @click="mobileMenu = false" href="#issue-grid" class="text-3xl font-black text-white">Conditions</a>
+                <a @click="mobileMenu = false" href="#online-sessions" class="text-3xl font-black text-white">Virtual Care</a>
+                <a @click="mobileMenu = false" href="https://wa.me/919773960242" class="w-full bg-teal-500 text-white py-5 rounded-2xl font-black text-center text-xl shadow-xl shadow-teal-500/20">Book Now</a>
             </div>
         </div>
     </nav>
 
     <main>
         <!-- Hero Section -->
-        <section class="relative min-h-screen flex items-center pt-20 bg-mesh-dark text-white overflow-hidden">
-            <!-- Background Elements -->
-            <div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
-                <div class="absolute top-1/4 left-10 w-96 h-96 bg-teal-500 rounded-full blur-[120px] float-anim"></div>
-                <div class="absolute bottom-1/4 right-10 w-96 h-96 bg-orange-500 rounded-full blur-[120px] float-delayed"></div>
-            </div>
-
+        <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
             <div class="max-w-7xl mx-auto px-6 relative z-10 w-full grid lg:grid-cols-2 gap-12 items-center">
-                <div class="max-w-3xl">
-                    <!-- Tagline -->
-                    <div class="mb-6 inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
-                        <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
-                        <span class="orange-tagline text-[10px] md:text-xs">Where every step matters</span>
+                <div class="reveal">
+                    <div class="mb-6 inline-flex items-center gap-3 px-4 py-2 rounded-full bg-teal-400/10 border border-teal-400/20 backdrop-blur-sm">
+                        <span class="w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
+                        <span class="text-orange-400 font-extrabold text-[10px] md:text-xs uppercase tracking-widest">Where every step matters</span>
                     </div>
 
-                    <h1 class="text-5xl md:text-8xl font-black leading-[0.9] mb-8 tracking-tighter text-glow">
-                        Recovery is <br><span class="text-teal-400">Personal.</span>
+                    <h1 class="text-6xl md:text-8xl font-black leading-[0.9] mb-8 tracking-tighter text-glow-sea">
+                        Recovery is <br><span class="text-teal-400 italic">Personal.</span>
                     </h1>
                     
-                    <p class="text-xl text-teal-50/80 mb-10 leading-relaxed max-w-xl">
-                        From acute sports injuries to chronic neurological conditions, we provide clinical excellence tailored to your unique lifestyle and movement goals.
+                    <p class="text-xl text-teal-50/70 mb-10 leading-relaxed max-w-xl">
+                        Dive into a new standard of healing. From acute sports injuries to chronic neurological conditions, we provide clinical excellence submerged in care.
                     </p>
                     
                     <div class="flex flex-wrap gap-5">
-                        <a href="#issue-grid" class="group bg-teal-600 hover:bg-teal-500 px-10 py-5 rounded-2xl font-black transition-all flex items-center gap-3 shadow-xl shadow-teal-900/40">
+                        <a href="#issue-grid" class="group bg-teal-600 hover:bg-teal-500 px-10 py-5 rounded-2xl font-black transition-all flex items-center gap-3 shadow-2xl shadow-teal-900/60">
                             Explore Conditions 
-                            <i data-lucide="arrow-down" class="w-5 h-5 group-hover:translate-y-1 transition-transform"></i>
+                            <i data-lucide="anchor" class="w-5 h-5 group-hover:rotate-12 transition-transform"></i>
                         </a>
-                        <a href="#treatment-spotlight" class="bg-white/5 hover:bg-white/10 border border-white/10 backdrop-blur-md px-10 py-5 rounded-2xl font-black transition-all">
+                        <a href="#treatment-spotlight" class="bg-white/5 hover:bg-white/10 border border-white/20 backdrop-blur-md px-10 py-5 rounded-2xl font-black transition-all">
                             Clinical Tech
                         </a>
                     </div>
 
-                    <!-- Trust Indicators -->
                     <div class="mt-16 pt-8 border-t border-white/10 flex items-center gap-8">
                         <div>
                             <div class="text-3xl font-black text-white">5000+</div>
@@ -246,60 +267,47 @@
                 </div>
 
                 <!-- Floating Visual elements -->
-                <div class="hidden lg:block relative h-[600px]">
-                    <!-- Main Card -->
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-[450px] hero-glass rounded-[3rem] p-8 flex flex-col justify-between float-anim">
+                <div class="hidden lg:block relative h-[600px] reveal">
+                    <!-- Main Glass Card -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-[450px] sea-glass rounded-[3rem] p-8 flex flex-col justify-between float-anim">
                         <div class="flex justify-between items-start">
-                            <div class="w-12 h-12 rounded-2xl bg-teal-500/20 flex items-center justify-center text-teal-400">
-                                <i data-lucide="activity"></i>
+                            <div class="w-12 h-12 rounded-2xl bg-teal-400/20 flex items-center justify-center text-teal-300">
+                                <i data-lucide="waves"></i>
                             </div>
                             <div class="text-right">
-                                <div class="text-[10px] font-black text-teal-400 uppercase">Live Pulse</div>
+                                <div class="text-[10px] font-black text-teal-400 uppercase">Recovery Rate</div>
                                 <div class="text-xl font-black">98%</div>
                             </div>
                         </div>
                         
                         <div class="space-y-4">
-                            <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                                <div class="h-full bg-teal-500 w-3/4"></div>
+                            <div class="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+                                <div class="h-full bg-teal-400 w-3/4 shadow-[0_0_15px_rgba(45,212,191,0.5)]"></div>
                             </div>
-                            <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                                <div class="h-full bg-orange-500 w-1/2"></div>
-                            </div>
-                            <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                                <div class="h-full bg-teal-300 w-5/6"></div>
+                            <div class="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+                                <div class="h-full bg-orange-500 w-1/2 shadow-[0_0_15px_rgba(249,115,22,0.5)]"></div>
                             </div>
                         </div>
 
                         <div class="pt-6 border-t border-white/10">
-                            <p class="text-xs font-bold text-white/40 mb-2">PROGRESS STEPS</p>
-                            <div class="flex gap-2">
-                                <div class="w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center text-[10px] font-black">01</div>
-                                <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-black">02</div>
-                                <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-black">03</div>
+                            <p class="text-xs font-bold text-white/40 mb-3 uppercase">Healing Flow</p>
+                            <div class="flex gap-3">
+                                <div class="w-10 h-10 rounded-full bg-teal-500 flex items-center justify-center text-[10px] font-black shadow-lg">PH1</div>
+                                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-black">PH2</div>
+                                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-black">PH3</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Side Cards -->
-                    <div class="absolute top-20 right-0 w-48 p-5 hero-glass rounded-3xl float-delayed">
-                        <div class="flex items-center gap-3 mb-3">
-                            <i data-lucide="shield-check" class="text-orange-400 w-5 h-5"></i>
-                            <span class="text-xs font-black uppercase">Verified</span>
-                        </div>
-                        <p class="text-[10px] text-white/60 leading-relaxed font-bold">Evidence-based protocols only.</p>
-                    </div>
-
-                    <div class="absolute bottom-20 left-0 w-56 p-6 hero-glass rounded-3xl float-anim" style="animation-delay: -3s">
-                        <div class="text-2xl font-black text-teal-400 mb-1">Sector 12</div>
-                        <p class="text-[10px] text-white/60 font-bold tracking-widest uppercase">Center of Excellence</p>
-                    </div>
+                    <!-- Ambient Orbs -->
+                    <div class="absolute top-0 right-0 w-48 h-48 bg-teal-500/20 rounded-full blur-[80px] animate-pulse"></div>
+                    <div class="absolute bottom-0 left-0 w-64 h-64 bg-orange-500/10 rounded-full blur-[100px]"></div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 1: The Interactive Problem-Service Grid -->
-        <section id="issue-grid" class="py-24 bg-slate-50" x-data="{ 
+        <!-- Condition Grid Section -->
+        <section id="issue-grid" class="py-24 relative" x-data="{ 
             selected: 'Sciatica',
             conditions: {
                 'Sciatica': {
@@ -335,50 +343,50 @@
             }
         }">
             <div class="max-w-7xl mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-sm font-black uppercase tracking-[0.3em] text-teal-600 mb-2">Diagnostic Deep-Dive</h2>
-                    <h3 class="text-4xl font-black text-[#0d3b44]">What are you dealing with?</h3>
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-sm font-black uppercase tracking-[0.4em] text-teal-400 mb-2">Diagnostic Deep-Dive</h2>
+                    <h3 class="text-5xl font-black text-white">What are you dealing with?</h3>
                 </div>
 
-                <div class="grid lg:grid-cols-12 gap-8 bg-white p-4 rounded-[2.5rem] shadow-xl shadow-teal-900/5 min-h-[500px] border border-teal-50">
-                    <!-- Left Column: List -->
-                    <div class="lg:col-span-4 border-r border-gray-100 pr-4 custom-scrollbar overflow-y-auto max-h-[600px]">
+                <div class="grid lg:grid-cols-12 gap-8 sea-glass p-6 rounded-[3rem] min-h-[600px] border border-white/5 reveal">
+                    <!-- Navigation Column -->
+                    <div class="lg:col-span-4 border-r border-white/5 pr-4 custom-scrollbar overflow-y-auto max-h-[600px] space-y-3">
                         <template x-for="(data, name) in conditions">
                             <button 
                                 @click="selected = name"
-                                :class="selected === name ? 'bg-teal-600 text-white shadow-lg shadow-teal-600/20' : 'hover:bg-teal-50 text-gray-600'"
-                                class="w-full text-left px-6 py-5 rounded-2xl mb-2 transition-all duration-300 flex justify-between items-center group">
-                                <span class="font-bold text-lg" x-text="name"></span>
-                                <i data-lucide="chevron-right" class="w-5 h-5 opacity-50 group-hover:translate-x-1 transition-transform"></i>
+                                :class="selected === name ? 'bg-teal-500 text-white shadow-xl shadow-teal-500/20 scale-[1.02]' : 'hover:bg-white/5 text-teal-50/60'"
+                                class="w-full text-left px-8 py-6 rounded-2xl transition-all duration-500 flex justify-between items-center group">
+                                <span class="font-bold text-xl" x-text="name"></span>
+                                <i data-lucide="chevron-right" class="w-5 h-5 opacity-50 group-hover:translate-x-2 transition-transform"></i>
                             </button>
                         </template>
                     </div>
 
-                    <!-- Right Column: Content -->
-                    <div class="lg:col-span-8 p-8 flex flex-col justify-center">
-                        <div x-show="selected" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-4">
-                            <div class="flex items-center gap-3 mb-6">
-                                <span class="px-4 py-1 bg-orange-100 text-orange-600 rounded-full text-xs font-black uppercase tracking-widest">In-Depth View</span>
-                                <h4 class="text-3xl font-black text-[#0d3b44]" x-text="selected"></h4>
+                    <!-- Details Column -->
+                    <div class="lg:col-span-8 p-10 flex flex-col justify-center relative overflow-hidden">
+                        <div x-show="selected" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 translate-y-8" class="relative z-10">
+                            <div class="flex items-center gap-4 mb-8">
+                                <span class="px-5 py-1.5 bg-orange-500/20 text-orange-400 rounded-full text-xs font-black uppercase tracking-widest border border-orange-500/20">Condition Report</span>
+                                <h4 class="text-4xl font-black text-white" x-text="selected"></h4>
                             </div>
                             
                             <div class="grid md:grid-cols-2 gap-12">
-                                <div class="space-y-8">
+                                <div class="space-y-10">
                                     <div>
-                                        <h5 class="text-sm font-black text-teal-600 uppercase mb-2">What it feels like</h5>
-                                        <p class="text-gray-500 text-lg leading-relaxed italic" x-text="conditions[selected].feel"></p>
+                                        <h5 class="text-sm font-black text-teal-400 uppercase mb-3 tracking-widest">The Symptoms</h5>
+                                        <p class="text-teal-50/80 text-xl leading-relaxed font-medium italic" x-text="conditions[selected].feel"></p>
                                     </div>
                                     <div>
-                                        <h5 class="text-sm font-black text-teal-600 uppercase mb-2">Our Treatment Path</h5>
-                                        <p class="text-gray-700 font-semibold text-lg leading-relaxed" x-text="conditions[selected].path"></p>
+                                        <h5 class="text-sm font-black text-teal-400 uppercase mb-3 tracking-widest">Clinical Path</h5>
+                                        <p class="text-white font-bold text-xl leading-relaxed" x-text="conditions[selected].path"></p>
                                     </div>
                                 </div>
-                                <div class="bg-teal-50 p-8 rounded-3xl border border-teal-100 flex flex-col justify-center">
-                                    <i data-lucide="info" class="text-teal-600 mb-4 w-8 h-8"></i>
-                                    <h5 class="text-sm font-black text-[#0d3b44] uppercase mb-2">Local Insight / Tip</h5>
-                                    <p class="text-teal-800 font-medium" x-text="conditions[selected].stat"></p>
-                                    <a :href="'https://wa.me/919773960242?text=I need help with ' + selected" class="mt-6 inline-flex items-center gap-2 text-teal-600 font-bold hover:gap-4 transition-all">
-                                        Ask a specialist <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                <div class="bg-teal-400/10 p-10 rounded-3xl border border-teal-400/20 flex flex-col justify-center float-delayed">
+                                    <i data-lucide="info" class="text-teal-400 mb-6 w-10 h-10"></i>
+                                    <h5 class="text-sm font-black text-white uppercase mb-3 tracking-widest">Specialist Insight</h5>
+                                    <p class="text-teal-100/90 text-lg font-medium leading-relaxed" x-text="conditions[selected].stat"></p>
+                                    <a :href="'https://wa.me/919773960242?text=I need help with ' + selected" class="mt-8 inline-flex items-center gap-3 text-teal-400 font-black hover:gap-6 transition-all text-sm uppercase tracking-widest">
+                                        Ask a specialist <i data-lucide="arrow-right" class="w-5 h-5"></i>
                                     </a>
                                 </div>
                             </div>
@@ -388,269 +396,120 @@
             </div>
         </section>
 
-        <!-- Section 2: Online Sessions Section -->
-        <section id="online-sessions" class="py-24 bg-white relative overflow-hidden">
+        <!-- Virtual Care Section -->
+        <section id="online-sessions" class="py-24 relative">
             <div class="max-w-7xl mx-auto px-6">
-                <div class="grid lg:grid-cols-2 gap-16 items-center">
-                    <div>
-                        <span class="text-orange-500 font-black text-xs tracking-[0.3em] uppercase block mb-4">Global Reach</span>
-                        <h2 class="text-4xl md:text-5xl font-black text-[#0d3b44] mb-8 leading-tight">Virtual Care with <br><span class="text-teal-600">Expert Supervision.</span></h2>
+                <div class="grid lg:grid-cols-2 gap-20 items-center">
+                    <div class="reveal">
+                        <span class="text-orange-500 font-black text-xs tracking-[0.4em] uppercase block mb-6">Global Healing</span>
+                        <h2 class="text-5xl md:text-6xl font-black text-white mb-8 leading-tight tracking-tighter">Virtual Care. <br><span class="text-teal-400">Deep Expertise.</span></h2>
                         
-                        <div class="space-y-6">
-                            <div class="flex gap-4 p-6 rounded-3xl bg-teal-50/50 border border-teal-100/50">
-                                <div class="w-12 h-12 shrink-0 bg-white shadow-sm rounded-2xl flex items-center justify-center text-teal-600">
+                        <div class="space-y-8">
+                            <div class="flex gap-6 p-8 rounded-3xl sea-glass border border-white/5 hover:border-teal-500/30 transition-all">
+                                <div class="w-14 h-14 shrink-0 bg-teal-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-teal-500/20">
                                     <i data-lucide="video"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-black text-[#0d3b44] mb-1">Founders' Expertise</h4>
-                                    <p class="text-gray-500 text-sm leading-relaxed">Our founders have pioneered 1:1 online physiotherapy, helping patients across continents recover with curated exercise plans and real-time biomechanical correction.</p>
+                                    <h4 class="font-black text-white text-xl mb-2">1:1 Focused Sessions</h4>
+                                    <p class="text-teal-50/60 leading-relaxed">Pioneered by our founders, our online protocols ensure real-time movement correction and progress tracking no matter where you are.</p>
                                 </div>
                             </div>
 
-                            <div class="flex gap-4 p-6 rounded-3xl bg-orange-50/50 border border-orange-100/50">
-                                <div class="w-12 h-12 shrink-0 bg-white shadow-sm rounded-2xl flex items-center justify-center text-orange-500">
+                            <div class="flex gap-6 p-8 rounded-3xl sea-glass border border-white/5 hover:border-orange-500/30 transition-all">
+                                <div class="w-14 h-14 shrink-0 bg-orange-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-orange-500/20">
                                     <i data-lucide="dumbbell"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-black text-[#0d3b44] mb-1">Tailored Exercise Library</h4>
-                                    <p class="text-gray-500 text-sm leading-relaxed">Receive personalized video exercise prescriptions that you can follow independently, with weekly progress audits from our lead doctors.</p>
+                                    <h4 class="font-black text-white text-xl mb-2">Smart Exercise Prescriptions</h4>
+                                    <p class="text-teal-50/60 leading-relaxed">Curated video libraries tailored to your specific biomechanics, updated weekly based on your recovery trajectory.</p>
                                 </div>
                             </div>
                         </div>
 
-                        <a href="https://wa.me/919773960242?text=I'm interested in an Online Physiotherapy Session." class="mt-10 inline-flex items-center gap-3 bg-[#0d3b44] text-white px-8 py-4 rounded-2xl font-black hover:bg-teal-900 transition-all">
-                            Book Online Session <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        <a href="https://wa.me/919773960242?text=I'm interested in an Online Physiotherapy Session." class="mt-12 inline-flex items-center gap-4 bg-white text-teal-900 px-10 py-5 rounded-2xl font-black hover:bg-teal-50 transition-all shadow-2xl">
+                            Book Online Session <i data-lucide="external-link" class="w-5 h-5"></i>
                         </a>
                     </div>
                     
-                    <div class="relative">
-                        <div class="bg-gradient-to-br from-teal-600 to-teal-800 rounded-[3rem] p-12 text-white relative z-10">
-                            <h3 class="text-2xl font-bold mb-6 italic">"Distance is no longer a barrier to quality healing."</h3>
-                            <div class="flex items-center gap-4">
-                                <div class="flex -space-x-3">
-                                    <div class="w-10 h-10 rounded-full bg-white border-2 border-teal-600"></div>
-                                    <div class="w-10 h-10 rounded-full bg-teal-100 border-2 border-teal-600"></div>
-                                </div>
-                                <span class="text-sm font-medium opacity-80">— Lead Founders, Step2Heal</span>
-                            </div>
-                            
-                            <div class="mt-8 space-y-4">
-                                <div class="flex items-center gap-3">
-                                    <i data-lucide="check" class="w-4 h-4 text-teal-300"></i>
-                                    <span class="text-sm">45-minute deep-dive assessments</span>
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    <i data-lucide="check" class="w-4 h-4 text-teal-300"></i>
-                                    <span class="text-sm">Digital posture & movement screening</span>
-                                </div>
+                    <div class="relative reveal">
+                        <div class="bg-gradient-to-br from-teal-500 to-teal-700 rounded-[4rem] p-16 text-white relative z-10 shadow-2xl float-anim">
+                            <i data-lucide="quote" class="w-12 h-12 mb-8 text-teal-200/40"></i>
+                            <h3 class="text-3xl font-bold mb-10 italic leading-snug text-glow-sea">"Distance is no longer a barrier to quality healing. We've brought clinical excellence to living rooms worldwide."</h3>
+                            <div class="flex items-center gap-5">
+                                <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center font-black">S2H</div>
+                                <span class="text-lg font-black uppercase tracking-widest text-teal-100">— Lead Founders</span>
                             </div>
                         </div>
-                        <div class="absolute -bottom-10 -right-10 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl"></div>
+                        <!-- Decorative glow -->
+                        <div class="absolute -top-10 -left-10 w-48 h-48 bg-teal-400/30 rounded-full blur-[100px] animate-pulse"></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 3: Treatment Spotlight (Expanding Cards) -->
-        <section id="treatment-spotlight" class="py-32 bg-slate-50">
-            <div class="max-w-7xl mx-auto px-6">
-                <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-                    <div class="max-w-xl">
-                        <h2 class="text-sm font-black uppercase tracking-[0.3em] text-orange-500 mb-2">Specialized Tech</h2>
-                        <h3 class="text-4xl md:text-5xl font-black text-[#0d3b44]">Evidence-Based Modalities</h3>
-                        <p class="text-gray-500 mt-4 font-medium">We don't just use heat packs. We use advanced clinical tools to accelerate biological healing.</p>
-                    </div>
+        <!-- Footer / Contact -->
+        <footer class="py-20 relative border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-6 text-center">
+                <div class="flex justify-center mb-10">
+                    <img src="https://step2heal.in/WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" class="h-16 bg-white rounded-full p-1" alt="Step2Heal">
                 </div>
-
-                <div class="grid md:grid-cols-3 gap-8" x-data="{ expanded: null }">
-                    <!-- Card: IASTM -->
-                    <div @click="expanded = (expanded === 1 ? null : 1)" 
-                         class="group cursor-pointer bg-white border-2 transition-all duration-500 overflow-hidden"
-                         :class="expanded === 1 ? 'border-teal-500 rounded-[3rem] ring-8 ring-teal-50' : 'border-gray-100 rounded-3xl hover:border-teal-200'">
-                        <div class="p-8">
-                            <div class="w-16 h-16 bg-teal-50 text-teal-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <i data-lucide="wrench"></i>
-                            </div>
-                            <h4 class="text-2xl font-black text-[#0d3b44] mb-2">IASTM</h4>
-                            <p class="text-gray-500 text-sm mb-4">Instrument Assisted Soft Tissue Mobilization.</p>
-                            
-                            <div x-show="expanded === 1" x-collapse>
-                                <div class="pt-4 border-t border-gray-100 mt-4 space-y-4">
-                                    <p class="text-gray-600 text-sm leading-relaxed">
-                                        IASTM involves using medical-grade stainless steel tools to detect and treat fascial restrictions. It creates "micro-trauma" to stimulate localized resportion of fibrotic tissue, effectively "restarting" the healing process for chronic injuries like Tennis Elbow or Plantar Fasciitis.
-                                    </p>
-                                    <div class="bg-slate-50 p-4 rounded-2xl">
-                                        <div class="flex justify-between text-[10px] font-black uppercase mb-1">
-                                            <span>Sensation</span>
-                                            <span>Light Pressure</span>
-                                        </div>
-                                        <div class="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
-                                            <div class="h-full bg-teal-500 w-1/3"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-6 flex items-center text-teal-600 font-bold text-xs uppercase tracking-widest">
-                                <span x-text="expanded === 1 ? 'Read Less' : 'Learn More'"></span>
-                                <i data-lucide="plus" class="ml-2 w-4 h-4 transition-transform" :class="expanded === 1 ? 'rotate-45' : ''"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card: Mulligan Technique -->
-                    <div @click="expanded = (expanded === 2 ? null : 2)" 
-                         class="group cursor-pointer bg-white border-2 transition-all duration-500 overflow-hidden"
-                         :class="expanded === 2 ? 'border-teal-500 rounded-[3rem] ring-8 ring-teal-50' : 'border-gray-100 rounded-3xl hover:border-teal-200'">
-                        <div class="p-8">
-                            <div class="w-16 h-16 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <i data-lucide="activity"></i>
-                            </div>
-                            <h4 class="text-2xl font-black text-[#0d3b44] mb-2">Mulligan Concept</h4>
-                            <p class="text-gray-500 text-sm mb-4">Mobilization with Movement (MWM).</p>
-                            
-                            <div x-show="expanded === 2" x-collapse>
-                                <div class="pt-4 border-t border-gray-100 mt-4 space-y-4">
-                                    <p class="text-gray-600 text-sm leading-relaxed">
-                                        Mulligan techniques involve a therapist applying a sustained glide to a joint while the patient performs a restricted movement. This "re-aligns" the joint's tracking, often resulting in immediate, pain-free range of motion. It's a game-changer for stiff necks and frozen shoulders.
-                                    </p>
-                                    <div class="bg-slate-50 p-4 rounded-2xl">
-                                        <div class="flex justify-between text-[10px] font-black uppercase mb-1">
-                                            <span>Sensation</span>
-                                            <span>Pain-Free Stretch</span>
-                                        </div>
-                                        <div class="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
-                                            <div class="h-full bg-orange-500 w-1/4"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-6 flex items-center text-teal-600 font-bold text-xs uppercase tracking-widest">
-                                <span x-text="expanded === 2 ? 'Read Less' : 'Learn More'"></span>
-                                <i data-lucide="plus" class="ml-2 w-4 h-4 transition-transform" :class="expanded === 2 ? 'rotate-45' : ''"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card: Class IV Laser -->
-                    <div @click="expanded = (expanded === 3 ? null : 3)" 
-                         class="group cursor-pointer bg-white border-2 transition-all duration-500 overflow-hidden"
-                         :class="expanded === 3 ? 'border-teal-500 rounded-[3rem] ring-8 ring-teal-50' : 'border-gray-100 rounded-3xl hover:border-teal-200'">
-                        <div class="p-8">
-                            <div class="w-16 h-16 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <i data-lucide="zap"></i>
-                            </div>
-                            <h4 class="text-2xl font-black text-[#0d3b44] mb-2">Laser Therapy</h4>
-                            <p class="text-gray-500 text-sm mb-4">High-Intensity Photobiomodulation.</p>
-                            
-                            <div x-show="expanded === 3" x-collapse>
-                                <div class="pt-4 border-t border-gray-100 mt-4 space-y-4">
-                                    <p class="text-gray-600 text-sm leading-relaxed">
-                                        Class IV Laser therapy uses specific wavelengths of light to interact with tissue. It accelerates the healing process by increasing ATP (cell energy) production, reducing inflammation, and stimulating nerve regeneration. It is completely painless and highly effective for acute sports injuries.
-                                    </p>
-                                    <div class="bg-slate-50 p-4 rounded-2xl">
-                                        <div class="flex justify-between text-[10px] font-black uppercase mb-1">
-                                            <span>Sensation</span>
-                                            <span>Painless / Warmth</span>
-                                        </div>
-                                        <div class="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
-                                            <div class="h-full bg-red-500 w-[10%]"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-6 flex items-center text-teal-600 font-bold text-xs uppercase tracking-widest">
-                                <span x-text="expanded === 3 ? 'Read Less' : 'Learn More'"></span>
-                                <i data-lucide="plus" class="ml-2 w-4 h-4 transition-transform" :class="expanded === 3 ? 'rotate-45' : ''"></i>
-                            </div>
-                        </div>
-                    </div>
+                <h3 class="text-3xl font-black mb-4">Step<span class="text-teal-400">2</span>Heal Physiotherapy</h3>
+                <p class="text-teal-50/50 mb-10 max-w-lg mx-auto">Providing evidence-based recovery in Noida Sector 12 and across the globe via virtual clinical care.</p>
+                <div class="flex justify-center gap-6 mb-12">
+                    <a href="tel:+919773960242" class="w-12 h-12 rounded-full sea-glass flex items-center justify-center hover:bg-teal-500 transition-colors">
+                        <i data-lucide="phone" class="w-5 h-5"></i>
+                    </a>
+                    <a href="https://wa.me/919773960242" class="w-12 h-12 rounded-full sea-glass flex items-center justify-center hover:bg-teal-500 transition-colors">
+                        <i data-lucide="message-circle" class="w-5 h-5"></i>
+                    </a>
                 </div>
+                <p class="text-[10px] uppercase font-black tracking-[0.3em] text-white/20">© 2024 Step2Heal Clinical Services. All movement matters.</p>
             </div>
-        </section>
-
-        <!-- Section 4: Home Visit Focus -->
-        <section class="py-24 bg-[#0d3b44] relative overflow-hidden">
-            <div class="max-w-7xl mx-auto px-6 relative z-10">
-                <div class="bg-white/5 backdrop-blur-md rounded-[3rem] p-8 md:p-16 border border-white/10 flex flex-col md:flex-row items-center gap-12">
-                    <div class="flex-1 text-center md:text-left">
-                        <span class="text-orange-400 font-black text-sm tracking-[0.3em] uppercase">Premium Convenience</span>
-                        <h2 class="text-4xl md:text-6xl font-black text-white mt-4 mb-6 leading-tight">Can't make it to <br><span class="text-teal-400">Sector 12?</span></h2>
-                        <p class="text-teal-50/70 text-lg mb-8 max-w-lg">
-                            We bring advanced physiotherapy technology and expert hands to your doorstep. Covering all major sectors in Noida.
-                        </p>
-                        <div class="flex flex-wrap justify-center md:justify-start gap-4">
-                            <div class="flex items-center gap-3 bg-white/10 px-6 py-3 rounded-2xl border border-white/10">
-                                <i data-lucide="check-circle" class="text-teal-400 w-5 h-5"></i>
-                                <span class="text-white font-bold text-sm">Full Equipment Setup</span>
-                            </div>
-                            <div class="flex items-center gap-3 bg-white/10 px-6 py-3 rounded-2xl border border-white/10">
-                                <i data-lucide="check-circle" class="text-teal-400 w-5 h-5"></i>
-                                <span class="text-white font-bold text-sm">Flexible Scheduling</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/3">
-                        <div class="bg-white p-8 rounded-[2.5rem] shadow-2xl">
-                            <h4 class="text-[#0d3b44] font-black text-xl mb-4 text-center">Home Visit Request</h4>
-                            <p class="text-gray-400 text-xs text-center mb-6 uppercase font-bold tracking-widest">Instant WhatsApp Booking</p>
-                            <a href="https://wa.me/919773960242?text=I'm interested in a Home Visit in Noida." class="flex items-center justify-center gap-3 w-full bg-teal-600 text-white py-5 rounded-2xl font-black hover:bg-teal-700 transition-all shadow-xl shadow-teal-600/20">
-                                <i data-lucide="phone"></i> Request Now
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </footer>
     </main>
-
-    <footer class="bg-white pt-24 pb-12 border-t border-gray-100">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid md:grid-cols-4 gap-12 mb-16">
-                <div class="col-span-2">
-                    <div class="flex items-center gap-4 mb-6">
-                        <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" class="h-12 bg-white rounded-full p-1 border shadow-sm" alt="">
-                        <span class="text-2xl font-black text-[#0d3b44]">Step2Heal</span>
-                    </div>
-                    <p class="text-gray-500 max-w-sm font-medium leading-relaxed">
-                        Redefining recovery through clinical precision, advanced technology, and personalized care. Your journey to pain-free living starts with a single step.
-                    </p>
-                </div>
-                <div>
-                    <h5 class="font-black text-[#0d3b44] uppercase text-xs tracking-widest mb-6">Quick Links</h5>
-                    <ul class="space-y-4">
-                        <li><a href="#issue-grid" class="text-gray-500 font-bold hover:text-teal-600 transition-colors">Treatments</a></li>
-                        <li><a href="#treatment-spotlight" class="text-gray-500 font-bold hover:text-teal-600 transition-colors">Technology</a></li>
-                        <li><a href="#online-sessions" class="text-gray-500 font-bold hover:text-teal-600 transition-colors">Online Sessions</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="font-black text-[#0d3b44] uppercase text-xs tracking-widest mb-6">Connect</h5>
-                    <ul class="space-y-4">
-                        <li class="flex items-center gap-3">
-                            <i data-lucide="phone" class="w-4 h-4 text-teal-600"></i>
-                            <span class="text-gray-500 font-bold">+91 97739 60242</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="map-pin" class="w-4 h-4 text-teal-600 mt-1"></i>
-                            <span class="text-gray-500 font-bold">Sector 12, Noida, Uttar Pradesh</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
-                <p class="text-gray-400 text-sm font-bold">&copy; 2026 Step2Heal Physiotherapy. All Rights Reserved.</p>
-                <div class="flex gap-6">
-                    <a href="#" class="text-gray-400 hover:text-teal-600 transition-colors"><i data-lucide="instagram"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-teal-600 transition-colors"><i data-lucide="facebook"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-teal-600 transition-colors"><i data-lucide="youtube"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
+
+        // Reveal animations on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Generate Floating Bubbles
+        const bubbleContainer = document.getElementById('bubble-container');
+        const bubbleCount = 25;
+
+        for (let i = 0; i < bubbleCount; i++) {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            
+            const size = Math.random() * 40 + 10 + 'px';
+            const left = Math.random() * 100 + '%';
+            const duration = Math.random() * 15 + 10 + 's';
+            const drift = (Math.random() * 200 - 100) + 'px';
+            const delay = Math.random() * 15 + 's';
+
+            bubble.style.width = size;
+            bubble.style.height = size;
+            bubble.style.left = left;
+            bubble.style.setProperty('--duration', duration);
+            bubble.style.setProperty('--drift', drift);
+            bubble.style.animationDelay = delay;
+
+            bubbleContainer.appendChild(bubble);
+        }
     </script>
 </body>
 </html>

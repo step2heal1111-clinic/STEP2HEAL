@@ -529,81 +529,94 @@
         </section>
 
         <!-- Modern Modalities Section -->
-        <section id="treatment-spotlight" class="py-16 md:py-24 relative w-full" x-data="{ activeTech: 'Dry Needling' }">
-            <div class="max-w-7xl mx-auto px-6">
-                <div class="grid lg:grid-cols-2 gap-16 items-center">
-                    <div class="reveal">
-                        <h2 class="text-xs sm:text-sm font-black uppercase tracking-[0.4em] text-orange-400 mb-2">Modern Modalities</h2>
-                        <h3 class="text-4xl md:text-6xl font-black text-white mb-8 tracking-tighter">Precision <br><span class="text-teal-400">Clinical Tools</span></h3>
-                        
-                        <div class="space-y-3">
-                            <button @click="activeTech = 'Dry Needling'" :class="activeTech === 'Dry Needling' ? 'bg-teal-500 border-teal-500' : 'bg-white/5 border-white/10 hover:bg-white/10'" class="w-full text-left p-6 rounded-3xl border transition-all flex justify-between items-center group">
-                                <span class="font-black text-xl">Dry Needling</span>
-                                <div class="w-6 h-6 flex items-center justify-center opacity-70">
-                                    <!-- Custom Needling Icon -->
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
-                                        <line x1="12" y1="2" x2="12" y2="18"></line>
-                                        <path d="M10 18h4v4h-4z"></path>
-                                        <circle cx="12" cy="18" r="1"></circle>
-                                    </svg>
-                                </div>
-                            </button>
-                            <button @click="activeTech = 'IASTM'" :class="activeTech === 'IASTM' ? 'bg-teal-500 border-teal-500' : 'bg-white/5 border-white/10 hover:bg-white/10'" class="w-full text-left p-6 rounded-3xl border transition-all flex justify-between items-center group">
-                                <span class="font-black text-xl">IASTM Therapy</span>
-                                <i data-lucide="layers" class="w-6 h-6 opacity-50"></i>
-                            </button>
-                            <button @click="activeTech = 'Laser'" :class="activeTech === 'Laser' ? 'bg-teal-500 border-teal-500' : 'bg-white/5 border-white/10 hover:bg-white/10'" class="w-full text-left p-6 rounded-3xl border transition-all flex justify-between items-center group">
-                                <span class="font-black text-xl">Laser Therapy</span>
-                                <i data-lucide="zap" class="w-6 h-6 opacity-50"></i>
-                            </button>
+       <section id="treatment-spotlight" class="py-16 md:py-24 relative w-full" x-data="{ activeTech: 'Dry Needling' }">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            
+            <div class="reveal">
+                <h2 class="text-xs sm:text-sm font-black uppercase tracking-[0.4em] text-orange-400 mb-2">Modern Modalities</h2>
+                <h3 class="text-4xl md:text-6xl font-black text-white mb-8 tracking-tighter">Precision <br><span class="text-teal-400">Clinical Tools</span></h3>
+                
+                <div class="space-y-3">
+                    <button @click="activeTech = 'Dry Needling'" 
+                            :class="activeTech === 'Dry Needling' ? 'bg-teal-500 border-teal-500 text-white' : 'bg-white/5 border-white/10 hover:bg-white/10 text-white/80'" 
+                            class="w-full text-left p-6 rounded-3xl border transition-all flex justify-between items-center group">
+                        <span class="font-black text-xl">Dry Needling</span>
+                        <div class="w-6 h-6 flex items-center justify-center opacity-70">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                                <line x1="12" y1="2" x2="12" y2="18"></line>
+                                <path d="M10 18h4v4h-4z"></path>
+                                <circle cx="12" cy="18" r="1"></circle>
+                            </svg>
+                        </div>
+                    </button>
+
+                    <button @click="activeTech = 'Cupping Therapy'" 
+                            :class="activeTech === 'Cupping Therapy' ? 'bg-teal-500 border-teal-500 text-white' : 'bg-white/5 border-white/10 hover:bg-white/10 text-white/80'" 
+                            class="w-full text-left p-6 rounded-3xl border transition-all flex justify-between items-center group">
+                        <span class="font-black text-xl">Cupping Therapy</span>
+                        <i data-lucide="shapes" class="w-6 h-6 opacity-70"></i>
+                    </button>
+
+                    <button @click="activeTech = 'Chiropractic'" 
+                            :class="activeTech === 'Chiropractic' ? 'bg-teal-500 border-teal-500 text-white' : 'bg-white/5 border-white/10 hover:bg-white/10 text-white/80'" 
+                            class="w-full text-left p-6 rounded-3xl border transition-all flex justify-between items-center group">
+                        <span class="font-black text-xl">Chiropractic</span>
+                        <i data-lucide="activity" class="w-6 h-6 opacity-70"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="sea-glass p-8 md:p-12 rounded-[3rem] reveal border border-teal-500/20 relative overflow-hidden min-h-[400px]">
+                <div class="relative w-full h-full">
+                    
+                    <div x-show="activeTech === 'Dry Needling'" 
+                         x-transition:enter="transition ease-out duration-300" 
+                         x-transition:enter-start="opacity-0 translate-x-4" 
+                         class="space-y-6">
+                        <h4 class="text-3xl font-black text-teal-400 italic">Deep Tissue Release</h4>
+                        <p class="text-teal-50/80 leading-relaxed text-lg">Involves thin needles to trigger myofascial release. Perfect for chronic muscle knots and sciatica. Our specialists ensure a painless, highly effective procedure.</p>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Sciatica</span>
+                            <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Cervical</span>
+                            <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Back Spasm</span>
                         </div>
                     </div>
 
-                    <div class="sea-glass p-8 md:p-12 rounded-[3rem] reveal border border-teal-500/20 relative overflow-hidden min-h-[400px]">
-    <div class="relative w-full h-full">
-        <div x-show="activeTech === 'Dry Needling'" 
-             x-transition:enter="transition ease-out duration-300" 
-             x-transition:enter-start="opacity-0 translate-x-4" 
-             class="space-y-6">
-            <h4 class="text-3xl font-black text-teal-400 italic">Deep Tissue Release</h4>
-            <p class="text-teal-50/80 leading-relaxed text-lg">Involves thin needles to trigger myofascial release. Perfect for chronic muscle knots and sciatica. Our specialists ensure a painless, highly effective procedure.</p>
-            <div class="flex flex-wrap gap-3">
-                <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Sciatica</span>
-                <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Cervical</span>
-                <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Back Spasm</span>
-            </div>
-        </div>
+                    <div x-show="activeTech === 'Cupping Therapy'" 
+                         x-transition:enter="transition ease-out duration-300" 
+                         x-transition:enter-start="opacity-0 translate-x-4" 
+                         class="space-y-6"
+                         x-cloak>
+                        <h4 class="text-3xl font-black text-teal-400 italic">Decompression & Circulation</h4>
+                        <p class="text-teal-50/80 leading-relaxed text-lg">Uses localized suction to promote blood flow, accelerate cellular repair, and draw out deep-seated muscular tension. An excellent choice for elite athletic recovery and systemic detoxification.</p>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Blood Flow</span>
+                            <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Recovery</span>
+                            <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Detox</span>
+                        </div>
+                    </div>
 
-        <div x-show="activeTech === 'Cupping Therapy'" 
-             x-transition:enter="transition ease-out duration-300" 
-             x-transition:enter-start="opacity-0 translate-x-4" 
-             class="space-y-6"
-             x-cloak>
-            <h4 class="text-3xl font-black text-teal-400 italic">Decompression & Circulation</h4>
-            <p class="text-teal-50/80 leading-relaxed text-lg">Uses localized suction to promote blood flow, accelerate cellular repair, and draw out deep-seated muscular tension. An excellent choice for elite athletic recovery and systemic detoxification.</p>
-            <div class="flex flex-wrap gap-3">
-                <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Blood Flow</span>
-                <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Recovery</span>
-                <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Detox</span>
+                    <div x-show="activeTech === 'Chiropractic'" 
+                         x-transition:enter="transition ease-out duration-300" 
+                         x-transition:enter-start="opacity-0 translate-x-4" 
+                         class="space-y-6"
+                         x-cloak>
+                        <h4 class="text-3xl font-black text-teal-400 italic">Spinal Alignment</h4>
+                        <p class="text-teal-50/80 leading-relaxed text-lg">Precise, manual adjustments designed to restore joint mobility, correct postural imbalances, and optimize nervous system function. Relieves localized pressure instantly.</p>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Alignment</span>
+                            <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Posture</span>
+                            <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Mobility</span>
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
-        </div>
 
-        <div x-show="activeTech === 'Chiropractic'" 
-             x-transition:enter="transition ease-out duration-300" 
-             x-transition:enter-start="opacity-0 translate-x-4" 
-             class="space-y-6"
-             x-cloak>
-            <h4 class="text-3xl font-black text-teal-400 italic">Spinal Alignment</h4>
-            <p class="text-teal-50/80 leading-relaxed text-lg">Precise, manual adjustments designed to restore joint mobility, correct postural imbalances, and optimize nervous system function. Relieves localized pressure instantly.</p>
-            <div class="flex flex-wrap gap-3">
-                <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Alignment</span>
-                <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Posture</span>
-                <span class="px-4 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300 uppercase">Mobility</span>
-            </div>
         </div>
-        
     </div>
-</div>
+
         </section>
     </main>
 

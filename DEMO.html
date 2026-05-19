@@ -99,9 +99,9 @@
         carouselIndex: 0,
         touchStartX: 0,
         whatsappLink: 'https://wa.me/919773960242?text=Hi%20Step2Heal!%20%F0%9F%91%8B%20I\'d%20like%20to%20book%20a%20physiotherapy%20session.%20Could%20you%20please%20share%20the%20available%20slots%3F%20Thank%20you!',
-        categories: ['All', 'Clinic', 'Treatments', 'Instagram', 'Results', 'Posts'],
+        categories: ['All', 'Clinic', 'Treatments', 'Instagram', 'Results', 'Posts', 'Videos'],
         
-        /* Main Gallery Assets (Including 6 New Items with beautiful preview fallbacks) */
+        /* Main Gallery Assets (Including 6 New Items + 3 Customizable Video Slots) */
         items: [
             { id: 1, category: 'Clinic', title: 'Waiting Area', url: '2025-09-28 (1).jpg', fallback: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=800', desc: 'Our comfortable waiting space designed for patient ease.' },
             { id: 2, category: 'Treatments', title: 'Our Services', url: '2025-09-28 (2).jpg', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800', desc: 'List of the services offered by Step2Heal.' },
@@ -118,17 +118,23 @@
             { id: 13, category: 'Clinic', title: 'Step2Heal Clinic Front View', url: 'download (3).jpg', fallback: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800', desc: 'Daylight View of Clinic from Outside.' },
             { id: 14, category: 'Posts', title: 'Cerebral Palsy', url: 'download (2).jpg', fallback: 'https://images.unsplash.com/photo-1508847154043-be12a3b4dca9?auto=format&fit=crop&q=80&w=800', desc: 'About Cerebral Palsy.' },
             
-            /* 6 New Additions (Slots 15 - 20) with accurate clinical imagery placeholders
+            /* 6 New Additions (Slots 15 - 20) with accurate clinical imagery placeholders 
             { id: 15, category: 'Results', title: 'Advanced Shoulder Mobility Recovery', url: 'WhatsApp Image 2026-05-10 at 10.15.22.jpeg', fallback: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=800', desc: 'Empowering patient shoulder restoration through tailored mobilization and corrective active exercises.' },
             { id: 16, category: 'Treatments', title: 'Precision Dry Needling Therapy', url: 'WhatsApp Image 2026-05-12 at 11.20.10.jpeg', fallback: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&q=80&w=800', desc: 'Relieving deep muscle trigger points and neuromuscular pain patterns through advanced sterile dry needling techniques.' },
             { id: 17, category: 'Clinic', title: 'State-of-the-Art Electrotherapy Suite', url: 'WhatsApp Image 2026-05-14 at 09.30.45.jpeg', fallback: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200', desc: 'Equipped with top-tier laser, ultrasound, and customized shockwave modalities to speed structural recovery.' },
             { id: 18, category: 'Results', title: 'Post-Op Knee Joint Rehabilitation', url: 'WhatsApp Image 2026-05-15 at 14.45.00.jpeg', fallback: 'https://images.unsplash.com/photo-1597764690523-15bea4c581c9?auto=format&fit=crop&q=80&w=800', desc: 'Systematic, milestone-focused physical rehab following major orthopedic procedures ensuring pain-free gait restoration.' },
             { id: 19, category: 'Treatments', title: 'Sports Injury & Athletic Conditioning', url: 'WhatsApp Image 2026-05-16 at 16.10.12.jpeg', fallback: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=800', desc: 'Custom tailored clinical training to assist elite level athletes in restoring dynamic joint stability and speed.' },
-            { id: 20, category: 'Posts', title: 'Clinical Ergonomics Guidance', url: 'WhatsApp Image 2026-05-18 at 12.05.30.jpeg', fallback: 'https://images.unsplash.com/photo-1527689368864-3a821dbccc34?auto=format&fit=crop&q=80&w=800', desc: 'Practical home and workplace posture guidance curated by our consulting founders to combat modern spinal fatigue.' } */
+            { id: 20, category: 'Posts', title: 'Clinical Ergonomics Guidance', url: 'WhatsApp Image 2026-05-18 at 12.05.30.jpeg', fallback: 'https://images.unsplash.com/photo-1527689368864-3a821dbccc34?auto=format&fit=crop&q=80&w=800', desc: 'Practical home and workplace posture guidance curated by our consulting founders to combat modern spinal fatigue.' }, */
+
+            /* 3 NEW VIDEO SLOTS (ADD YOUR VIDEO ADDRESS TO 'url' VALUES BELOW)
+            { id: 21, category: 'Clinic', type: 'video', title: 'Step2Heal Clinic Tour', url: '', fallback: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200', desc: 'Take a virtual tour through our spacious and premium clinic setup in Noida.' },
+            { id: 22, category: 'Treatments', type: 'video', title: 'Interactive Treatment Session', url: '', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200', desc: 'Watch our specialists demonstrate physical rehabilitation exercises.' },  */
+            { id: 23, category: 'Results', type: 'video', title: 'Patient Testimonial Highlights', url: '', fallback: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=1200', desc: 'Patient feedback highlighting progress, pain management, and complete recovery.' }
         ],
         get filteredItems() {
             if (this.activeCategory === 'All') return this.items;
             if (this.activeCategory === 'Instagram') return []; 
+            if (this.activeCategory === 'Videos') return this.items.filter(i => i.type === 'video');
             return this.items.filter(i => i.category === this.activeCategory);
         },
         openLightbox(img) {
@@ -271,21 +277,35 @@
                     class="masonry-item gallery-item relative rounded-[2rem] overflow-hidden cursor-pointer group shadow-md border border-gray-100 bg-white"
                     @click="openLightbox(item)"
                 >
-                    <!-- Pure Aspect Ratio Preservation: h-auto w-full keeps layout perfectly undistorted -->
+                    <!-- Pure Aspect Ratio Preservation -->
                     <img 
-                        :src="item.url" 
+                        :src="item.type === 'video' ? item.fallback : item.url" 
                         :alt="item.title" 
                         class="w-full h-auto object-contain block transition-transform duration-700 group-hover:scale-105"
                         @error="$el.src = item.fallback"
                     >
                     
+                    <!-- Video Badge Overlay -->
+                    <template x-if="item.type === 'video'">
+                        <div class="absolute top-4 left-4 z-20 bg-[#0d3b44]/80 backdrop-blur-md text-white rounded-full p-2.5 shadow-md flex items-center justify-center">
+                            <i data-lucide="video" class="w-4 h-4 text-teal-300"></i>
+                        </div>
+                    </template>
+                    
                     <!-- Premium Information Overlay -->
                     <div class="absolute inset-0 bg-gradient-to-t from-[#0d3b44]/95 via-[#0d3b44]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                         <span class="text-teal-400 text-[10px] font-black uppercase tracking-widest mb-1.5" x-text="item.category"></span>
-                        <h3 class="text-white font-extrabold text-lg leading-tight" x-text="item.title"></h3>
+                        <h3 class="text-white font-extrabold text-lg leading-tight flex items-center gap-2">
+                            <span x-text="item.title"></span>
+                            <template x-if="item.type === 'video'">
+                                <i data-lucide="play-circle" class="w-5 h-5 text-teal-400"></i>
+                            </template>
+                        </h3>
                         <p class="text-gray-300 text-xs mt-1.5 line-clamp-2" x-text="item.desc"></p>
                         <div class="mt-4 pt-3 border-t border-white/10 flex items-center text-white/80 text-[11px] font-bold">
-                            <i data-lucide="maximize-2" class="w-3.5 h-3.5 mr-2"></i> Click to enlarge
+                            <i data-lucide="play" class="w-3.5 h-3.5 mr-2" x-show="item.type === 'video'"></i>
+                            <i data-lucide="maximize-2" class="w-3.5 h-3.5 mr-2" x-show="item.type !== 'video'"></i> 
+                            <span x-text="item.type === 'video' ? 'Click to play video' : 'Click to enlarge'"></span>
                         </div>
                     </div>
                 </div>
@@ -303,7 +323,7 @@
             <template x-if="filteredItems.length === 0">
                 <div class="text-center py-20 text-gray-400">
                     <i data-lucide="image-off" class="w-12 h-12 mx-auto mb-4"></i>
-                    No images available for this category.
+                    No media available for this category.
                 </div>
             </template>
 
@@ -313,22 +333,46 @@
                     <div class="relative overflow-hidden rounded-[2rem] bg-slate-900 aspect-video md:h-[550px] w-full flex items-center justify-center group shadow-xl">
                         <!-- Blur Background Backdrop for Cinematic Aesthetic -->
                         <div class="absolute inset-0 pointer-events-none overflow-hidden opacity-30 select-none">
-                            <img :src="filteredItems[carouselIndex]?.url" @error="$el.src = filteredItems[carouselIndex]?.fallback" class="w-full h-full object-cover blur-2xl scale-110">
+                            <img :src="filteredItems[carouselIndex]?.type === 'video' ? filteredItems[carouselIndex]?.fallback : filteredItems[carouselIndex]?.url" @error="$el.src = filteredItems[carouselIndex]?.fallback" class="w-full h-full object-cover blur-2xl scale-110">
                         </div>
 
-                        <!-- Main Crisp Slide Image (Completely Undistorted via object-contain) -->
-                        <img 
-                            :src="filteredItems[carouselIndex]?.url" 
-                            :alt="filteredItems[carouselIndex]?.title" 
-                            class="relative z-10 max-h-full max-w-full object-contain cursor-pointer select-none transition-all duration-500 ease-in-out"
-                            @error="$el.src = filteredItems[carouselIndex]?.fallback"
-                            @click="openLightbox(filteredItems[carouselIndex])"
-                        >
+                        <!-- Render Video Element OR Image Slide conditionally -->
+                        <template x-if="filteredItems[carouselIndex]?.type === 'video'">
+                            <div class="relative z-10 w-full h-full flex items-center justify-center">
+                                <!-- Instructions panel if URL is empty -->
+                                <template x-if="!filteredItems[carouselIndex]?.url">
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-[#0d3b44]/90 p-6 text-center cursor-pointer" @click="openLightbox(filteredItems[carouselIndex])">
+                                        <div class="w-20 h-20 rounded-full bg-teal-500 text-white flex items-center justify-center mb-4 animate-bounce">
+                                            <i data-lucide="play" class="w-10 h-10 ml-1"></i>
+                                        </div>
+                                        <p class="text-white font-extrabold text-xl">Empty Video Slot</p>
+                                        <p class="text-teal-200 text-xs mt-2 max-w-md">Edit item ID <span x-text="filteredItems[carouselIndex]?.id" class="font-bold underline text-white"></span> inside gallery.html to configure your video URL.</p>
+                                        <span class="mt-4 inline-flex items-center gap-1 bg-white/10 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-white/20 transition-all">
+                                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Click to Open Options
+                                        </span>
+                                    </div>
+                                </template>
+                                <template x-if="filteredItems[carouselIndex]?.url">
+                                    <video controls class="relative z-10 max-h-full max-w-full rounded-2xl aspect-video bg-black" :src="filteredItems[carouselIndex]?.url" :poster="filteredItems[carouselIndex]?.fallback"></video>
+                                </template>
+                            </div>
+                        </template>
+
+                        <template x-if="filteredItems[carouselIndex]?.type !== 'video'">
+                            <!-- Main Crisp Slide Image (Completely Undistorted via object-contain) -->
+                            <img 
+                                :src="filteredItems[carouselIndex]?.url" 
+                                :alt="filteredItems[carouselIndex]?.title" 
+                                class="relative z-10 max-h-full max-w-full object-contain cursor-pointer select-none transition-all duration-500 ease-in-out"
+                                @error="$el.src = filteredItems[carouselIndex]?.fallback"
+                                @click="openLightbox(filteredItems[carouselIndex])"
+                            >
+                        </template>
 
                         <!-- Float Zoom Hint -->
                         <div class="absolute bottom-4 right-4 z-20 bg-black/40 hover:bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 pointer-events-none">
                             <i data-lucide="maximize-2" class="w-3 h-3"></i>
-                            <span>Tap to Zoom</span>
+                            <span x-text="filteredItems[carouselIndex]?.type === 'video' ? 'Play Video' : 'Tap to Zoom'"></span>
                         </div>
 
                         <!-- Swipe Hint for Mobile -->
@@ -356,14 +400,14 @@
                         <div class="space-y-2 max-w-2xl">
                             <div class="flex items-center gap-2">
                                 <span class="bg-teal-50 text-teal-700 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full" x-text="filteredItems[carouselIndex]?.category"></span>
-                                <span class="text-xs text-gray-400 font-bold" x-text="`Image ${(carouselIndex + 1)} of ${filteredItems.length}`"></span>
+                                <span class="text-xs text-gray-400 font-bold" x-text="`Media ${(carouselIndex + 1)} of ${filteredItems.length}`"></span>
                             </div>
                             <h2 class="text-2xl md:text-3xl font-black text-[#0d3b44]" x-text="filteredItems[carouselIndex]?.title"></h2>
                             <p class="text-gray-500 text-sm leading-relaxed" x-text="filteredItems[carouselIndex]?.desc"></p>
                         </div>
                         <div class="flex shrink-0 gap-3">
                             <button @click="openLightbox(filteredItems[carouselIndex])" class="flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-[#0d3b44] font-bold px-5 py-3 rounded-2xl transition-all text-sm">
-                                <i data-lucide="maximize" class="w-4 h-4"></i> Expand Image
+                                <i data-lucide="maximize" class="w-4 h-4"></i> Expand View
                             </button>
                             <a :href="whatsappLink" class="flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold px-6 py-3 rounded-2xl transition-all text-sm">
                                 <i data-lucide="calendar" class="w-4 h-4"></i> Book Session
@@ -379,7 +423,12 @@
                                 class="relative shrink-0 w-20 md:w-28 rounded-2xl overflow-hidden aspect-[4/3] transition-all border-4 shadow-sm hover:opacity-100 focus:outline-none"
                                 :class="carouselIndex === index ? 'border-teal-600 scale-105 opacity-100' : 'border-transparent opacity-50'"
                             >
-                                <img :src="item.url" @error="$el.src = item.fallback" class="w-full h-full object-cover">
+                                <img :src="item.type === 'video' ? item.fallback : item.url" @error="$el.src = item.fallback" class="w-full h-full object-cover">
+                                <template x-if="item.type === 'video'">
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                        <i data-lucide="play" class="w-6 h-6 text-white bg-teal-600/90 rounded-full p-1 shadow-md"></i>
+                                    </div>
+                                </template>
                             </button>
                         </template>
                     </div>
@@ -438,14 +487,41 @@
                 <i data-lucide="x"></i>
             </button>
             
-            <!-- Lightbox Image Wrapper with object-contain to STRICTLY preserve original aspect ratio -->
+            <!-- Lightbox Media Wrapper (Completely Undistorted via object-contain) -->
             <div class="w-full md:w-2/3 bg-slate-900 flex items-center justify-center h-[40vh] md:h-[70vh] p-4 relative">
-                <img 
-                    :src="selectedImage?.url" 
-                    :alt="selectedImage?.title" 
-                    class="max-w-full max-h-full object-contain rounded-xl select-none"
-                    @error="$el.src = selectedImage?.fallback"
-                >
+                <!-- Video Lightbox Player -->
+                <template x-if="selectedImage?.type === 'video'">
+                    <div class="w-full h-full flex items-center justify-center">
+                        <!-- Instructions if user hasn't supplied a URL yet -->
+                        <template x-if="!selectedImage?.url">
+                            <div class="bg-slate-800 text-white p-8 rounded-3xl text-center flex flex-col items-center justify-center max-w-md shadow-2xl mx-4">
+                                <div class="w-16 h-16 bg-teal-500/15 text-teal-400 rounded-full flex items-center justify-center mb-4">
+                                    <i data-lucide="video" class="w-8 h-8"></i>
+                                </div>
+                                <h3 class="font-extrabold text-xl text-teal-300">Unconfigured Video Slot</h3>
+                                <p class="text-slate-400 text-sm mt-3 leading-relaxed">
+                                    To play your custom video, open <code class="bg-slate-950 px-1.5 py-0.5 rounded text-orange-400 font-mono text-xs">gallery.html</code> and edit item ID <span class="font-bold text-white underline" x-text="selectedImage?.id"></span>. Change its <code class="bg-slate-950 px-1.5 py-0.5 rounded text-orange-400 font-mono text-xs">url</code> attribute to point to your video address.
+                                </p>
+                                <button @click="modalOpen = false" class="mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold px-6 py-3 rounded-2xl text-sm transition-all shadow-md">
+                                    Configure Code
+                                </button>
+                            </div>
+                        </template>
+                        <template x-if="selectedImage?.url">
+                            <video controls autoplay class="max-w-full max-h-full object-contain rounded-xl select-none" :src="selectedImage?.url"></video>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- Static Image Lightbox -->
+                <template x-if="selectedImage?.type !== 'video'">
+                    <img 
+                        :src="selectedImage?.url" 
+                        :alt="selectedImage?.title" 
+                        class="max-w-full max-h-full object-contain rounded-xl select-none"
+                        @error="$el.src = selectedImage?.fallback"
+                    >
+                </template>
             </div>
             
             <div class="w-full md:w-1/3 p-8 md:p-12 flex flex-col justify-center space-y-6">

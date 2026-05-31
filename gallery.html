@@ -1,29 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XG3J8PES22"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-XG3J8PES22');
-    </script>
-    
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery | Step2Heal Advanced Physiotherapy and Rehabilitation Centre Noida</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Alpine.js -->
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
@@ -32,29 +15,13 @@
         .nav-blur { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         [x-cloak] { display: none !important; }
         
-        /* Smooth scale for gallery items */
         .gallery-item { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         .gallery-item:hover { transform: scale(1.02); }
         
-        /* Modern Pinterest-Style Masonry preserving original aspect ratio */
-        .masonry-columns {
-            column-count: 1;
-            column-gap: 1.5rem;
-        }
-        @media (min-width: 640px) {
-            .masonry-columns {
-                column-count: 2;
-            }
-        }
-        @media (min-width: 1024px) {
-            .masonry-columns {
-                column-count: 3;
-            }
-        }
-        .masonry-item {
-            break-inside: avoid;
-            margin-bottom: 1.5rem;
-        }
+        .masonry-columns { column-count: 1; column-gap: 1.5rem; }
+        @media (min-width: 640px) { .masonry-columns { column-count: 2; } }
+        @media (min-width: 1024px) { .masonry-columns { column-count: 3; } }
+        .masonry-item { break-inside: avoid; margin-bottom: 1.5rem; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -62,107 +29,16 @@
         }
         .animate-fade { animation: fadeIn 0.4s ease-out forwards; }
 
-        /* Instagram Embed Styling */
-        .instagram-container {
-            min-height: 600px;
-            background: #fafafa;
-            border-radius: 2rem;
-            overflow: hidden;
-        }
-
-        /* Updated CTA Gradient */
-        .cta-gradient {
-            background: radial-gradient(circle at top right, #115e59 0%, #0d3b44 100%);
-        }
-
-        /* Custom scrollbar for thumbnail list */
-        .thumb-scrollbar::-webkit-scrollbar {
-            height: 6px;
-        }
-        .thumb-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .thumb-scrollbar::-webkit-scrollbar-thumb {
-            background-color: #cbd5e1;
-            border-radius: 10px;
-        }
+        .instagram-container { min-height: 600px; background: #fafafa; border-radius: 2rem; overflow: hidden; }
     </style>
 </head>
 <body class="bg-white text-gray-900 selection:bg-teal-100 selection:text-[#0d3b44]" 
-      x-data="{ 
-        scrolled: false, 
-        mobileMenu: false,
-        activeCategory: 'All',
-        modalOpen: false,
-        selectedImage: null,
-        viewMode: 'grid',
-        carouselIndex: 0,
-        touchStartX: 0,
-        whatsappLink: 'https://wa.me/919773960242?text=Hi%20Step2Heal!%20%F0%9F%91%8B%20I\'d%20like%20to%20book%20a%20physiotherapy%20session.%20Could%20you%20please%20share%20the%20available%20slots%3F%20Thank%20you!',
-        categories: ['All', 'Clinic', 'Treatments', 'Instagram', 'Results', 'Posts', 'Videos']
-      }">
+      x-data="galleryApp()">
 
-  <!-- Gallery Container -->
-  <div id="gallery" class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4"></div>
-
-  <!-- Modal -->
-  <div id="modal" class="hidden fixed inset-0 z-50 bg-black/80 items-center justify-center p-4" onclick="closeModal()">
-    <div id="modal-content" class="max-w-3xl w-full"></div>
-  </div>
-
-  <script>
-    // Data list remains exactly as you provided
-    const allGalleryItems = [
-      { id: 1, category: 'Clinic', title: 'Waiting Area', url: '2025-09-28 (1).jpg', fallback: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=800', desc: 'Our comfortable waiting space.' },
-      { id: 2, category: 'Treatments', title: 'Our Services', url: '2025-09-28 (2).jpg', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800', desc: 'Services at Step2Heal.' },
-      { id: 3, category: 'Clinic', title: 'Therapy Hall View', url: '2025-09-28.jpg', fallback: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&q=80&w=1200', desc: 'Active recovery space.' },
-      { id: 4, category: 'Posts', title: 'LinkedIn Updates', url: 'ChatGPT Image Apr 21, 2026, 06_11_40 PM.png', fallback: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=1200', desc: 'LinkedIn banner.' },
-      { id: 5, category: 'Treatments', title: 'Free Camp', url: 'WhatsApp Image 2026-01-15 at 12.35.44.jpeg', fallback: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&q=80&w=800', desc: 'Physiotherapy camps.' },
-      { id: 6, category: 'Clinic', title: 'Logo', url: 'WhatsApp Image 2026-04-21 at 17.24.20.jpeg', fallback: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800', desc: 'Official Logo.' },
-      { id: 7, category: 'Treatments', title: 'At 9th Royal Challenges Cup', url: 'WhatsApp Image 2026-05-01 at 17.16.41.jpeg', fallback: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=1200', desc: '9th ROYAL CHALLENGES CUP.' },
-      { id: 8, category: 'Treatments', title: 'At Noida Chase', url: 'WhatsApp Image 2026-05-01 at 17.16.43.jpeg', fallback: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&q=80&w=800', desc: 'Noida chase recovery partner.' },
-      { id: 9, category: 'Clinic', title: 'Inside Step2Heal', url: 'WhatsApp Image 2026-05-01 at 17.18.09 (1).jpeg', fallback: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200', desc: 'Clinic interiors.' },
-      { id: 10, category: 'Clinic', title: 'Dr. Megha Yadav(PT)', url: 'WhatsApp Image 2026-05-01 at 17.18.09 (2).jpeg', fallback: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=800', desc: 'Co-Founder.' },
-      { id: 11, category: 'Clinic', title: 'Dr. Saijal Mathuria(PT)', url: 'WhatsApp Image 2026-05-01 at 17.20.33.jpeg', fallback: 'https://images.unsplash.com/photo-1594824813573-246434de83fb?auto=format&fit=crop&q=80&w=800', desc: 'Co-Founder.' },
-      { id: 12, category: 'Posts', title: 'Night View', url: 'b1113011-2f24-4a6a-a7e9-0d5823ec1386.jpg', fallback: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200', desc: 'Night view.' },
-      { id: 13, category: 'Clinic', title: 'Front View', url: 'download (3).jpg', fallback: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800', desc: 'Daylight view.' },
-      { id: 14, category: 'Posts', title: 'Cerebral Palsy', url: 'download (2).jpg', fallback: 'https://images.unsplash.com/photo-1508847154043-be12a3b4dca9?auto=format&fit=crop&q=80&w=800', desc: 'About CP.' },
-      { id: 15, category: 'Results', title: 'Shoulder Mobility', url: 'WhatsApp Image 2026-05-10 at 10.15.22.jpeg', fallback: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=800', desc: 'Mobility recovery.' },
-      { id: 16, category: 'Treatments', title: 'Dry Needling', url: 'WhatsApp Image 2026-05-12 at 11.20.10.jpeg', fallback: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&q=80&w=800', desc: 'Dry needling therapy.' },
-      { id: 17, category: 'Clinic', title: 'Electrotherapy', url: 'WhatsApp Image 2026-05-14 at 09.30.45.jpeg', fallback: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200', desc: 'Electrotherapy suite.' },
-      { id: 18, category: 'Results', title: 'Knee Rehab', url: 'WhatsApp Image 2026-05-15 at 14.45.00.jpeg', fallback: 'https://images.unsplash.com/photo-1597764690523-15bea4c581c9?auto=format&fit=crop&q=80&w=800', desc: 'Knee rehab.' },
-      { id: 19, category: 'Treatments', title: 'Sports Injury', url: 'WhatsApp Image 2026-05-16 at 16.10.12.jpeg', fallback: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=800', desc: 'Sports injury.' },
-      { id: 20, category: 'Posts', title: '1st Anniversary', url: 'WhatsApp Image 2026-05-06 at 19.02.30.jpeg', fallback: 'https://placehold.co/800x600/eee/333?text=Anniversary', desc: 'Step2Heal 1st Anniversary.' },
-      { id: 23, category: 'Clinic', type: 'video', title: 'Clinic Virtual Tour', url: 'WhatsApp Video 2026-05-15 at 09.30.13.webm', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200', desc: 'VIRTUAL TOUR OF STEP2HEAL.' }
-    ];
-
-    const galleryEl = document.getElementById('gallery');
-
-    allGalleryItems.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'gallery-item cursor-pointer overflow-hidden rounded-lg shadow-md bg-white';
-        const isVideo = item.type === 'video';
-        div.innerHTML = `
-            ${isVideo ? 
-                `<video class="w-full h-64 object-cover" controls><source src="${item.url}" type="video/webm"></video>` : 
-                `<img src="${item.url}" onerror="this.onerror=null; this.src='${item.fallback}';" class="w-full h-64 object-cover" onclick="openLightbox('${item.url}')">`
-            }
-            <div class="p-3 text-sm font-semibold truncate">${item.title}</div>
-        `;
-        galleryEl.appendChild(div);
-    });
-
-    function openLightbox(src) {
-        document.getElementById('modal-content').innerHTML = `<img src="${src}" class="w-full rounded shadow-2xl">`;
-        document.getElementById('modal').classList.replace('hidden', 'flex');
-    }
-
-    function closeModal() {
-        document.getElementById('modal').classList.replace('flex', 'hidden');
-    }
-    <!-- Navbar -->
-    <nav :class="scrolled ? 'shadow-sm py-2 bg-white/90' : 'py-5 bg-transparent'" 
-          class="fixed w-full z-[60] transition-all duration-300 nav-blur">
+    <nav x-data="{ scrolled: false }" 
+         @scroll.window="scrolled = (window.pageYOffset > 50)"
+         :class="scrolled ? 'shadow-sm py-2 bg-white/90' : 'py-5 bg-transparent'" 
+         class="fixed w-full z-[60] transition-all duration-300 nav-blur">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center">
                 <div class="flex items-center gap-4 group cursor-pointer" onclick="window.location.href='index.html'">
@@ -184,14 +60,13 @@
                 </div>
 
                 <button @click="mobileMenu = !mobileMenu" class="md:hidden p-2 text-[#0d3b44]">
-                    <i data-lucide="menu" x-show="!mobileMenu"></i>
-                    <i data-lucide="x" x-show="mobileMenu"></i>
+                    <svg x-show="!mobileMenu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                    <svg x-show="mobileMenu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
     <div x-show="mobileMenu" x-transition x-cloak class="fixed inset-0 z-[55] bg-white pt-24 px-8 md:hidden">
         <div class="flex flex-col space-y-6 text-center">
             <a href="/" class="text-2xl font-bold">Home</a>
@@ -204,7 +79,6 @@
         </div>
     </div>
 
-    <!-- Hero Section -->
     <header class="gallery-gradient pt-32 pb-12 md:pt-48 md:pb-16">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <span class="inline-block px-4 py-1.5 rounded-full bg-teal-100 text-teal-700 text-[10px] font-black uppercase tracking-widest mb-6 animate-fade">Visual Experience</span>
@@ -215,7 +89,6 @@
                 Take a look at our clinical environment, equipment, and the journey toward movement and recovery in Noida.
             </p>
             
-            <!-- Category Filter -->
             <div class="flex flex-wrap items-center justify-center gap-3">
                 <template x-for="cat in categories" :key="cat">
                     <button 
@@ -223,14 +96,12 @@
                         :class="activeCategory === cat ? 'bg-[#0d3b44] text-white shadow-xl scale-105' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-100'"
                         class="px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 flex items-center gap-2"
                     >
-                        <!-- Inline SVG for Instagram inside button -->
                         <svg x-show="cat === 'Instagram'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                         <span x-text="cat"></span>
                     </button>
                 </template>
             </div>
 
-            <!-- Layout Switcher (Grid vs Interactive Carousel) -->
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10" x-show="activeCategory !== 'Instagram'">
                 <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Select Layout Style:</span>
                 <div class="inline-flex p-1 bg-gray-100/80 rounded-2xl border border-gray-200/50 backdrop-blur-sm shadow-sm">
@@ -239,7 +110,7 @@
                         :class="viewMode === 'grid' ? 'bg-[#0d3b44] text-white shadow-md' : 'text-gray-600 hover:text-gray-900'"
                         class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black transition-all"
                     >
-                        <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
                         <span>Modern Grid</span>
                     </button>
                     <button 
@@ -247,7 +118,7 @@
                         :class="viewMode === 'carousel' ? 'bg-[#0d3b44] text-white shadow-md' : 'text-gray-600 hover:text-gray-900'"
                         class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black transition-all"
                     >
-                        <i data-lucide="sliders" class="w-4 h-4"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="4" y1="21" y2="14"/><line x1="4" x2="4" y1="10" y2="3"/><line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/><line x1="20" x2="20" y1="21" y2="16"/><line x1="20" x2="20" y1="12" y2="3"/><line x1="2" x2="6" y1="14" y2="14"/><line x1="10" x2="14" y1="12" y2="12"/><line x1="18" x2="22" y1="16" y2="16"/></svg>
                         <span>Carousel View</span>
                     </button>
                 </div>
@@ -255,7 +126,6 @@
         </div>
     </header>
 
-    <!-- Instagram Feed Section (Conditional) -->
     <section x-show="activeCategory === 'Instagram' || activeCategory === 'All'" 
              x-transition:enter="transition ease-out duration-500"
              x-transition:enter-start="opacity-0 translate-y-4"
@@ -272,7 +142,6 @@
             </a>
         </div>
         
-        <!-- Instagram Embed Container -->
         <div class="instagram-container shadow-inner border border-gray-100 p-1 md:p-4 bg-gray-50">
             <iframe 
                 src="https://www.instagram.com/pt_step2heal/embed" 
@@ -284,328 +153,99 @@
         </div>
     </section>
 
-    <!-- Main Gallery Container -->
     <main class="max-w-7xl mx-auto px-4 pb-24" x-show="activeCategory !== 'Instagram'">
-        
-        <!-- 1. MODERN MASONRY GRID (Keeps Original Ratios Uncompromised) -->
-        <div x-show="viewMode === 'grid'" x-transition:enter="transition ease-out duration-300" class="masonry-columns">
+        <div x-show="viewMode === 'grid'" class="masonry-columns">
             <template x-for="item in filteredItems" :key="item.id">
-                <div 
-                    class="masonry-item gallery-item relative rounded-[2rem] overflow-hidden cursor-pointer group shadow-md border border-gray-100 bg-white"
-                    @click="openLightbox(item)"
-                >
-                    <!-- Pure Aspect Ratio Preservation -->
-                    <img 
-                        :src="item.type === 'video' ? item.fallback : item.url" 
-                        :alt="item.title" 
-                        class="w-full h-auto object-contain block transition-transform duration-700 group-hover:scale-105"
-                        @error="$el.src = item.fallback"
-                    >
-                    
-                    <!-- Video Badge Overlay -->
-                    <template x-if="item.type === 'video'">
-                        <div class="absolute top-4 left-4 z-20 bg-[#0d3b44]/80 backdrop-blur-md text-white rounded-full p-2.5 shadow-md flex items-center justify-center">
-                            <i data-lucide="video" class="w-4 h-4 text-teal-300"></i>
-                        </div>
-                    </template>
-                    
-                    <!-- Premium Information Overlay -->
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#0d3b44]/95 via-[#0d3b44]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                        <span class="text-teal-400 text-[10px] font-black uppercase tracking-widest mb-1.5" x-text="item.category"></span>
-                        <h3 class="text-white font-extrabold text-lg leading-tight flex items-center gap-2">
-                            <span x-text="item.title"></span>
-                            <template x-if="item.type === 'video'">
-                                <i data-lucide="play-circle" class="w-5 h-5 text-teal-400"></i>
-                            </template>
-                        </h3>
-                        <p class="text-gray-300 text-xs mt-1.5 line-clamp-2" x-text="item.desc"></p>
-                        <div class="mt-4 pt-3 border-t border-white/10 flex items-center text-white/80 text-[11px] font-bold">
-                            <i data-lucide="play" class="w-3.5 h-3.5 mr-2" x-show="item.type === 'video'"></i>
-                            <i data-lucide="maximize-2" class="w-3.5 h-3.5 mr-2" x-show="item.type !== 'video'"></i> 
-                            <span x-text="item.type === 'video' ? 'Click to play video' : 'Click to enlarge'"></span>
-                        </div>
+                <div class="masonry-item rounded-[2rem] overflow-hidden cursor-pointer group shadow-md bg-white border border-gray-100" @click="openLightbox(item)">
+                    <img :src="item.type === 'video' ? item.fallback : item.url" class="w-full object-cover transition-transform group-hover:scale-105" @error="$el.src = item.fallback">
+                    <div class="p-4">
+                        <p class="font-bold text-sm" x-text="item.title"></p>
+                        <p class="text-xs text-gray-500" x-text="item.desc"></p>
                     </div>
                 </div>
             </template>
         </div>
 
-        <!-- 2. INTERACTIVE CAROUSEL VIEW (Available for Desktop & Mobile) -->
-        <div x-show="viewMode === 'carousel'" 
-             x-transition:enter="transition ease-out duration-300"
-             class="relative bg-gray-50/50 rounded-[2.5rem] border border-gray-100 p-4 md:p-8"
-             @touchstart="touchStartX = $event.touches[0].clientX"
-             @touchend="if ($event.changedTouches[0].clientX - touchStartX > 50) { carouselIndex = (carouselIndex - 1 + filteredItems.length) % filteredItems.length } else if (touchStartX - $event.changedTouches[0].clientX > 50) { carouselIndex = (carouselIndex + 1) % filteredItems.length }"
-        >
-            <!-- Check if filtered items exist -->
-            <template x-if="filteredItems.length === 0">
-                <div class="text-center py-20 text-gray-400">
-                    <i data-lucide="image-off" class="w-12 h-12 mx-auto mb-4"></i>
-                    No media available for this category.
+        <div x-show="viewMode === 'carousel'" class="relative bg-gray-50 rounded-[2rem] p-4 md:p-8">
+            <div class="relative aspect-video bg-black rounded-2xl overflow-hidden flex items-center justify-center">
+                <template x-if="filteredItems[carouselIndex]?.type === 'video'">
+                    <video controls class="w-full h-full" :src="filteredItems[carouselIndex].url"></video>
+                </template>
+                <template x-if="filteredItems[carouselIndex]?.type !== 'video'">
+                    <img :src="filteredItems[carouselIndex]?.url" class="w-full h-full object-contain" @error="$el.src = filteredItems[carouselIndex]?.fallback">
+                </template>
+            </div>
+            <div class="mt-6 flex justify-between items-center">
+                <div>
+                    <h3 class="text-2xl font-black" x-text="filteredItems[carouselIndex]?.title"></h3>
+                    <p class="text-gray-500" x-text="filteredItems[carouselIndex]?.desc"></p>
                 </div>
-            </template>
-
-            <template x-if="filteredItems.length > 0">
-                <div class="flex flex-col gap-6 md:gap-8">
-                    <!-- Carousel Window -->
-                    <div class="relative overflow-hidden rounded-[2rem] bg-slate-900 aspect-video md:h-[550px] w-full flex items-center justify-center group shadow-xl">
-                        <!-- Blur Background Backdrop for Cinematic Aesthetic -->
-                        <div class="absolute inset-0 pointer-events-none overflow-hidden opacity-30 select-none">
-                            <img :src="filteredItems[carouselIndex]?.type === 'video' ? filteredItems[carouselIndex]?.fallback : filteredItems[carouselIndex]?.url" @error="$el.src = filteredItems[carouselIndex]?.fallback" class="w-full h-full object-cover blur-2xl scale-110">
-                        </div>
-
-                        <!-- Render Video Element OR Image Slide conditionally -->
-                        <template x-if="filteredItems[carouselIndex]?.type === 'video'">
-                            <div class="relative z-10 w-full h-full flex items-center justify-center">
-                                <!-- Instructions panel if URL is empty -->
-                                <template x-if="!filteredItems[carouselIndex]?.url">
-                                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-[#0d3b44]/90 p-6 text-center cursor-pointer" @click="openLightbox(filteredItems[carouselIndex])">
-                                        <div class="w-20 h-20 rounded-full bg-teal-500 text-white flex items-center justify-center mb-4 animate-bounce">
-                                            <i data-lucide="play" class="w-10 h-10 ml-1"></i>
-                                        </div>
-                                        <p class="text-white font-extrabold text-xl">Empty Video Slot</p>
-                                        <p class="text-teal-200 text-xs mt-2 max-w-md">Edit item ID <span x-text="filteredItems[carouselIndex]?.id" class="font-bold underline text-white"></span> inside gallery.html to configure your video URL.</p>
-                                        <span class="mt-4 inline-flex items-center gap-1 bg-white/10 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-white/20 transition-all">
-                                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Click to Open Options
-                                        </span>
-                                    </div>
-                                </template>
-                                <template x-if="filteredItems[carouselIndex]?.url">
-                                    <video controls class="relative z-10 max-h-full max-w-full rounded-2xl aspect-video bg-black" :src="filteredItems[carouselIndex]?.url" :poster="filteredItems[carouselIndex]?.fallback"></video>
-                                </template>
-                            </div>
-                        </template>
-
-                        <template x-if="filteredItems[carouselIndex]?.type !== 'video'">
-                            <!-- Main Crisp Slide Image (Completely Undistorted via object-contain) -->
-                            <img 
-                                :src="filteredItems[carouselIndex]?.url" 
-                                :alt="filteredItems[carouselIndex]?.title" 
-                                class="relative z-10 max-h-full max-w-full object-contain cursor-pointer select-none transition-all duration-500 ease-in-out"
-                                @error="$el.src = filteredItems[carouselIndex]?.fallback"
-                                @click="openLightbox(filteredItems[carouselIndex])"
-                            >
-                        </template>
-
-                        <!-- Float Zoom Hint -->
-                        <div class="absolute bottom-4 right-4 z-20 bg-black/40 hover:bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 pointer-events-none">
-                            <i data-lucide="maximize-2" class="w-3 h-3"></i>
-                            <span x-text="filteredItems[carouselIndex]?.type === 'video' ? 'Play Video' : 'Tap to Zoom'"></span>
-                        </div>
-
-                        <!-- Swipe Hint for Mobile -->
-                        <div class="absolute top-4 right-4 z-20 bg-black/30 backdrop-blur-md text-white text-[9px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full pointer-events-none md:hidden flex items-center gap-1">
-                            <i data-lucide="arrow-left-right" class="w-3 h-3"></i> Swipe to scroll
-                        </div>
-
-                        <!-- Control Arrow Buttons (Desktop/Tablet) -->
-                        <button 
-                            @click="carouselIndex = (carouselIndex - 1 + filteredItems.length) % filteredItems.length" 
-                            class="absolute left-4 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white text-white hover:text-[#0d3b44] backdrop-blur-md shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
-                        >
-                            <i data-lucide="chevron-left" class="w-6 h-6"></i>
-                        </button>
-                        <button 
-                            @click="carouselIndex = (carouselIndex + 1) % filteredItems.length" 
-                            class="absolute right-4 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white text-white hover:text-[#0d3b44] backdrop-blur-md shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
-                        >
-                            <i data-lucide="chevron-right" class="w-6 h-6"></i>
-                        </button>
-                    </div>
-
-                    <!-- Slide Detail Metadata Card -->
-                    <div class="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
-                        <div class="space-y-2 max-w-2xl">
-                            <div class="flex items-center gap-2">
-                                <span class="bg-teal-50 text-teal-700 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full" x-text="filteredItems[carouselIndex]?.category"></span>
-                                <span class="text-xs text-gray-400 font-bold" x-text="`Media ${(carouselIndex + 1)} of ${filteredItems.length}`"></span>
-                            </div>
-                            <h2 class="text-2xl md:text-3xl font-black text-[#0d3b44]" x-text="filteredItems[carouselIndex]?.title"></h2>
-                            <p class="text-gray-500 text-sm leading-relaxed" x-text="filteredItems[carouselIndex]?.desc"></p>
-                        </div>
-                        <div class="flex shrink-0 gap-3">
-                            <button @click="openLightbox(filteredItems[carouselIndex])" class="flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-[#0d3b44] font-bold px-5 py-3 rounded-2xl transition-all text-sm">
-                                <i data-lucide="maximize" class="w-4 h-4"></i> Expand View
-                            </button>
-                            <a :href="whatsappLink" class="flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-bold px-6 py-3 rounded-2xl transition-all text-sm">
-                                <i data-lucide="calendar" class="w-4 h-4"></i> Book Session
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Scrollable Ribbon Thumbnail Strip -->
-                    <div class="flex items-center gap-3 overflow-x-auto py-2 thumb-scrollbar scroll-smooth" id="thumbContainer">
-                        <template x-for="(item, index) in filteredItems" :key="item.id">
-                            <button 
-                                @click="carouselIndex = index"
-                                class="relative shrink-0 w-20 md:w-28 rounded-2xl overflow-hidden aspect-[4/3] transition-all border-4 shadow-sm hover:opacity-100 focus:outline-none"
-                                :class="carouselIndex === index ? 'border-teal-600 scale-105 opacity-100' : 'border-transparent opacity-50'"
-                            >
-                                <img :src="item.type === 'video' ? item.fallback : item.url" @error="$el.src = item.fallback" class="w-full h-full object-cover">
-                                <template x-if="item.type === 'video'">
-                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                        <i data-lucide="play" class="w-6 h-6 text-white bg-teal-600/90 rounded-full p-1 shadow-md"></i>
-                                    </div>
-                                </template>
-                            </button>
-                        </template>
-                    </div>
-                </div>
-            </template>
-        </div>
-
-        <!-- NEW UPDATED Call to Action -->
-        <div class="mt-32 cta-gradient rounded-[3rem] p-10 md:p-20 text-center text-white overflow-hidden relative shadow-2xl shadow-teal-900/40">
-            <!-- Decorative Background Elements -->
-            <div class="absolute -right-20 -top-20 w-96 h-96 bg-teal-400/20 rounded-full blur-[100px]"></div>
-            <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-teal-300/10 rounded-full blur-[80px]"></div>
-            <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] pointer-events-none"></div>
-
-            <div class="relative z-10">
-                <div class="inline-flex items-center gap-2 bg-teal-400/20 border border-teal-400/30 px-4 py-1.5 rounded-full mb-8">
-                    <span class="flex h-2 w-2 rounded-full bg-teal-400 animate-pulse"></span>
-                    <span class="text-xs font-black tracking-widest uppercase text-teal-200">Start Your Journey</span>
-                </div>
-                
-                <h2 class="text-4xl md:text-6xl font-black mb-6 tracking-tight">Ready to start <br class="hidden md:block"> your recovery?</h2>
-                <p class="text-teal-100/80 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
-                    Visit our Advanced Physiotherapy centre in Noida for a personalized assessment and tailored recovery plan.
-                </p>
-                
-                <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
-                    <a :href="whatsappLink" class="group bg-white text-[#0d3b44] px-12 py-5 rounded-2xl font-extrabold transition-all hover:scale-105 hover:shadow-2xl hover:shadow-white/20 flex items-center gap-3">
-                        Book Session Now
-                        <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
-                    <a href="tel:+919773960242" class="group bg-white/5 hover:bg-white/10 backdrop-blur-md text-white border border-white/20 px-12 py-5 rounded-2xl font-extrabold transition-all flex items-center gap-3">
-                        <i data-lucide="phone" class="w-5 h-5 text-teal-400"></i>
-                        Call Clinic
-                    </a>
+                <div class="flex gap-2">
+                    <button @click="carouselIndex = (carouselIndex - 1 + filteredItems.length) % filteredItems.length" class="p-3 bg-white rounded-full shadow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    </button>
+                    <button @click="carouselIndex = (carouselIndex + 1) % filteredItems.length" class="p-3 bg-white rounded-full shadow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Lightbox Modal (Preserves Original Ratio completely) -->
-    <div 
-        x-show="modalOpen" 
-        x-cloak 
-        class="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
-        @keydown.escape.window="modalOpen = false"
-    >
-        <div class="absolute inset-0 bg-black/95 transition-opacity" x-show="modalOpen" x-transition.opacity @click="modalOpen = false"></div>
-        
-        <div class="relative max-w-5xl w-full bg-white rounded-[2.5rem] overflow-hidden shadow-2xl flex flex-col md:flex-row"
-             x-show="modalOpen"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100">
-            
-            <button @click="modalOpen = false" class="absolute top-6 right-6 z-20 bg-black/20 hover:bg-black/40 text-white p-2.5 rounded-full backdrop-blur-md transition-all">
-                <i data-lucide="x"></i>
-            </button>
-            
-            <!-- Lightbox Media Wrapper (Completely Undistorted via object-contain) -->
-            <div class="w-full md:w-2/3 bg-slate-900 flex items-center justify-center h-[40vh] md:h-[70vh] p-4 relative">
-                <!-- Video Lightbox Player -->
-                <template x-if="selectedImage?.type === 'video'">
-                    <div class="w-full h-full flex items-center justify-center">
-                        <!-- Instructions if user hasn't supplied a URL yet -->
-                        <template x-if="!selectedImage?.url">
-                            <div class="bg-slate-800 text-white p-8 rounded-3xl text-center flex flex-col items-center justify-center max-w-md shadow-2xl mx-4">
-                                <div class="w-16 h-16 bg-teal-500/15 text-teal-400 rounded-full flex items-center justify-center mb-4">
-                                    <i data-lucide="video" class="w-8 h-8"></i>
-                                </div>
-                                <h3 class="font-extrabold text-xl text-teal-300">Unconfigured Video Slot</h3>
-                                <p class="text-slate-400 text-sm mt-3 leading-relaxed">
-                                    To play your custom video, open <code class="bg-slate-950 px-1.5 py-0.5 rounded text-orange-400 font-mono text-xs">gallery.html</code> and edit item ID <span class="font-bold text-white underline" x-text="selectedImage?.id"></span>. Change its <code class="bg-slate-950 px-1.5 py-0.5 rounded text-orange-400 font-mono text-xs">url</code> attribute to point to your video address.
-                                </p>
-                                <button @click="modalOpen = false" class="mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold px-6 py-3 rounded-2xl text-sm transition-all shadow-md">
-                                    Configure Code
-                                </button>
-                            </div>
-                        </template>
-                        <template x-if="selectedImage?.url">
-                            <video controls autoplay class="max-w-full max-h-full object-contain rounded-xl select-none" :src="selectedImage?.url"></video>
-                        </template>
-                    </div>
-                </template>
-
-                <!-- Static Image Lightbox -->
-                <template x-if="selectedImage?.type !== 'video'">
-                    <img 
-                        :src="selectedImage?.url" 
-                        :alt="selectedImage?.title" 
-                        class="max-w-full max-h-full object-contain rounded-xl select-none"
-                        @error="$el.src = selectedImage?.fallback"
-                    >
-                </template>
-            </div>
-            
-            <div class="w-full md:w-1/3 p-8 md:p-12 flex flex-col justify-center space-y-6">
-                <div>
-                    <span class="text-teal-600 text-xs font-black uppercase tracking-widest" x-text="selectedImage?.category"></span>
-                    <h2 class="text-3xl font-black text-[#0d3b44] mt-2 leading-tight" x-text="selectedImage?.title"></h2>
-                </div>
-                <p class="text-gray-500 leading-relaxed text-sm" x-text="selectedImage?.desc"></p>
-                
-                <div class="pt-6 border-t border-gray-100 flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-full bg-teal-50 flex items-center justify-center">
-                        <i data-lucide="shield-check" class="text-teal-600"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm font-bold text-[#0d3b44]">Clinical Excellence</p>
-                        <p class="text-xs text-gray-400">Step2Heal Quality Care</p>
-                    </div>
-                </div>
-                
-                <a :href="whatsappLink" class="mt-4 inline-flex items-center justify-center bg-[#0d3b44] hover:bg-teal-700 text-white px-6 py-4 rounded-xl font-bold transition-all text-center">
-                    Book Session
-                </a>
-            </div>
+    <div x-show="modalOpen" x-cloak class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90" @click.self="modalOpen = false">
+        <button @click="modalOpen = false" class="absolute top-8 right-8 text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+        </button>
+        <div class="max-w-4xl w-full">
+            <img :src="selectedItem?.url" class="w-full rounded-lg" @error="$el.src = selectedItem?.fallback">
+            <p class="text-white text-center mt-4 font-bold" x-text="selectedItem?.title"></p>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-white py-12 border-t border-gray-100">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
-                <div class="flex items-center gap-3">
-                    <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" alt="S2H Logo" class="h-10 w-auto opacity-80" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=200'">
-                    <div class="flex flex-col">
-                        <span class="font-bold text-[#0d3b44]">Step2Heal</span>
-                        <span class="text-[9px] text-gray-400 uppercase tracking-wider">Advanced Physiotherapy and Rehabilitation Centre</span>
-                    </div>
-                </div>
-                <div class="flex flex-wrap justify-center gap-8 text-sm font-semibold text-gray-500">
-                    <a href="/" class="hover:text-teal-600 transition-colors">Home</a>
-                    <a href="services.html" class="hover:text-teal-600 transition-colors">Services</a>
-                    <a href="founders.html" class="hover:text-teal-600 transition-colors">Founders</a>
-                    <a href="blog.html" class="hover:text-teal-600 transition-colors">Blog</a>
-                    <a href="contact.html" class="hover:text-teal-600 transition-colors">Contact</a>
-                </div>
-                <div class="flex gap-5">
-                    <a href="https://www.instagram.com/pt_step2heal/" target="_blank" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-teal-50 hover:text-teal-600 transition-all" title="Instagram">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                        </svg>
-                    </a>
-                    <a href="https://www.facebook.com/share/157uL5uYit/?mibextid=wwXIfr" target="_blank" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-teal-50 hover:text-teal-600 transition-all" title="Facebook">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            <p class="text-center text-gray-400 text-[10px] uppercase tracking-widest mt-12 font-bold">© 2026 Step2Heal Advanced Physiotherapy and Rehabilitation Centre. All rights reserved</p>
-        </div>
-    </footer>
-
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('galleryApp', () => ({
+                activeCategory: 'All',
+                modalOpen: false,
+                selectedItem: null,
+                viewMode: 'grid',
+                carouselIndex: 0,
+                mobileMenu: false,
+                whatsappLink: 'https://wa.me/919773960242?text=Hi%20Step2Heal!',
+                categories: ['All', 'Clinic', 'Treatments', 'Instagram', 'Results', 'Posts', 'Videos'],
+                items: [
+                    { id: 1, category: 'Clinic', title: 'Waiting Area', url: '2025-09-28 (1).jpg', fallback: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=800', desc: 'Our comfortable waiting space.' },
+                    { id: 2, category: 'Treatments', title: 'Our Services', url: '2025-09-28 (2).jpg', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800', desc: 'Services at Step2Heal.' },
+                    { id: 3, category: 'Clinic', title: 'Therapy Hall View', url: '2025-09-28.jpg', fallback: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&q=80&w=1200', desc: 'Active recovery space.' },
+                    { id: 4, category: 'Posts', title: 'LinkedIn Updates', url: 'ChatGPT Image Apr 21, 2026, 06_11_40 PM.png', fallback: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=1200', desc: 'LinkedIn banner.' },
+                    { id: 5, category: 'Treatments', title: 'Free Camp', url: 'WhatsApp Image 2026-01-15 at 12.35.44.jpeg', fallback: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&q=80&w=800', desc: 'Physiotherapy camps.' },
+                    { id: 6, category: 'Clinic', title: 'Logo', url: 'WhatsApp Image 2026-04-21 at 17.24.20.jpeg', fallback: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800', desc: 'Official Logo.' },
+                    { id: 7, category: 'Treatments', title: 'At 9th Royal Challenges Cup', url: 'WhatsApp Image 2026-05-01 at 17.16.41.jpeg', fallback: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=1200', desc: '9th ROYAL CHALLENGES CUP.' },
+                    { id: 8, category: 'Treatments', title: 'At Noida Chase', url: 'WhatsApp Image 2026-05-01 at 17.16.43.jpeg', fallback: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&q=80&w=800', desc: 'Noida chase recovery partner.' },
+                    { id: 9, category: 'Clinic', title: 'Inside Step2Heal', url: 'WhatsApp Image 2026-05-01 at 17.18.09 (1).jpeg', fallback: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200', desc: 'Clinic interiors.' },
+                    { id: 10, category: 'Clinic', title: 'Dr. Megha Yadav(PT)', url: 'WhatsApp Image 2026-05-01 at 17.18.09 (2).jpeg', fallback: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=800', desc: 'Co-Founder.' },
+                    { id: 11, category: 'Clinic', title: 'Dr. Saijal Mathuria(PT)', url: 'WhatsApp Image 2026-05-01 at 17.20.33.jpeg', fallback: 'https://images.unsplash.com/photo-1594824813573-246434de83fb?auto=format&fit=crop&q=80&w=800', desc: 'Co-Founder.' },
+                    { id: 12, category: 'Posts', title: 'Night View', url: 'b1113011-2f24-4a6a-a7e9-0d5823ec1386.jpg', fallback: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200', desc: 'Night view.' },
+                    { id: 13, category: 'Clinic', title: 'Front View', url: 'download (3).jpg', fallback: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800', desc: 'Daylight view.' },
+                    { id: 14, category: 'Posts', title: 'Cerebral Palsy', url: 'download (2).jpg', fallback: 'https://images.unsplash.com/photo-1508847154043-be12a3b4dca9?auto=format&fit=crop&q=80&w=800', desc: 'About CP.' },
+                    { id: 15, category: 'Results', title: 'Shoulder Mobility', url: 'WhatsApp Image 2026-05-10 at 10.15.22.jpeg', fallback: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=800', desc: 'Mobility recovery.' },
+                    { id: 16, category: 'Treatments', title: 'Dry Needling', url: 'WhatsApp Image 2026-05-12 at 11.20.10.jpeg', fallback: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&q=80&w=800', desc: 'Dry needling therapy.' },
+                    { id: 17, category: 'Clinic', title: 'Electrotherapy', url: 'WhatsApp Image 2026-05-14 at 09.30.45.jpeg', fallback: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200', desc: 'Electrotherapy suite.' },
+                    { id: 18, category: 'Results', title: 'Knee Rehab', url: 'WhatsApp Image 2026-05-15 at 14.45.00.jpeg', fallback: 'https://images.unsplash.com/photo-1597764690523-15bea4c581c9?auto=format&fit=crop&q=80&w=800', desc: 'Knee rehab.' },
+                    { id: 19, category: 'Treatments', title: 'Sports Injury', url: 'WhatsApp Image 2026-05-16 at 16.10.12.jpeg', fallback: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=800', desc: 'Sports injury.' },
+                    { id: 20, category: 'Posts', title: '1st Anniversary', url: 'WhatsApp Image 2026-05-06 at 19.02.30.jpeg', fallback: 'https://placehold.co/800x600/eee/333?text=Anniversary', desc: 'Step2Heal 1st Anniversary.' },
+                    { id: 23, category: 'Clinic', type: 'video', title: 'Clinic Virtual Tour', url: 'WhatsApp Video 2026-05-15 at 09.30.13.webm', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200', desc: 'VIRTUAL TOUR OF STEP2HEAL.' }
+                ],
+                get filteredItems() {
+                    return this.activeCategory === 'All' ? this.items : this.items.filter(i => i.category === this.activeCategory);
+                },
+                openLightbox(item) {
+                    this.selectedItem = item;
+                    this.modalOpen = true;
+                }
+            }));
         });
+        window.onload = () => lucide.createIcons();
     </script>
 </body>
 </html>

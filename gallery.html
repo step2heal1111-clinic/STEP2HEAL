@@ -95,61 +95,71 @@
         activeCategory: 'All',
         modalOpen: false,
         selectedImage: null,
-        viewMode: 'grid', /* 'grid' or 'carousel' */
+        viewMode: 'grid',
         carouselIndex: 0,
         touchStartX: 0,
         whatsappLink: 'https://wa.me/919773960242?text=Hi%20Step2Heal!%20%F0%9F%91%8B%20I\'d%20like%20to%20book%20a%20physiotherapy%20session.%20Could%20you%20please%20share%20the%20available%20slots%3F%20Thank%20you!',
-        categories: ['All', 'Clinic', 'Treatments', 'Instagram', 'Results', 'Posts', 'Videos'],
-        
-         // All items are now in one single list to be displayed
-        const allGalleryItems = [
-            { id: 1, category: 'Clinic', title: 'Waiting Area', url: '2025-09-28 (1).jpg', fallback: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=800', desc: 'Our comfortable waiting space.' },
-            { id: 2, category: 'Treatments', title: 'Our Services', url: '2025-09-28 (2).jpg', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800', desc: 'Services at Step2Heal.' },
-            { id: 3, category: 'Clinic', title: 'Therapy Hall View', url: '2025-09-28.jpg', fallback: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&q=80&w=1200', desc: 'Active recovery space.' },
-            { id: 4, category: 'Posts', title: 'LinkedIn Updates', url: 'ChatGPT Image Apr 21, 2026, 06_11_40 PM.png', fallback: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=1200', desc: 'LinkedIn banner.' },
-            { id: 5, category: 'Treatments', title: 'Free Camp', url: 'WhatsApp Image 2026-01-15 at 12.35.44.jpeg', fallback: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&q=80&w=800', desc: 'Physiotherapy camps.' },
-            { id: 6, category: 'Clinic', title: 'Logo', url: 'WhatsApp Image 2026-04-21 at 17.24.20.jpeg', fallback: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800', desc: 'Official Logo.' },
-            { id: 7, category: 'Treatments', title: 'At 9th Royal Challenges Cup', url: 'WhatsApp Image 2026-05-01 at 17.16.41.jpeg', fallback: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=1200', desc: '9th ROYAL CHALLENGES CUP.' },
-            { id: 8, category: 'Treatments', title: 'At Noida Chase', url: 'WhatsApp Image 2026-05-01 at 17.16.43.jpeg', fallback: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&q=80&w=800', desc: 'Noida chase recovery partner.' },
-            { id: 9, category: 'Clinic', title: 'Inside Step2Heal', url: 'WhatsApp Image 2026-05-01 at 17.18.09 (1).jpeg', fallback: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200', desc: 'Clinic interiors.' },
-            { id: 10, category: 'Clinic', title: 'Dr. Megha Yadav(PT)', url: 'WhatsApp Image 2026-05-01 at 17.18.09 (2).jpeg', fallback: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=800', desc: 'Co-Founder.' },
-            { id: 11, category: 'Clinic', title: 'Dr. Saijal Mathuria(PT)', url: 'WhatsApp Image 2026-05-01 at 17.20.33.jpeg', fallback: 'https://images.unsplash.com/photo-1594824813573-246434de83fb?auto=format&fit=crop&q=80&w=800', desc: 'Co-Founder.' },
-            { id: 12, category: 'Posts', title: 'Night View', url: 'b1113011-2f24-4a6a-a7e9-0d5823ec1386.jpg', fallback: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200', desc: 'Night view.' },
-            { id: 13, category: 'Clinic', title: 'Front View', url: 'download (3).jpg', fallback: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800', desc: 'Daylight view.' },
-            { id: 14, category: 'Posts', title: 'Cerebral Palsy', url: 'download (2).jpg', fallback: 'https://images.unsplash.com/photo-1508847154043-be12a3b4dca9?auto=format&fit=crop&q=80&w=800', desc: 'About CP.' },
-            { id: 15, category: 'Results', title: 'Shoulder Mobility', url: 'WhatsApp Image 2026-05-10 at 10.15.22.jpeg', fallback: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=800', desc: 'Mobility recovery.' },
-            { id: 16, category: 'Treatments', title: 'Dry Needling', url: 'WhatsApp Image 2026-05-12 at 11.20.10.jpeg', fallback: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&q=80&w=800', desc: 'Dry needling therapy.' },
-            { id: 17, category: 'Clinic', title: 'Electrotherapy', url: 'WhatsApp Image 2026-05-14 at 09.30.45.jpeg', fallback: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200', desc: 'Electrotherapy suite.' },
-            { id: 18, category: 'Results', title: 'Knee Rehab', url: 'WhatsApp Image 2026-05-15 at 14.45.00.jpeg', fallback: 'https://images.unsplash.com/photo-1597764690523-15bea4c581c9?auto=format&fit=crop&q=80&w=800', desc: 'Knee rehab.' },
-            { id: 19, category: 'Treatments', title: 'Sports Injury', url: 'WhatsApp Image 2026-05-16 at 16.10.12.jpeg', fallback: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=800', desc: 'Sports injury.' },
-            { id: 20, category: 'Posts', title: '1st Anniversary', url: 'WhatsApp Image 2026-05-06 at 19.02.30.jpeg', fallback: 'https://placehold.co/800x600/eee/333?text=Anniversary', desc: 'Step2Heal 1st Anniversary.' },
-            { id: 23, category: 'Clinic', type: 'video', title: 'Clinic Virtual Tour', url: 'WhatsApp Video 2026-05-15 at 09.30.13.webm', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200', desc: 'VIRTUAL TOUR OF STEP2HEAL.' }
-        ];
+        categories: ['All', 'Clinic', 'Treatments', 'Instagram', 'Results', 'Posts', 'Videos']
+      }">
 
-        const galleryEl = document.getElementById('gallery');
+  <!-- Gallery Container -->
+  <div id="gallery" class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4"></div>
 
-        allGalleryItems.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'gallery-item cursor-pointer overflow-hidden rounded-lg shadow-md bg-white';
-            const isVideo = item.type === 'video';
-            div.innerHTML = `
-                ${isVideo ? 
-                    `<video class="w-full h-64 object-cover" controls><source src="${item.url}" type="video/webm"></video>` : 
-                    `<img src="${item.url}" onerror="this.onerror=null; this.src='${item.fallback}';" class="w-full h-64 object-cover" onclick="openLightbox('${item.url}')">`
-                }
-                <div class="p-3 text-sm font-semibold truncate">${item.title}</div>
-            `;
-            galleryEl.appendChild(div);
-        });
+  <!-- Modal -->
+  <div id="modal" class="hidden fixed inset-0 z-50 bg-black/80 items-center justify-center p-4" onclick="closeModal()">
+    <div id="modal-content" class="max-w-3xl w-full"></div>
+  </div>
 
-        function openLightbox(src) {
-            document.getElementById('modal-content').innerHTML = `<img src="${src}" class="w-full rounded shadow-2xl">`;
-            document.getElementById('modal').classList.replace('hidden', 'flex');
-        }
+  <script>
+    // Data list remains exactly as you provided
+    const allGalleryItems = [
+      { id: 1, category: 'Clinic', title: 'Waiting Area', url: '2025-09-28 (1).jpg', fallback: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=800', desc: 'Our comfortable waiting space.' },
+      { id: 2, category: 'Treatments', title: 'Our Services', url: '2025-09-28 (2).jpg', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800', desc: 'Services at Step2Heal.' },
+      { id: 3, category: 'Clinic', title: 'Therapy Hall View', url: '2025-09-28.jpg', fallback: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&q=80&w=1200', desc: 'Active recovery space.' },
+      { id: 4, category: 'Posts', title: 'LinkedIn Updates', url: 'ChatGPT Image Apr 21, 2026, 06_11_40 PM.png', fallback: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=1200', desc: 'LinkedIn banner.' },
+      { id: 5, category: 'Treatments', title: 'Free Camp', url: 'WhatsApp Image 2026-01-15 at 12.35.44.jpeg', fallback: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&q=80&w=800', desc: 'Physiotherapy camps.' },
+      { id: 6, category: 'Clinic', title: 'Logo', url: 'WhatsApp Image 2026-04-21 at 17.24.20.jpeg', fallback: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800', desc: 'Official Logo.' },
+      { id: 7, category: 'Treatments', title: 'At 9th Royal Challenges Cup', url: 'WhatsApp Image 2026-05-01 at 17.16.41.jpeg', fallback: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=1200', desc: '9th ROYAL CHALLENGES CUP.' },
+      { id: 8, category: 'Treatments', title: 'At Noida Chase', url: 'WhatsApp Image 2026-05-01 at 17.16.43.jpeg', fallback: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&q=80&w=800', desc: 'Noida chase recovery partner.' },
+      { id: 9, category: 'Clinic', title: 'Inside Step2Heal', url: 'WhatsApp Image 2026-05-01 at 17.18.09 (1).jpeg', fallback: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200', desc: 'Clinic interiors.' },
+      { id: 10, category: 'Clinic', title: 'Dr. Megha Yadav(PT)', url: 'WhatsApp Image 2026-05-01 at 17.18.09 (2).jpeg', fallback: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=800', desc: 'Co-Founder.' },
+      { id: 11, category: 'Clinic', title: 'Dr. Saijal Mathuria(PT)', url: 'WhatsApp Image 2026-05-01 at 17.20.33.jpeg', fallback: 'https://images.unsplash.com/photo-1594824813573-246434de83fb?auto=format&fit=crop&q=80&w=800', desc: 'Co-Founder.' },
+      { id: 12, category: 'Posts', title: 'Night View', url: 'b1113011-2f24-4a6a-a7e9-0d5823ec1386.jpg', fallback: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200', desc: 'Night view.' },
+      { id: 13, category: 'Clinic', title: 'Front View', url: 'download (3).jpg', fallback: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800', desc: 'Daylight view.' },
+      { id: 14, category: 'Posts', title: 'Cerebral Palsy', url: 'download (2).jpg', fallback: 'https://images.unsplash.com/photo-1508847154043-be12a3b4dca9?auto=format&fit=crop&q=80&w=800', desc: 'About CP.' },
+      { id: 15, category: 'Results', title: 'Shoulder Mobility', url: 'WhatsApp Image 2026-05-10 at 10.15.22.jpeg', fallback: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=800', desc: 'Mobility recovery.' },
+      { id: 16, category: 'Treatments', title: 'Dry Needling', url: 'WhatsApp Image 2026-05-12 at 11.20.10.jpeg', fallback: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&q=80&w=800', desc: 'Dry needling therapy.' },
+      { id: 17, category: 'Clinic', title: 'Electrotherapy', url: 'WhatsApp Image 2026-05-14 at 09.30.45.jpeg', fallback: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200', desc: 'Electrotherapy suite.' },
+      { id: 18, category: 'Results', title: 'Knee Rehab', url: 'WhatsApp Image 2026-05-15 at 14.45.00.jpeg', fallback: 'https://images.unsplash.com/photo-1597764690523-15bea4c581c9?auto=format&fit=crop&q=80&w=800', desc: 'Knee rehab.' },
+      { id: 19, category: 'Treatments', title: 'Sports Injury', url: 'WhatsApp Image 2026-05-16 at 16.10.12.jpeg', fallback: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=800', desc: 'Sports injury.' },
+      { id: 20, category: 'Posts', title: '1st Anniversary', url: 'WhatsApp Image 2026-05-06 at 19.02.30.jpeg', fallback: 'https://placehold.co/800x600/eee/333?text=Anniversary', desc: 'Step2Heal 1st Anniversary.' },
+      { id: 23, category: 'Clinic', type: 'video', title: 'Clinic Virtual Tour', url: 'WhatsApp Video 2026-05-15 at 09.30.13.webm', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200', desc: 'VIRTUAL TOUR OF STEP2HEAL.' }
+    ];
 
-        function closeModal() {
-            document.getElementById('modal').classList.replace('flex', 'hidden');
-        }
+    const galleryEl = document.getElementById('gallery');
+
+    allGalleryItems.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'gallery-item cursor-pointer overflow-hidden rounded-lg shadow-md bg-white';
+        const isVideo = item.type === 'video';
+        div.innerHTML = `
+            ${isVideo ? 
+                `<video class="w-full h-64 object-cover" controls><source src="${item.url}" type="video/webm"></video>` : 
+                `<img src="${item.url}" onerror="this.onerror=null; this.src='${item.fallback}';" class="w-full h-64 object-cover" onclick="openLightbox('${item.url}')">`
+            }
+            <div class="p-3 text-sm font-semibold truncate">${item.title}</div>
+        `;
+        galleryEl.appendChild(div);
+    });
+
+    function openLightbox(src) {
+        document.getElementById('modal-content').innerHTML = `<img src="${src}" class="w-full rounded shadow-2xl">`;
+        document.getElementById('modal').classList.replace('hidden', 'flex');
+    }
+
+    function closeModal() {
+        document.getElementById('modal').classList.replace('flex', 'hidden');
+    }
     <!-- Navbar -->
     <nav :class="scrolled ? 'shadow-sm py-2 bg-white/90' : 'py-5 bg-transparent'" 
           class="fixed w-full z-[60] transition-all duration-300 nav-blur">

@@ -139,7 +139,7 @@
         </div>
     </section>
 
-    <!-- SECTION 1: PROMINENT FEATURED POST SHOWCASE -->
+    <!-- SECTION 1: PROMINENT FEATURED POST SHOWCASE (Shoulder Pain Flagship Guide) -->
     <section class="max-w-7xl mx-auto px-4 mt-16 mb-20" x-show="activeCategory === 'All' && searchQuery === ''">
         <div class="bg-white border border-slate-200/80 rounded-[2.5rem] overflow-hidden shadow-xl shadow-slate-100/50 flex flex-col lg:flex-row">
             <div class="lg:w-1/2 relative h-80 lg:h-auto min-h-[340px]">
@@ -240,7 +240,7 @@
         </div>
     </main>
 
-    <!-- HIGH-FIDELITY BLOG READER PORTAL Overlay/Lightbox View -->
+    <!-- HIGH-FIDELITY BLOG READER PORTAL Overlay/Lightbox View (Optimized for Mobile) -->
     <div x-show="isReading" 
          x-cloak 
          class="fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-md overflow-y-auto"
@@ -251,39 +251,41 @@
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0">
          
-         <div class="min-h-screen py-10 px-4 md:px-10 lg:px-20 flex justify-center items-start">
-             <div class="bg-white rounded-[3rem] w-full max-w-7xl shadow-2xl overflow-hidden relative border border-slate-200 animate-slide">
+         <!-- Responsive Padding and Alignment (Fullscreen on Mobile, Elegant bounds on Desktop) -->
+         <div class="min-h-screen sm:py-10 px-0 sm:px-4 md:px-10 lg:px-20 flex justify-center items-start">
+             <div class="bg-white w-full max-w-7xl shadow-2xl overflow-hidden relative border border-slate-200 animate-slide rounded-none sm:rounded-[3rem]">
                  
-                 <!-- Reader Top Header Bar (Sticky) -->
-                 <div class="sticky top-0 bg-white/95 backdrop-blur-md px-6 py-4 border-b border-slate-100 flex items-center justify-between z-50">
+                 <!-- Reader Top Header Bar (Sticky & Comfortable Tap Targets) -->
+                 <div class="sticky top-0 bg-white/95 backdrop-blur-md px-4 sm:px-6 py-4 border-b border-slate-100 flex items-center justify-between z-50">
                      <div class="flex items-center gap-3">
                          <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" class="h-8 w-auto object-contain" alt="Step2Heal logo">
                          <span class="text-xs font-black text-slate-400 uppercase tracking-widest hidden sm:inline">Physiotherapy Portal</span>
                      </div>
-                     <div class="flex items-center gap-3">
-                         <!-- Native-style Copy Link Button -->
-                         <button @click="copyBlogLink()" class="p-2 bg-slate-50 hover:bg-teal-50 text-[#0d3b44] hover:text-teal-700 rounded-xl transition-all flex items-center gap-2" title="Copy Article Share Link">
+                     <div class="flex items-center gap-2">
+                         <!-- Copy Link Button -->
+                         <button @click="copyBlogLink()" class="p-3 bg-slate-50 hover:bg-teal-50 text-[#0d3b44] hover:text-teal-700 rounded-xl transition-all flex items-center gap-2 min-h-[44px] min-w-[44px]" title="Copy Article Share Link">
                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
                              <span class="text-xs font-black hidden sm:inline">Copy Link</span>
                          </button>
-                         <button @click="closePost()" class="p-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl transition-all" title="Exit Reader View">
+                         <!-- Close Button -->
+                         <button @click="closePost()" class="p-3 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl transition-all min-h-[44px] min-w-[44px]" title="Exit Reader View">
                              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
                          </button>
                      </div>
                  </div>
 
-                 <!-- Hero Image -->
-                 <div class="relative h-64 md:h-[400px] w-full bg-slate-900">
+                 <!-- Hero Image with Fluid Heights -->
+                 <div class="relative h-56 sm:h-80 md:h-[400px] w-full bg-slate-900">
                      <img :src="selectedPost?.image" :alt="selectedPost?.title" class="w-full h-full object-cover opacity-90">
-                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 to-transparent"></div>
-                     <div class="absolute bottom-6 left-6 md:left-12 text-white">
-                         <span class="inline-block bg-teal-500 text-white px-3.5 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-md mb-3" x-text="selectedPost?.category"></span>
-                         <h1 class="text-xl md:text-4xl lg:text-5xl font-extrabold tracking-tight" x-text="selectedPost?.title"></h1>
+                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+                     <div class="absolute bottom-4 left-4 sm:bottom-6 sm:left-12 text-white pr-4">
+                         <span class="inline-block bg-teal-500 text-white px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-widest shadow-md mb-2 sm:mb-3" x-text="selectedPost?.category"></span>
+                         <h1 class="text-lg sm:text-4xl lg:text-5xl font-extrabold tracking-tight" x-text="selectedPost?.title"></h1>
                      </div>
                  </div>
 
                  <!-- Main Article Area -->
-                 <div class="p-6 md:p-12 lg:p-16 flex flex-col lg:flex-row gap-12">
+                 <div class="p-4 sm:p-8 md:p-12 lg:p-16 flex flex-col lg:flex-row gap-12">
                      
                      <!-- Left Sticky Table of Contents (Desktop only) -->
                      <aside class="hidden lg:block lg:w-1/4">
@@ -309,19 +311,19 @@
                      <article class="flex-1 max-w-3xl">
                          
                          <!-- Author and Metadata -->
-                         <div class="flex items-center justify-between pb-8 border-b border-slate-100 mb-8">
+                         <div class="flex items-center justify-between pb-6 sm:pb-8 border-b border-slate-100 mb-6 sm:mb-8">
                              <div class="flex items-center gap-3">
                                  <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" class="w-10 h-10 rounded-full object-contain bg-slate-50" alt="Step2Heal Team">
                                  <div>
-                                     <p class="text-sm font-black text-slate-800" x-text="selectedPost?.author"></p>
-                                     <p class="text-xs font-bold text-slate-400" x-text="'Published ' + selectedPost?.displayDate"></p>
+                                     <p class="text-xs sm:text-sm font-black text-slate-800" x-text="selectedPost?.author"></p>
+                                     <p class="text-[10px] sm:text-xs font-bold text-slate-400" x-text="'Published ' + selectedPost?.displayDate"></p>
                                  </div>
                              </div>
                              
                              <div class="flex items-center gap-2">
                                  <span class="text-xs font-bold text-slate-400">Share:</span>
                                  <button @click="shareOnWhatsApp()" class="p-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 rounded-xl transition-all" title="Share to WhatsApp">
-                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 0 0 1.335 4.963L2 22l5.233-1.371a9.936 9.936 0 0 0 4.779 1.21h.004c5.505 0 9.988-4.478 9.989-9.984C22.007 6.477 17.518 2 12.012 2zm6.09 14.12c-.25.707-1.467 1.3-2.011 1.385-.494.076-1.139.141-3.32-.764-2.788-1.157-4.578-3.993-4.717-4.18-.139-.185-1.132-1.507-1.132-2.87 0-1.365.711-2.036.961-2.313.25-.278.543-.347.725-.347.182 0 .364.001.52.008.163.007.38-.027.595.489.22.53.754 1.84.819 1.975.065.135.109.293.018.474-.09.182-.136.293-.271.451-.136.158-.287.354-.409.475-.136.136-.278.284-.12.556.158.272.7 1.15 1.498 1.861.107.096.223.193.344.292.802.66 1.48.868 1.821 1.01.341.141.543.119.743-.109.2-.228.853-1.002.108-1.22-.148-.043-.243-.1-.383-.159-.285-.119-.485-.182-.605-.182-.12 0-.243.057-.383.2-.141.141-.543.543-.663.663-.12.12-.243.136-.485.016-.243-.119-1.026-.378-1.954-1.206-.723-.644-1.21-1.442-1.352-1.685-.141-.243-.015-.375.107-.495.11-.108.243-.284.364-.424.12-.141.158-.243.238-.403.081-.158.04-.3-.02-.424-.06-.12-.543-1.306-.743-1.791-.196-.475-.395-.41-.543-.41-.139-.003-.3-.003-.463-.003z"/></svg>
+                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.05 12.008.05c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.957-11.953 11.957-2.005-.001-3.973-.502-5.717-1.458L0 24zm6.59-4.846c1.657.982 3.278 1.499 5.353 1.5 5.372 0 9.742-4.298 9.745-9.58a9.49 9.49 0 0 0-2.852-6.78A9.55 9.55 0 0 0 12.01 1.55c-5.38 0-9.752 4.301-9.755 9.584-.002 2.122.54 4.113 1.566 5.883L2.83 21.147l4.31-.133c.002-.001.005-.001.007-.001zm12.519-7.143c-.3-.15-1.772-.875-2.047-.975-.276-.1-.477-.15-.677.15-.2.3-.777.975-.951 1.175-.175.2-.35.225-.65.075-.3-.15-1.267-.467-2.414-1.492-.893-.797-1.496-1.782-1.671-2.082-.176-.3-.019-.462.13-.611.135-.134.3-.35.45-.525.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.677-1.625-.927-2.225-.244-.588-.492-.507-.677-.517-.174-.01-.375-.012-.576-.012-.2 0-.525.075-.8.4-.275.325-1.05 1.025-1.05 2.5s1.075 2.9 1.225 3.1c.15.2 2.115 3.23 5.124 4.53 3.01 1.3 3.01.867 3.56.817.55-.05 1.772-.725 2.022-1.425.25-.7.25-1.3.175-1.425-.075-.1-.275-.2-.575-.35z"/></svg>
                                  </button>
                                  <button @click="shareOnFacebook()" class="p-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-xl transition-all" title="Share to Facebook">
                                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z"/></svg>
@@ -336,10 +338,10 @@
                          <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-6 text-sm md:text-base font-medium" x-html="selectedPost?.content"></div>
 
                          <!-- Newsletter Box directly below the article content -->
-                         <div class="substack-card rounded-3xl p-8 text-white mt-16 shadow-xl relative overflow-hidden">
+                         <div class="substack-card rounded-3xl p-6 sm:p-8 text-white mt-12 sm:mt-16 shadow-xl relative overflow-hidden">
                              <div class="relative z-10 text-center sm:text-left">
-                                 <h4 class="text-xl font-extrabold mb-2">Enjoyed this health guide?</h4>
-                                 <p class="text-teal-50/80 text-xs md:text-sm leading-relaxed mb-6 max-w-xl">Subscribe to the official Step2Heal Substack to receive clinical rehabilitation strategies directly in your inbox.</p>
+                                 <h4 class="text-lg sm:text-xl font-extrabold mb-2">Enjoyed this health guide?</h4>
+                                 <p class="text-teal-50/80 text-[11px] sm:text-sm leading-relaxed mb-6 max-w-xl">Subscribe to the official Step2Heal Substack to receive clinical rehabilitation strategies directly in your inbox.</p>
                                  <div class="flex flex-col sm:flex-row gap-3">
                                      <a href="https://step2heal.substack.com/" target="_blank" class="px-6 py-3.5 bg-white text-[#0d3b44] font-black rounded-xl text-xs hover:bg-teal-50 transition-all text-center">
                                          Subscribe on Substack
@@ -419,8 +421,253 @@
                 whatsappNumber: '919773960242',
                 bookingMessage: 'Hello Step2Heal! I would like to schedule an advanced physiotherapy assessment session. Please let me know your available slots at the Noida center. Thank you.',
 
-                // High-fidelity clinical database (Expanded content, proper headings, automatic TOC meta maps)
+                // High-fidelity clinical database (Featured post June 2026 added, others preserved exactly)
                 posts: [
+                    {
+                        id: 5,
+                        slug: 'why-does-my-shoulder-hurt',
+                        category: 'Recovery',
+                        title: "Why Does My Shoulder Hurt?",
+                        excerpt: 'A complete guide to understanding, treating, and preventing shoulder pain, including diagnostic insights, roadmaps, and core rehabilitation exercises.',
+                        author: 'Step2Heal Physio Team',
+                        date: '2026-06-09',
+                        displayDate: 'June 2026',
+                        image: 'ChatGPT Image Jun 9, 2026, 09_05_49 PM.png',
+                        toc: [
+                            { id: 'introduction', text: 'Understanding Shoulder Mechanics' },
+                            { id: 'statistics', text: 'Shoulder Pain Statistics' },
+                            { id: 'pathologies', text: 'Common Causes of Shoulder Pain' },
+                            { id: 'warning-box', text: 'Emergency Warning Indicators' },
+                            { id: 'roadmap', text: 'Physiotherapy Roadmap' },
+                            { id: 'exercises', text: 'Core Rehabilitation Exercises' },
+                            { id: 'pro-tips', text: 'Physiotherapist Pro-Tips' },
+                            { id: 'cta-shoulder', text: 'Book Consultation' }
+                        ],
+                        content: `
+                            <p id="introduction" class="text-slate-700 text-base leading-relaxed mb-6">
+                                Shoulder pain is one of the most common musculoskeletal complaints we treat at Step2Heal — and unfortunately, one of the most misunderstood.
+                            </p>
+
+                            <!-- Statistics Grid Layout -->
+                            <div id="statistics" class="grid grid-cols-1 md:grid-cols-3 gap-6 my-10">
+                                <div class="bg-slate-50 border border-slate-200/60 p-6 rounded-2xl text-center shadow-sm">
+                                    <p class="text-4xl font-extrabold text-[#0d3b44] mb-2">26%</p>
+                                    <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Adult Experience Rate</p>
+                                    <p class="text-xs text-slate-400 mt-2 font-medium">Of adults experience limiting shoulder pain at some point in their life.</p>
+                                </div>
+                                <div class="bg-slate-50 border border-slate-200/60 p-6 rounded-2xl text-center shadow-sm">
+                                    <p class="text-4xl font-extrabold text-[#0d3b44] mb-2">3rd</p>
+                                    <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Complaint Frequency</p>
+                                    <p class="text-xs text-slate-400 mt-2 font-medium">Ranked as the third most common musculoskeletal complaint globally.</p>
+                                </div>
+                                <div class="bg-slate-50 border border-slate-200/60 p-6 rounded-2xl text-center shadow-sm">
+                                    <p class="text-4xl font-extrabold text-teal-600 mb-2">90%</p>
+                                    <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Physio Improvement Rate</p>
+                                    <p class="text-xs text-slate-400 mt-2 font-medium">Of cases show significant improvement with conservative physical therapy.</p>
+                                </div>
+                            </div>
+
+                            <p class="text-slate-700 text-base leading-relaxed mb-6">
+                                Whether it's a dull ache when you raise your arm, a sharp pain while sleeping, or stiffness that limits your daily activities — shoulder pain can quietly rob you of your quality of life. The good news? Most shoulder conditions respond remarkably well to physiotherapy when caught early and treated correctly.
+                            </p>
+                            <p class="text-slate-700 text-base leading-relaxed mb-6">
+                                In this article, our team at Step2Heal Physiotherapy & Rehabilitation Centre, Noida walks you through everything you need to know about shoulder pain — from causes and warning signs to treatment and prevention.
+                            </p>
+
+                            <h2 id="mechanics" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Understanding the shoulder</h2>
+                            <p class="text-slate-700 text-base leading-relaxed mb-6">
+                                The shoulder is the most mobile joint in your entire body — it can rotate nearly 360°. This incredible range of motion is made possible by a complex arrangement of bones, muscles, tendons, and ligaments. But that same mobility makes it inherently vulnerable to injury and wear.
+                            </p>
+                            <p class="text-slate-700 text-base leading-relaxed mb-6">
+                                The rotator cuff — a group of four muscles and their tendons — is the unsung hero of the shoulder. It stabilises the joint and powers most arm movements. When any part of this system is overloaded or inflamed, you feel it immediately.
+                            </p>
+
+                            <h2 id="pathologies" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Common causes of shoulder pain</h2>
+                            <p class="text-slate-700 text-base leading-relaxed mb-6">
+                                Shoulder pain rarely comes from one single cause. Here are the most frequent conditions we diagnose at our clinic:
+                            </p>
+                            <div class="space-y-4 my-6">
+                                <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm">
+                                    <h4 class="text-sm font-black text-slate-800 uppercase tracking-wide mb-1">Rotator cuff tear or tendinitis</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Inflammation or micro-tears in the tendons, often from repetitive overhead activity or ageing.</p>
+                                </div>
+                                <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm">
+                                    <h4 class="text-sm font-black text-slate-800 uppercase tracking-wide mb-1">Frozen shoulder (adhesive capsulitis)</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Gradual stiffening and pain that develops over months, more common in people aged 40–60.</p>
+                                </div>
+                                <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm">
+                                    <h4 class="text-sm font-black text-slate-800 uppercase tracking-wide mb-1">Shoulder impingement</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Tendons get pinched between bones during arm lifts, causing sharp pain and weakness.</p>
+                                </div>
+                                <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm">
+                                    <h4 class="text-sm font-black text-slate-800 uppercase tracking-wide mb-1">Postural overload</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Hours at a desk or on a phone creates muscle imbalances that strain the shoulder complex.</p>
+                                </div>
+                                <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm">
+                                    <h4 class="text-sm font-black text-slate-800 uppercase tracking-wide mb-1">Sports or trauma injury</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Dislocations, labral tears, and AC joint sprains from falls, contact sports, or overuse.</p>
+                                </div>
+                                <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm">
+                                    <h4 class="text-sm font-black text-slate-800 uppercase tracking-wide mb-1">Bursitis</h4>
+                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Inflammation of the fluid-filled sac (bursa) that cushions the shoulder joint, causing a deep aching pain.</p>
+                                </div>
+                            </div>
+
+                            <!-- Callout / Emergency Warning Box -->
+                            <div id="warning-box" class="bg-rose-50 border-l-4 border-rose-500 p-6 rounded-r-2xl my-8">
+                                <div class="flex items-start gap-3">
+                                    <div class="text-rose-600 mt-0.5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-extrabold text-rose-950 uppercase tracking-wider mb-1">When to seek immediate care</h4>
+                                        <p class="text-xs text-rose-800 leading-relaxed font-medium">
+                                            Sudden severe pain after a fall or accident, visible deformity, inability to lift the arm at all, numbness or tingling radiating down the arm, or shoulder pain accompanied by chest tightness — these require urgent medical evaluation. Do not delay.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2 id="not-ignore" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Signs you should not ignore</h2>
+                            <p class="text-slate-700 text-base leading-relaxed mb-6">
+                                People often dismiss shoulder pain as "just tension" and wait months before seeking help. Here are signs that deserve prompt attention from a physiotherapist:
+                            </p>
+                            <ul class="list-disc pl-5 mb-6 space-y-2 text-slate-700">
+                                <li><strong>Pain that disturbs your sleep:</strong> Especially lying on the affected side — a classic sign of rotator cuff or bursitis issues.</li>
+                                <li><strong>Stiffness progressing over weeks:</strong> Frozen shoulder worsens rapidly without early intervention.</li>
+                                <li><strong>Weakness lifting everyday objects:</strong> Difficulty lifting a bag, a water bottle, or reaching overhead signals rotator cuff involvement.</li>
+                                <li><strong>Clicking or catching sensation:</strong> With pain — may indicate a labral tear or impingement that needs early physio.</li>
+                            </ul>
+
+                            <!-- Treatment Roadmap Phase Cards -->
+                            <h2 id="roadmap" class="text-xl font-bold text-[#0d3b44] mt-10 mb-4">How physiotherapy helps</h2>
+                            <p class="text-slate-700 text-base leading-relaxed mb-6">
+                                At Step2Heal, we approach shoulder pain with a detailed assessment first. We don't believe in cookie-cutter treatments. Your shoulder pain has a specific pattern, a specific cause, and it needs a specific plan.
+                            </p>
+                            <p class="text-slate-700 text-base leading-relaxed mb-6">
+                                A typical physiotherapy programme for shoulder pain is structured in three phases:
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
+                                <div class="border border-slate-200 p-5 rounded-2xl bg-white shadow-sm">
+                                    <span class="inline-block px-2.5 py-1 mb-3 rounded-md bg-rose-50 text-rose-600 text-[9px] font-black uppercase tracking-widest">Phase 1</span>
+                                    <h4 class="text-sm font-extrabold text-slate-800 mb-1">Pain relief & protection</h4>
+                                    <p class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Weeks 1–2</p>
+                                    <p class="text-xs text-slate-500 mt-2 leading-relaxed font-medium">Focuses on reducing inflammation, calming irritated neural pathways, and gentle offloaded tissue protection.</p>
+                                </div>
+                                <div class="border border-slate-200 p-5 rounded-2xl bg-white shadow-sm">
+                                    <span class="inline-block px-2.5 py-1 mb-3 rounded-md bg-amber-50 text-amber-600 text-[9px] font-black uppercase tracking-widest">Phase 2</span>
+                                    <h4 class="text-sm font-extrabold text-slate-800 mb-1">Restore mobility & strength</h4>
+                                    <p class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Weeks 3–6</p>
+                                    <p class="text-xs text-slate-500 mt-2 leading-relaxed font-medium">Focuses on dynamic glenohumeral tracking, active-assisted exercises, and localized rotator cuff loading.</p>
+                                </div>
+                                <div class="border border-slate-200 p-5 rounded-2xl bg-white shadow-sm">
+                                    <span class="inline-block px-2.5 py-1 mb-3 rounded-md bg-emerald-50 text-emerald-600 text-[9px] font-black uppercase tracking-widest">Phase 3</span>
+                                    <h4 class="text-sm font-extrabold text-slate-800 mb-1">Function & prevention</h4>
+                                    <p class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Weeks 7–12</p>
+                                    <p class="text-xs text-slate-500 mt-2 leading-relaxed font-medium">Focuses on structural integration, full dynamic resistance training, and return-to-sport protocols.</p>
+                                </div>
+                            </div>
+                            <p class="text-slate-700 text-base leading-relaxed mb-6">
+                                Treatment techniques used at Step2Heal may include manual therapy, dry needling, TENS, ultrasound therapy, postural correction, and a personalised exercise programme you can continue at home.
+                            </p>
+
+                            <!-- Core Rehab Exercises Section -->
+                            <h2 id="exercises" class="text-xl font-bold text-[#0d3b44] mt-10 mb-4">5 exercises for shoulder health</h2>
+                            <p class="text-slate-500 text-sm font-medium mb-6">These gentle exercises are safe for most people with mild shoulder discomfort. Always consult your physiotherapist before starting — some exercises may be contraindicated based on your specific condition.</p>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6">
+                                <div class="bg-slate-50/50 border border-slate-100 p-5 rounded-2xl">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="bg-[#0d3b44] text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                                        <h4 class="text-xs font-black text-slate-800 uppercase tracking-widest">Pendulum swings</h4>
+                                    </div>
+                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Lean forward, let your arm hang freely, and make small circles. Relieves joint compression gently. 2 × 10 circles each direction.</p>
+                                </div>
+                                <div class="bg-slate-50/50 border border-slate-100 p-5 rounded-2xl">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="bg-[#0d3b44] text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                                        <h4 class="text-xs font-black text-slate-800 uppercase tracking-widest">Doorway chest stretch</h4>
+                                    </div>
+                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Stand in a doorway, arms at 90°, gently step forward to open the chest and front shoulder. Hold 20–30 seconds, 3 reps.</p>
+                                </div>
+                                <div class="bg-slate-50/50 border border-slate-100 p-5 rounded-2xl">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="bg-[#0d3b44] text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                                        <h4 class="text-xs font-black text-slate-800 uppercase tracking-widest">Scapular squeezes</h4>
+                                    </div>
+                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Sit tall, squeeze your shoulder blades together without shrugging. Strengthens mid-back stabilisers. 3 × 15 reps.</p>
+                                </div>
+                                <div class="bg-slate-50/50 border border-slate-100 p-5 rounded-2xl">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="bg-[#0d3b44] text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                                        <h4 class="text-xs font-black text-slate-800 uppercase tracking-widest">External rotation with resistance band</h4>
+                                    </div>
+                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Elbow bent at 90°, rotate forearm outward against band resistance. Core rotator cuff strengthener. 3 × 12 reps.</p>
+                                </div>
+                                <div class="bg-slate-50/50 border border-slate-100 p-5 rounded-2xl sm:col-span-2">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="bg-[#0d3b44] text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">5</span>
+                                        <h4 class="text-xs font-black text-slate-800 uppercase tracking-widest">Wall angel slides</h4>
+                                    </div>
+                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Stand with back flat against wall, slowly slide arms overhead keeping contact. Restores overhead mobility. 2 × 8 reps.</p>
+                                </div>
+                            </div>
+
+                            <!-- Highlighted Physiotherapist Pro-Tip Box -->
+                            <div id="pro-tips" class="bg-teal-50 border-l-4 border-teal-500 p-6 rounded-r-2xl my-8">
+                                <div class="flex items-start gap-3">
+                                    <div class="text-teal-600 mt-0.5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-extrabold text-teal-950 uppercase tracking-wider mb-1">Pro tip from our physios</h4>
+                                        <p class="text-xs text-teal-800 leading-relaxed font-medium">
+                                            Stop any exercise that causes sharp or shooting pain. Mild discomfort is normal — pain beyond 3/10 is your body asking you to stop. Progress is gradual; consistency beats intensity every time.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2 id="prevention" class="text-xl font-bold text-[#0d3b44] mt-10 mb-4">Preventing shoulder pain in daily life</h2>
+                            <p class="text-slate-700 text-base leading-relaxed mb-6">
+                                Prevention is always better than treatment. Small habit changes make a significant difference:
+                            </p>
+                            
+                            <h3 class="text-base font-extrabold text-[#0d3b44] mt-6 mb-2">For desk workers in Noida</h3>
+                            <p class="text-slate-700 text-sm leading-relaxed mb-4">
+                                Set your monitor at eye level, keep your elbows at 90° while typing, and take a 2-minute movement break every 45 minutes. Chin tucks and shoulder rolls at your desk go a long way over time.
+                            </p>
+
+                            <h3 class="text-base font-extrabold text-[#0d3b44] mt-6 mb-2">For active individuals and gym-goers</h3>
+                            <p class="text-slate-700 text-sm leading-relaxed mb-4">
+                                Never skip a warm-up. Prioritise rotator cuff strengthening exercises alongside heavy pressing movements. If you feel impingement-like pain during overhead press or bench press, get assessed before continuing — training through it often turns a minor issue into a major one.
+                            </p>
+
+                            <h3 class="text-base font-extrabold text-[#0d3b44] mt-6 mb-2">Sleeping position</h3>
+                            <p class="text-slate-700 text-sm leading-relaxed mb-4">
+                                Avoid sleeping on the affected shoulder. Sleep on your back with a small pillow supporting your arm, or on the opposite side with a pillow hugged to the chest.
+                            </p>
+
+                            <h3 id="why-s2h" class="text-xl font-bold text-[#0d3b44] mt-10 mb-4">Why choose Step2Heal?</h3>
+                            <p class="text-slate-700 text-base leading-relaxed mb-6">
+                                At Step2Heal Physiotherapy & Rehabilitation Centre in Noida, we combine evidence-based treatment with genuine care. Every patient gets a thorough initial assessment, a personalised treatment plan, and a dedicated therapist who tracks your progress session by session.
+                            </p>
+                            <p class="text-slate-700 text-base leading-relaxed mb-6">
+                                We treat everything from acute injuries to complex post-surgical rehabilitation — and we believe that education is as important as treatment. A patient who understands their condition heals faster and stays well longer.
+                            </p>
+
+                            <!-- Professional CTA Section -->
+                            <div id="cta-shoulder" class="mt-12 p-8 bg-slate-50 border border-slate-200 rounded-3xl text-center">
+                                <h3 class="text-xl md:text-2xl font-extrabold text-[#0d3b44] mb-3">Ready to move pain-free again?</h3>
+                                <p class="text-slate-600 text-sm md:text-base leading-relaxed mb-6 max-w-xl mx-auto">
+                                    Book a consultation at Step2Heal, Noida. Our physiotherapists will assess your shoulder, explain your diagnosis clearly, and get you on the path to recovery.
+                                </p>
+                                <button onclick="window.open('https://wa.me/919773960242?text=Hello%20Step2Heal%21%20I%20read%20your%20Shoulder%20Pain%20guide%20and%20would%20like%20to%20book%20a%20shoulder%20assessment%20consultation.%20Please%20share%20available%20slots.%20Thank%20you.', '_blank')" class="inline-flex items-center gap-2 bg-[#0d3b44] text-white font-black text-sm px-8 py-4 rounded-xl hover:bg-teal-600 transition-all shadow-md">
+                                    <span>Book a consultation ↗</span>
+                                </button>
+                            </div>
+                        `
+                    },
                     {
                         id: 4,
                         slug: '5-things-back-pain-wrong',
@@ -583,8 +830,8 @@
                         this.scrolled = window.pageYOffset > 20;
                     });
 
-                    // Define which post is featured (the Back Pain article)
-                    this.featuredPost = this.posts.find(p => p.id === 4);
+                    // Define which post is featured (the newly added Shoulder Pain flagship guide)
+                    this.featuredPost = this.posts.find(p => p.id === 5);
 
                     // Auto deep-linking: Check URL hash on page load
                     this.checkUrlHash();

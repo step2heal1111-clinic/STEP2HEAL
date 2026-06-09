@@ -18,10 +18,13 @@
         .gallery-item { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         .gallery-item:hover { transform: scale(1.02); }
         
-        .masonry-columns { column-count: 1; column-gap: 1.5rem; }
-        @media (min-width: 640px) { .masonry-columns { column-count: 2; } }
+        /* Updated for Gorgeous 2-Column Mobile Masonry and Comfortable Spacing */
+        .masonry-columns { column-count: 2; column-gap: 0.75rem; }
+        @media (min-width: 640px) { .masonry-columns { column-count: 2; column-gap: 1.5rem; } }
         @media (min-width: 1024px) { .masonry-columns { column-count: 3; } }
-        .masonry-item { break-inside: avoid; margin-bottom: 1.5rem; }
+        
+        .masonry-item { break-inside: avoid; margin-bottom: 0.75rem; }
+        @media (min-width: 640px) { .masonry-item { margin-bottom: 1.5rem; } }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(12px); }
@@ -33,7 +36,12 @@
     </style>
 </head>
 <body class="bg-slate-50/50 text-gray-900 selection:bg-teal-100 selection:text-[#0d3b44]" 
-      x-data="galleryApp()">
+      x-data="galleryApp()"
+      @keydown.escape.window="closeLightbox()"
+      @keydown.arrow-left.window="prevLightbox()"
+      @keydown.arrow-right.window="nextLightbox()"
+      @keydown.home.window="firstLightbox()"
+      @keydown.end.window="lastLightbox()">
 
     <!-- HEADER / NAVIGATION (Do NOT modify, replace, remove, or restyle) -->
     <nav x-data="{ scrolled: false }" 
@@ -228,7 +236,7 @@
         <!-- Modern Grid View with Masonry Spacing -->
         <div x-show="viewMode === 'grid'" class="masonry-columns">
             <template x-for="item in visibleItems" :key="item.id">
-                <div class="masonry-item rounded-[2rem] overflow-hidden cursor-pointer group shadow-sm hover:shadow-xl bg-white border border-slate-200/50 hover:border-teal-300/40 transition-all duration-300" 
+                <div class="masonry-item rounded-[2rem] overflow-hidden cursor-pointer group shadow-sm hover:shadow-xl bg-white border border-slate-200/50 hover:border-teal-300/40 transition-all duration-300 animate-fade" 
                      @click="openLightbox(item)">
                     <div class="relative overflow-hidden">
                         <!-- Play Icon for Video Items -->
@@ -243,15 +251,15 @@
                         <img :src="item.type === 'video' ? item.fallback : item.url" 
                              class="w-full object-cover transition-transform duration-500 group-hover:scale-105" 
                              @error="$el.src = item.fallback">
-                        <div class="absolute top-4 left-4 z-10">
+                        <div class="absolute top-3 left-3 sm:top-4 sm:left-4 z-10">
                             <span :class="item.id === 20 ? 'bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-500 text-slate-900 border border-amber-300 font-extrabold shadow-sm' : 'bg-white/80 backdrop-blur-md text-slate-800'"
-                                  class="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider" 
+                                  class="inline-block px-2 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider" 
                                   x-text="item.id === 20 ? 'SPECIAL' : item.category"></span>
                         </div>
                     </div>
-                    <div class="p-6">
-                        <p class="font-extrabold text-base text-slate-800 group-hover:text-teal-700 transition-colors" x-text="item.title"></p>
-                        <p class="text-xs text-slate-500 mt-1 font-medium" x-text="item.desc"></p>
+                    <div class="p-4 sm:p-6">
+                        <p class="font-extrabold text-sm sm:text-base text-slate-800 group-hover:text-teal-700 transition-colors" x-text="item.title"></p>
+                        <p class="text-[10px] sm:text-xs text-slate-500 mt-1 font-medium" x-text="item.desc"></p>
                     </div>
                 </div>
             </template>
@@ -308,19 +316,26 @@
     <div x-show="modalOpen" 
          x-cloak 
          class="fixed inset-0 z-[100] flex flex-col items-center justify-center p-4 bg-slate-950/95 backdrop-blur-lg" 
-         @keydown.escape.window="modalOpen = false"
-         @keydown.arrow-left.window="prevLightbox()"
-         @keydown.arrow-right.window="nextLightbox()"
-         @click.self="modalOpen = false">
+         @click.self="closeLightbox()">
         
         <!-- Top Toolbar -->
         <div class="absolute top-4 left-4 right-4 flex items-center justify-between z-50 text-white">
             <div class="px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-xs font-bold tracking-wider">
                 <span x-text="selectedItemIndex + 1"></span> / <span x-text="filteredItems.length"></span>
             </div>
-            <button @click="modalOpen = false" class="p-3 bg-white/10 backdrop-blur-md hover:bg-white hover:text-[#0d3b44] text-white rounded-full transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
-            </button>
+            
+            <div class="flex items-center gap-2">
+                <!-- Copy Shareable Link Button -->
+                <button @click="copyShareLink()" class="p-3 bg-white/10 backdrop-blur-md hover:bg-teal-600 hover:text-white text-white rounded-full transition-all flex items-center gap-2" title="Copy Direct Share Link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                    <span class="text-xs font-bold hidden sm:inline">Copy Link</span>
+                </button>
+                
+                <!-- Close Button -->
+                <button @click="closeLightbox()" class="p-3 bg-white/10 backdrop-blur-md hover:bg-rose-600 hover:text-white text-white rounded-full transition-all" title="Close Lightbox (Esc)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+                </button>
+            </div>
         </div>
 
         <!-- Main Media Container with Swipe Handling -->
@@ -329,10 +344,10 @@
              @touchend="handleTouchEnd($event, 'lightbox')">
             
             <!-- Side Arrows for Large Screens -->
-            <button @click="prevLightbox" class="absolute left-2 md:left-6 z-50 p-4 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white hover:text-[#0d3b44] transition-all">
+            <button @click="prevLightbox()" class="absolute left-2 md:left-6 z-50 p-4 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white hover:text-[#0d3b44] transition-all" title="Previous Image (Left Arrow)">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
             </button>
-            <button @click="nextLightbox" class="absolute right-2 md:right-6 z-50 p-4 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white hover:text-[#0d3b44] transition-all">
+            <button @click="nextLightbox()" class="absolute right-2 md:right-6 z-50 p-4 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white hover:text-[#0d3b44] transition-all" title="Next Image (Right Arrow)">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
             </button>
 
@@ -350,11 +365,25 @@
         <!-- Caption Bottom Bar -->
         <div class="w-full max-w-3xl text-center text-white pb-6 px-4">
             <span :class="selectedItem?.id === 20 ? 'bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-500 text-slate-900 border border-amber-300 font-extrabold shadow-sm' : 'bg-teal-500/80 text-white'"
-                  class="inline-block px-3 py-1 mb-2 rounded-md text-[10px] font-black uppercase tracking-wider" 
+                  class="inline-block px-3 py-1 mb-2 rounded-md text-[10px] font-black uppercase tracking-wider text-center" 
                   x-text="selectedItem?.id === 20 ? 'SPECIAL' : selectedItem?.category"></span>
             <h4 class="text-lg md:text-2xl font-black" x-text="selectedItem?.title"></h4>
             <p class="text-sm text-slate-300 mt-2 font-medium" x-text="selectedItem?.desc"></p>
         </div>
+    </div>
+
+    <!-- TOAST CONFIRMATION FOR SHARE LINKS -->
+    <div x-show="copiedToast" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 translate-y-4"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 translate-y-4"
+         class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[110] bg-teal-600 text-white px-6 py-3 rounded-full shadow-2xl font-bold text-sm flex items-center gap-2"
+         x-cloak>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        <span>Link copied successfully!</span>
     </div>
 
     <!-- Footer -->
@@ -404,7 +433,9 @@
                 viewMode: 'grid',
                 carouselIndex: 0,
                 mobileMenu: false,
-                whatsappLink: 'https://wa.me/919773960242?text=Hi%20Step2Heal!',
+                
+                // Enhanced pre-filled custom message for Physiotherapy consultation bookings
+                whatsappLink: 'https://wa.me/919773960242?text=Hello%20Step2Heal%21%20I%20visited%20your%20online%20gallery%20and%20would%20like%20to%20schedule%20an%20advanced%20physiotherapy%20or%20rehabilitation%20consultation.%20Please%20share%20your%20available%20appointment%20slots%20for%20the%20Noida%20centre.%20Thank%20you%21',
                 
                 // Infinite scroll state variables
                 visibleCount: 8,
@@ -414,9 +445,12 @@
                 touchStartX: 0,
                 touchEndX: 0,
 
+                // Toast link copier confirmation triggers
+                copiedToast: false,
+
                 categories: ['All', 'Clinic', 'Treatments', 'Instagram', 'Results', 'Posts', 'Videos'],
                 
-                // Complete list of items with real image source strings
+                // Complete list of items with real image source strings (Dry needling id:16 removed)
                 items: [
                     { id: 1, category: 'Clinic', title: 'Waiting Area', url: '2025-09-28 (1).jpg', fallback: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=800', desc: 'Our comfortable waiting space.' },
                     { id: 2, category: 'Treatments', title: 'Our Services', url: '2025-09-28 (2).jpg', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800', desc: 'Services at Step2Heal.' },
@@ -432,7 +466,6 @@
                     { id: 12, category: 'Posts', title: 'Night View', url: 'b1113011-2f24-4a6a-a7e9-0d5823ec1386.jpg', fallback: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200', desc: 'Night view.' },
                     { id: 13, category: 'Clinic', title: 'Front View', url: 'download (3).jpg', fallback: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800', desc: 'Daylight view.' },
                     { id: 14, category: 'Posts', title: 'Cerebral Palsy', url: 'download (2).jpg', fallback: 'https://images.unsplash.com/photo-1508847154043-be12a3b4dca9?auto=format&fit=crop&q=80&w=800', desc: 'About CP.' },
-                    { id: 16, category: 'Treatments', title: 'Dry Needling', url: 'WhatsApp Image 2026-05-12 at 11.20.10.jpeg', fallback: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&q=80&w=800', desc: 'Dry needling therapy.' },
                     { id: 20, category: 'Posts', title: '1st Anniversary', url: 'WhatsApp Image 2026-05-06 at 19.02.30.jpeg', fallback: 'https://placehold.co/800x600/eee/333?text=Anniversary', desc: 'Step2Heal 1st Anniversary.' },
                     { id: 23, category: 'Videos', type: 'video', title: 'Clinic Virtual Tour', url: 'WhatsApp Video 2026-05-15 at 09.30.13.webm', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200', desc: 'VIRTUAL TOUR OF STEP2HEAL.' },
                     { id: 24, category: 'Clinic', title: 'Move better, feel better, live better', url: 'ChatGPT Image May 24, 2026, 02_37_56 PM.png', fallback: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800', desc: 'Our healing philosophy.' }
@@ -444,10 +477,9 @@
                 featuredTimer: null,
 
                 init() {
-                    // Manually selecting 4 premium clinic milestone/achievement images
-                    // Replaced electrotherapy (17) with At Noida Chase (8)
+                    // Manually select 4 premium highlights (including Anniversary, challenges cup, therapy hall & Noida chase)
                     this.featuredItems = [
-                        this.items.find(i => i.id === 20), // 1st Anniversary
+                        this.items.find(i => i.id === 20), // 1st Anniversary (outputs "SPECIAL")
                         this.items.find(i => i.id === 7),  // 9th Royal Challenges Cup
                         this.items.find(i => i.id === 3),  // Therapy Hall Active Space
                         this.items.find(i => i.id === 8)   // At Noida Chase
@@ -458,6 +490,10 @@
 
                     // Setup Intersection Observer for Infinite Scroll
                     this.initInfiniteScrollObserver();
+
+                    // Deep Linking: Auto-launch matched lightbox item if hash is present
+                    this.checkHashUrl();
+                    window.addEventListener('hashchange', () => this.checkHashUrl());
                 },
 
                 startFeaturedShowcase() {
@@ -492,7 +528,7 @@
                 changeCategory(cat) {
                     this.activeCategory = cat;
                     this.carouselIndex = 0;
-                    this.visibleCount = 8; // Reset infinite scroll viewport limit on category change
+                    this.visibleCount = 8; // Reset infinite scroll limit on change
                 },
 
                 initInfiniteScrollObserver() {
@@ -502,7 +538,6 @@
                         }
                     }, { rootMargin: '120px' });
 
-                    // Let observer keep tracking the trigger element
                     const trigger = document.getElementById('infinite-scroll-trigger');
                     if (trigger) observer.observe(trigger);
                 },
@@ -516,22 +551,64 @@
                     }, 650);
                 },
 
+                // Deeplinking check
+                checkHashUrl() {
+                    const hash = window.location.hash;
+                    if (hash && hash.startsWith('#img-')) {
+                        const imgId = parseInt(hash.replace('#img-', ''), 10);
+                        const matchedItem = this.items.find(i => i.id === imgId);
+                        if (matchedItem) {
+                            this.openLightbox(matchedItem);
+                        }
+                    } else if (hash === '') {
+                        this.modalOpen = false;
+                    }
+                },
+
                 openLightbox(item) {
                     this.selectedItem = item;
                     this.selectedItemIndex = this.filteredItems.findIndex(i => i.id === item.id);
                     this.modalOpen = true;
+                    // Update the URL hash to make it directly shareable
+                    if (window.location.hash !== '#img-' + item.id) {
+                        history.replaceState(null, null, '#img-' + item.id);
+                    }
+                },
+
+                closeLightbox() {
+                    this.modalOpen = false;
+                    // Clear the URL hash cleanly without changing window scroll positions
+                    if (window.location.hash.startsWith('#img-')) {
+                        history.replaceState(null, null, ' ');
+                    }
                 },
 
                 prevLightbox() {
                     if (!this.modalOpen) return;
                     this.selectedItemIndex = (this.selectedItemIndex - 1 + this.filteredItems.length) % this.filteredItems.length;
                     this.selectedItem = this.filteredItems[this.selectedItemIndex];
+                    history.replaceState(null, null, '#img-' + this.selectedItem.id);
                 },
 
                 nextLightbox() {
                     if (!this.modalOpen) return;
                     this.selectedItemIndex = (this.selectedItemIndex + 1) % this.filteredItems.length;
                     this.selectedItem = this.filteredItems[this.selectedItemIndex];
+                    history.replaceState(null, null, '#img-' + this.selectedItem.id);
+                },
+
+                firstLightbox() {
+                    if (!this.modalOpen) return;
+                    this.selectedItemIndex = 0;
+                    this.selectedItem = this.filteredItems[this.selectedItemIndex];
+                    history.replaceState(null, null, '#img-' + this.selectedItem.id);
+                },
+
+                lastLightbox() {
+                    if (!this.modalOpen) return;
+                    this.selectedItemIndex = this.filteredItems.length - 1;
+                    this.selectedItem = this.filteredItems[this.selectedItemIndex];
+                    history.replaceState(null, null, '#img-' + this.selectedItem.id);
                 },
 
                 prevCarousel() {
@@ -540,6 +617,25 @@
 
                 nextCarousel() {
                     this.carouselIndex = (this.carouselIndex + 1) % this.filteredItems.length;
+                },
+
+                // Secure deep link copy for Sandboxed iframe environments
+                copyShareLink() {
+                    const shareUrl = window.location.origin + window.location.pathname + '#img-' + this.selectedItem.id;
+                    const tempEl = document.createElement('textarea');
+                    tempEl.value = shareUrl;
+                    document.body.appendChild(tempEl);
+                    tempEl.select();
+                    try {
+                        document.execCommand('copy');
+                        this.copiedToast = true;
+                        setTimeout(() => {
+                            this.copiedToast = false;
+                        }, 2500);
+                    } catch (err) {
+                        console.error('Share URL failed to copy:', err);
+                    }
+                    document.body.removeChild(tempEl);
                 },
 
                 // Gesture Swipe Support

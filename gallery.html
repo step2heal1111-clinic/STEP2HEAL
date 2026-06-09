@@ -24,7 +24,7 @@
         .masonry-item { break-inside: avoid; margin-bottom: 1.5rem; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-fade { animation: fadeIn 0.4s ease-out forwards; }
@@ -32,9 +32,10 @@
         .instagram-container { min-height: 600px; background: #fafafa; border-radius: 2rem; overflow: hidden; }
     </style>
 </head>
-<body class="bg-white text-gray-900 selection:bg-teal-100 selection:text-[#0d3b44]" 
+<body class="bg-slate-50/50 text-gray-900 selection:bg-teal-100 selection:text-[#0d3b44]" 
       x-data="galleryApp()">
 
+    <!-- HEADER / NAVIGATION (Do NOT modify, replace, remove, or restyle) -->
     <nav x-data="{ scrolled: false }" 
          @scroll.window="scrolled = (window.pageYOffset > 50)"
          :class="scrolled ? 'shadow-sm py-2 bg-white/90' : 'py-5 bg-transparent'" 
@@ -79,7 +80,8 @@
         </div>
     </div>
 
-    <header class="gallery-gradient pt-32 pb-12 md:pt-48 md:pb-16">
+    <!-- MAIN BANNER & HEADINGS -->
+    <header class="gallery-gradient pt-32 pb-10 md:pt-48 md:pb-12">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <span class="inline-block px-4 py-1.5 rounded-full bg-teal-100 text-teal-700 text-[10px] font-black uppercase tracking-widest mb-6 animate-fade">Visual Experience</span>
             <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-[#0d3b44] leading-tight tracking-tighter mb-6">
@@ -89,11 +91,12 @@
                 Take a look at our clinical environment, equipment, and the journey toward movement and recovery in Noida.
             </p>
             
+            <!-- Category Filters -->
             <div class="flex flex-wrap items-center justify-center gap-3">
                 <template x-for="cat in categories" :key="cat">
                     <button 
-                        @click="activeCategory = cat; carouselIndex = 0;"
-                        :class="activeCategory === cat ? 'bg-[#0d3b44] text-white shadow-xl scale-105' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-100'"
+                        @click="changeCategory(cat)"
+                        :class="activeCategory === cat ? 'bg-[#0d3b44] text-white shadow-xl scale-105' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200/60'"
                         class="px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 flex items-center gap-2"
                     >
                         <svg x-show="cat === 'Instagram'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
@@ -102,6 +105,7 @@
                 </template>
             </div>
 
+            <!-- View Modes (Grid vs. Horizontal Carousel) -->
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10" x-show="activeCategory !== 'Instagram'">
                 <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Select Layout Style:</span>
                 <div class="inline-flex p-1 bg-gray-100/80 rounded-2xl border border-gray-200/50 backdrop-blur-sm shadow-sm">
@@ -126,6 +130,68 @@
         </div>
     </header>
 
+    <!-- SECTION 1: FEATURED SHOWCASE CAROUSEL -->
+    <section class="max-w-7xl mx-auto px-4 mb-20" x-show="activeCategory === 'All' || activeCategory === 'Clinic'">
+        <div class="relative bg-white border border-slate-200/60 p-4 md:p-6 rounded-[2.5rem] shadow-xl shadow-slate-100/50 overflow-hidden">
+            <div class="flex items-center gap-3 mb-6 px-2">
+                <span class="flex h-3 w-3 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-teal-500"></span>
+                </span>
+                <h3 class="text-xs font-bold text-[#0d3b44] uppercase tracking-wider">Clinic Highlights & Achievements</h3>
+            </div>
+            
+            <!-- Slide Container with touch handlers -->
+            <div class="relative h-[28rem] md:h-[36rem] rounded-[2rem] overflow-hidden bg-[#0d3b44]"
+                 @touchstart="handleTouchStart($event)"
+                 @touchend="handleTouchEnd($event, 'featured')">
+                
+                <template x-for="(slide, idx) in featuredItems" :key="slide.id">
+                    <div x-show="featuredIndex === idx" 
+                         x-transition:enter="transition ease-out duration-700"
+                         x-transition:enter-start="opacity-0 scale-105"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-300"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="absolute inset-0 w-full h-full">
+                        
+                        <!-- Overlay Graphic -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#051a1e]/90 via-[#0d3b44]/40 to-transparent z-10"></div>
+                        <img :src="slide.url" :alt="slide.title" 
+                             class="w-full h-full object-cover" 
+                             @error="$el.src = slide.fallback" />
+                             
+                        <!-- Details on card -->
+                        <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12 z-20 text-white max-w-4xl">
+                            <span class="inline-block px-3 py-1 mb-4 rounded-md bg-orange-500/95 text-xs font-black uppercase tracking-wider text-white" x-text="slide.category"></span>
+                            <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight mb-2" x-text="slide.title"></h2>
+                            <p class="text-gray-200 text-sm md:text-base font-medium" x-text="slide.desc"></p>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Navigation Controls -->
+                <button @click="prevFeatured" class="absolute left-6 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white hover:text-[#0d3b44] transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <button @click="nextFeatured" class="absolute right-6 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white hover:text-[#0d3b44] transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+
+            <!-- Indicator Dots -->
+            <div class="flex justify-center gap-2 mt-4">
+                <template x-for="(slide, idx) in featuredItems" :key="slide.id">
+                    <button @click="featuredIndex = idx" 
+                            :class="featuredIndex === idx ? 'w-8 bg-[#0d3b44]' : 'w-2 bg-gray-300 hover:bg-gray-400'"
+                            class="h-2 rounded-full transition-all duration-300"></button>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <!-- INSTAGRAM EMBED SECTION (Do NOT modify) -->
     <section x-show="activeCategory === 'Instagram' || activeCategory === 'All'" 
              x-transition:enter="transition ease-out duration-500"
              x-transition:enter-start="opacity-0 translate-y-4"
@@ -153,54 +219,136 @@
         </div>
     </section>
 
+    <!-- SECTION 2: MAIN GALLERY -->
     <main class="max-w-7xl mx-auto px-4 pb-24" x-show="activeCategory !== 'Instagram'">
+        
+        <!-- Modern Grid View with Masonry Spacing -->
         <div x-show="viewMode === 'grid'" class="masonry-columns">
-            <template x-for="item in filteredItems" :key="item.id">
-                <div class="masonry-item rounded-[2rem] overflow-hidden cursor-pointer group shadow-md bg-white border border-gray-100" @click="openLightbox(item)">
-                    <img :src="item.type === 'video' ? item.fallback : item.url" class="w-full object-cover transition-transform group-hover:scale-105" @error="$el.src = item.fallback">
-                    <div class="p-4">
-                        <p class="font-bold text-sm" x-text="item.title"></p>
-                        <p class="text-xs text-gray-500" x-text="item.desc"></p>
+            <template x-for="item in visibleItems" :key="item.id">
+                <div class="masonry-item rounded-[2rem] overflow-hidden cursor-pointer group shadow-sm hover:shadow-xl bg-white border border-slate-200/50 hover:border-teal-300/40 transition-all duration-300" 
+                     @click="openLightbox(item)">
+                    <div class="relative overflow-hidden">
+                        <!-- Play Icon for Video Items -->
+                        <template x-if="item.type === 'video'">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/25 z-10">
+                                <div class="bg-white/90 p-4 rounded-full shadow-lg text-[#0d3b44] group-hover:scale-110 transition-transform">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16"> <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/> </svg>
+                                </div>
+                            </div>
+                        </template>
+                        
+                        <img :src="item.type === 'video' ? item.fallback : item.url" 
+                             class="w-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                             @error="$el.src = item.fallback">
+                        <div class="absolute top-4 left-4 z-10">
+                            <span class="inline-block px-3 py-1 rounded-full bg-white/80 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-slate-800" x-text="item.category"></span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="font-extrabold text-base text-slate-800 group-hover:text-teal-700 transition-colors" x-text="item.title"></p>
+                        <p class="text-xs text-slate-500 mt-1 font-medium" x-text="item.desc"></p>
                     </div>
                 </div>
             </template>
         </div>
 
-        <div x-show="viewMode === 'carousel'" class="relative bg-gray-50 rounded-[2rem] p-4 md:p-8">
-            <div class="relative aspect-video bg-black rounded-2xl overflow-hidden flex items-center justify-center">
+        <!-- Carousel / Slide-to-Slide Mode -->
+        <div x-show="viewMode === 'carousel'" class="relative bg-white border border-slate-200/60 rounded-[2.5rem] p-4 md:p-8 shadow-xl shadow-slate-100/50">
+            <div class="relative h-[24rem] md:h-[40rem] bg-slate-900 rounded-[2rem] overflow-hidden flex items-center justify-center"
+                 @touchstart="handleTouchStart($event)"
+                 @touchend="handleTouchEnd($event, 'carousel')">
+                
                 <template x-if="filteredItems[carouselIndex]?.type === 'video'">
-                    <video controls class="w-full h-full" :src="filteredItems[carouselIndex].url"></video>
+                    <video controls class="w-full h-full object-contain" :src="filteredItems[carouselIndex].url" poster="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200"></video>
                 </template>
                 <template x-if="filteredItems[carouselIndex]?.type !== 'video'">
                     <img :src="filteredItems[carouselIndex]?.url" class="w-full h-full object-contain" @error="$el.src = filteredItems[carouselIndex]?.fallback">
                 </template>
+
+                <!-- Navigation inside slider view -->
+                <button @click="prevCarousel" class="absolute left-4 p-3 bg-white/90 text-slate-800 rounded-full shadow-md hover:bg-white transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                </button>
+                <button @click="nextCarousel" class="absolute right-4 p-3 bg-white/90 text-slate-800 rounded-full shadow-md hover:bg-white transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
             </div>
-            <div class="mt-6 flex justify-between items-center">
+            
+            <div class="mt-6 flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
                 <div>
-                    <h3 class="text-2xl font-black" x-text="filteredItems[carouselIndex]?.title"></h3>
-                    <p class="text-gray-500" x-text="filteredItems[carouselIndex]?.desc"></p>
+                    <span class="inline-block px-3 py-1 mb-2 rounded-md bg-teal-100 text-teal-800 text-xs font-bold uppercase tracking-wider" x-text="filteredItems[carouselIndex]?.category"></span>
+                    <h3 class="text-xl md:text-2xl font-black text-[#0d3b44]" x-text="filteredItems[carouselIndex]?.title"></h3>
+                    <p class="text-gray-500 mt-1 font-medium" x-text="filteredItems[carouselIndex]?.desc"></p>
                 </div>
-                <div class="flex gap-2">
-                    <button @click="carouselIndex = (carouselIndex - 1 + filteredItems.length) % filteredItems.length" class="p-3 bg-white rounded-full shadow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                    </button>
-                    <button @click="carouselIndex = (carouselIndex + 1) % filteredItems.length" class="p-3 bg-white rounded-full shadow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                    </button>
+                <div class="text-slate-400 text-sm font-bold bg-slate-100 px-4 py-2 rounded-full self-start md:self-auto">
+                    <span x-text="carouselIndex + 1"></span> / <span x-text="filteredItems.length"></span>
                 </div>
+            </div>
+        </div>
+
+        <!-- INFINITE SCROLL / TRIGGER -->
+        <div x-show="viewMode === 'grid' && visibleCount < filteredItems.length" 
+             id="infinite-scroll-trigger"
+             class="flex justify-center items-center py-12 mt-8">
+            <div class="flex flex-col items-center gap-3">
+                <div class="animate-spin rounded-full h-8 w-8 border-4 border-teal-500 border-t-transparent"></div>
+                <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">Loading Clinic Moments...</p>
             </div>
         </div>
     </main>
 
-    <div x-show="modalOpen" x-cloak class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90" @click.self="modalOpen = false">
-        <button @click="modalOpen = false" class="absolute top-8 right-8 text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
-        </button>
-        <div class="max-w-4xl w-full">
-            <img :src="selectedItem?.url" class="w-full rounded-lg" @error="$el.src = selectedItem?.fallback">
-            <p class="text-white text-center mt-4 font-bold" x-text="selectedItem?.title"></p>
+    <!-- MODERN LIGHTBOX / MODAL SYSTEM -->
+    <div x-show="modalOpen" 
+         x-cloak 
+         class="fixed inset-0 z-[100] flex flex-col items-center justify-center p-4 bg-slate-950/95 backdrop-blur-lg" 
+         @keydown.escape.window="modalOpen = false"
+         @keydown.arrow-left.window="prevLightbox()"
+         @keydown.arrow-right.window="nextLightbox()"
+         @click.self="modalOpen = false">
+        
+        <!-- Top Toolbar -->
+        <div class="absolute top-4 left-4 right-4 flex items-center justify-between z-50 text-white">
+            <div class="px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-xs font-bold tracking-wider">
+                <span x-text="selectedItemIndex + 1"></span> / <span x-text="filteredItems.length"></span>
+            </div>
+            <button @click="modalOpen = false" class="p-3 bg-white/10 backdrop-blur-md hover:bg-white hover:text-[#0d3b44] text-white rounded-full transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+            </button>
+        </div>
+
+        <!-- Main Media Container with Swipe Handling -->
+        <div class="relative max-w-5xl w-full flex items-center justify-center grow"
+             @touchstart="handleTouchStart($event)"
+             @touchend="handleTouchEnd($event, 'lightbox')">
+            
+            <!-- Side Arrows for Large Screens -->
+            <button @click="prevLightbox" class="absolute left-2 md:left-6 z-50 p-4 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white hover:text-[#0d3b44] transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button @click="nextLightbox" class="absolute right-2 md:right-6 z-50 p-4 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white hover:text-[#0d3b44] transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </button>
+
+            <!-- Media -->
+            <div class="max-h-[70vh] md:max-h-[75vh] w-full flex items-center justify-center p-2">
+                <template x-if="selectedItem?.type === 'video'">
+                    <video controls autoplay class="max-h-full max-w-full rounded-2xl" :src="selectedItem?.url"></video>
+                </template>
+                <template x-if="selectedItem?.type !== 'video'">
+                    <img :src="selectedItem?.url" class="max-h-full max-w-full object-contain rounded-2xl" @error="$el.src = selectedItem?.fallback">
+                </template>
+            </div>
+        </div>
+
+        <!-- Caption Bottom Bar -->
+        <div class="w-full max-w-3xl text-center text-white pb-6 px-4">
+            <span class="inline-block px-3 py-1 mb-2 rounded-md bg-teal-500/80 text-[10px] font-black uppercase tracking-wider text-white" x-text="selectedItem?.category"></span>
+            <h4 class="text-lg md:text-2xl font-black" x-text="selectedItem?.title"></h4>
+            <p class="text-sm text-slate-300 mt-2 font-medium" x-text="selectedItem?.desc"></p>
         </div>
     </div>
+
+    <!-- FOOTER (Do NOT modify, replace, remove, or restyle) -->
 
     <script>
         document.addEventListener('alpine:init', () => {
@@ -208,11 +356,23 @@
                 activeCategory: 'All',
                 modalOpen: false,
                 selectedItem: null,
+                selectedItemIndex: 0,
                 viewMode: 'grid',
                 carouselIndex: 0,
                 mobileMenu: false,
                 whatsappLink: 'https://wa.me/919773960242?text=Hi%20Step2Heal!',
+                
+                // Infinite scroll state variables
+                visibleCount: 8,
+                loadingMore: false,
+
+                // Touch swipe tracking variables
+                touchStartX: 0,
+                touchEndX: 0,
+
                 categories: ['All', 'Clinic', 'Treatments', 'Instagram', 'Results', 'Posts', 'Videos'],
+                
+                // Complete list of items with real image source strings
                 items: [
                     { id: 1, category: 'Clinic', title: 'Waiting Area', url: '2025-09-28 (1).jpg', fallback: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=800', desc: 'Our comfortable waiting space.' },
                     { id: 2, category: 'Treatments', title: 'Our Services', url: '2025-09-28 (2).jpg', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800', desc: 'Services at Step2Heal.' },
@@ -234,14 +394,134 @@
                     { id: 18, category: 'Results', title: 'Knee Rehab', url: 'WhatsApp Image 2026-05-15 at 14.45.00.jpeg', fallback: 'https://images.unsplash.com/photo-1597764690523-15bea4c581c9?auto=format&fit=crop&q=80&w=800', desc: 'Knee rehab.' },
                     { id: 19, category: 'Treatments', title: 'Sports Injury', url: 'WhatsApp Image 2026-05-16 at 16.10.12.jpeg', fallback: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=800', desc: 'Sports injury.' },
                     { id: 20, category: 'Posts', title: '1st Anniversary', url: 'WhatsApp Image 2026-05-06 at 19.02.30.jpeg', fallback: 'https://placehold.co/800x600/eee/333?text=Anniversary', desc: 'Step2Heal 1st Anniversary.' },
-                    { id: 23, category: 'Clinic', type: 'video', title: 'Clinic Virtual Tour', url: 'WhatsApp Video 2026-05-15 at 09.30.13.webm', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200', desc: 'VIRTUAL TOUR OF STEP2HEAL.' }
+                    { id: 23, category: 'Videos', type: 'video', title: 'Clinic Virtual Tour', url: 'WhatsApp Video 2026-05-15 at 09.30.13.webm', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200', desc: 'VIRTUAL TOUR OF STEP2HEAL.' }
                 ],
-                get filteredItems() {
-                    return this.activeCategory === 'All' ? this.items : this.items.filter(i => i.category === this.activeCategory);
+
+                // Predefined featured items for Section 1
+                featuredItems: [],
+                featuredIndex: 0,
+                featuredTimer: null,
+
+                init() {
+                    // Manually selecting 4 premium clinic milestone/achievement images
+                    this.featuredItems = [
+                        this.items.find(i => i.id === 20), // 1st Anniversary
+                        this.items.find(i => i.id === 7),  // 9th Royal Challenges Cup
+                        this.items.find(i => i.id === 3),  // Therapy Hall Active Space
+                        this.items.find(i => i.id === 17)  // Advanced Electrotherapy
+                    ].filter(Boolean);
+
+                    // Auto-advance featured showcase slides
+                    this.startFeaturedShowcase();
+
+                    // Setup Intersection Observer for Infinite Scroll
+                    this.initInfiniteScrollObserver();
                 },
+
+                startFeaturedShowcase() {
+                    if (this.featuredTimer) clearInterval(this.featuredTimer);
+                    this.featuredTimer = setInterval(() => {
+                        this.nextFeatured();
+                    }, 5000);
+                },
+
+                prevFeatured() {
+                    this.featuredIndex = (this.featuredIndex - 1 + this.featuredItems.length) % this.featuredItems.length;
+                    this.startFeaturedShowcase();
+                },
+
+                nextFeatured() {
+                    this.featuredIndex = (this.featuredIndex + 1) % this.featuredItems.length;
+                    this.startFeaturedShowcase();
+                },
+
+                get filteredItems() {
+                    if (this.activeCategory === 'All') {
+                        return this.items;
+                    }
+                    return this.items.filter(i => i.category === this.activeCategory);
+                },
+
+                // Get chunk of filtered items for Infinite Scroll rendering
+                get visibleItems() {
+                    return this.filteredItems.slice(0, this.visibleCount);
+                },
+
+                changeCategory(cat) {
+                    this.activeCategory = cat;
+                    this.carouselIndex = 0;
+                    this.visibleCount = 8; // Reset infinite scroll viewport limit on category change
+                },
+
+                initInfiniteScrollObserver() {
+                    const observer = new IntersectionObserver((entries) => {
+                        if (entries[0].isIntersecting && this.visibleCount < this.filteredItems.length) {
+                            this.loadMore();
+                        }
+                    }, { rootMargin: '120px' });
+
+                    // Let observer keep tracking the trigger element
+                    const trigger = document.getElementById('infinite-scroll-trigger');
+                    if (trigger) observer.observe(trigger);
+                },
+
+                loadMore() {
+                    if (this.loadingMore) return;
+                    this.loadingMore = true;
+                    setTimeout(() => {
+                        this.visibleCount = Math.min(this.visibleCount + 6, this.filteredItems.length);
+                        this.loadingMore = false;
+                    }, 650);
+                },
+
                 openLightbox(item) {
                     this.selectedItem = item;
+                    this.selectedItemIndex = this.filteredItems.findIndex(i => i.id === item.id);
                     this.modalOpen = true;
+                },
+
+                prevLightbox() {
+                    if (!this.modalOpen) return;
+                    this.selectedItemIndex = (this.selectedItemIndex - 1 + this.filteredItems.length) % this.filteredItems.length;
+                    this.selectedItem = this.filteredItems[this.selectedItemIndex];
+                },
+
+                nextLightbox() {
+                    if (!this.modalOpen) return;
+                    this.selectedItemIndex = (this.selectedItemIndex + 1) % this.filteredItems.length;
+                    this.selectedItem = this.filteredItems[this.selectedItemIndex];
+                },
+
+                prevCarousel() {
+                    this.carouselIndex = (this.carouselIndex - 1 + this.filteredItems.length) % this.filteredItems.length;
+                },
+
+                nextCarousel() {
+                    this.carouselIndex = (this.carouselIndex + 1) % this.filteredItems.length;
+                },
+
+                // Gesture Swipe Support
+                handleTouchStart(e) {
+                    this.touchStartX = e.changedTouches[0].screenX;
+                },
+
+                handleTouchEnd(e, scope) {
+                    this.touchEndX = e.changedTouches[0].screenX;
+                    const diff = this.touchStartX - this.touchEndX;
+
+                    if (Math.abs(diff) > 50) { // Swipe threshold
+                        if (diff > 0) {
+                            // Swiped left -> Next
+                            if (scope === 'featured') this.nextFeatured();
+                            if (scope === 'carousel') this.nextCarousel();
+                            if (scope === 'lightbox') this.nextLightbox();
+                        } else {
+                            // Swiped right -> Previous
+                            if (scope === 'featured') this.prevFeatured();
+                            if (scope === 'carousel') this.prevCarousel();
+                            if (scope === 'lightbox') this.prevLightbox();
+                        }
+                    }
                 }
             }));
         });

@@ -164,7 +164,10 @@
                              
                         <!-- Details on card -->
                         <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12 z-20 text-white max-w-4xl">
-                            <span class="inline-block px-3 py-1 mb-4 rounded-md bg-orange-500/95 text-xs font-black uppercase tracking-wider text-white" x-text="slide.category"></span>
+                            <!-- Golden color label if SPECIAL Anniversary (id: 20) -->
+                            <span :class="slide.id === 20 ? 'bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-500 text-slate-900 border border-amber-300 font-extrabold shadow-sm' : 'bg-orange-500/95 text-white'" 
+                                  class="inline-block px-3 py-1 mb-4 rounded-md text-xs font-black uppercase tracking-wider" 
+                                  x-text="slide.id === 20 ? 'SPECIAL' : slide.category"></span>
                             <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight mb-2" x-text="slide.title"></h2>
                             <p class="text-gray-200 text-sm md:text-base font-medium" x-text="slide.desc"></p>
                         </div>
@@ -241,7 +244,9 @@
                              class="w-full object-cover transition-transform duration-500 group-hover:scale-105" 
                              @error="$el.src = item.fallback">
                         <div class="absolute top-4 left-4 z-10">
-                            <span class="inline-block px-3 py-1 rounded-full bg-white/80 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-slate-800" x-text="item.category"></span>
+                            <span :class="item.id === 20 ? 'bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-500 text-slate-900 border border-amber-300 font-extrabold shadow-sm' : 'bg-white/80 backdrop-blur-md text-slate-800'"
+                                  class="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider" 
+                                  x-text="item.id === 20 ? 'SPECIAL' : item.category"></span>
                         </div>
                     </div>
                     <div class="p-6">
@@ -276,7 +281,9 @@
             
             <div class="mt-6 flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
                 <div>
-                    <span class="inline-block px-3 py-1 mb-2 rounded-md bg-teal-100 text-teal-800 text-xs font-bold uppercase tracking-wider" x-text="filteredItems[carouselIndex]?.category"></span>
+                    <span :class="filteredItems[carouselIndex]?.id === 20 ? 'bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-500 text-slate-900 border border-amber-300' : 'bg-teal-100 text-teal-800'"
+                          class="inline-block px-3 py-1 mb-2 rounded-md text-xs font-bold uppercase tracking-wider" 
+                          x-text="filteredItems[carouselIndex]?.id === 20 ? 'SPECIAL' : filteredItems[carouselIndex]?.category"></span>
                     <h3 class="text-xl md:text-2xl font-black text-[#0d3b44]" x-text="filteredItems[carouselIndex]?.title"></h3>
                     <p class="text-gray-500 mt-1 font-medium" x-text="filteredItems[carouselIndex]?.desc"></p>
                 </div>
@@ -342,13 +349,50 @@
 
         <!-- Caption Bottom Bar -->
         <div class="w-full max-w-3xl text-center text-white pb-6 px-4">
-            <span class="inline-block px-3 py-1 mb-2 rounded-md bg-teal-500/80 text-[10px] font-black uppercase tracking-wider text-white" x-text="selectedItem?.category"></span>
+            <span :class="selectedItem?.id === 20 ? 'bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-500 text-slate-900 border border-amber-300 font-extrabold shadow-sm' : 'bg-teal-500/80 text-white'"
+                  class="inline-block px-3 py-1 mb-2 rounded-md text-[10px] font-black uppercase tracking-wider" 
+                  x-text="selectedItem?.id === 20 ? 'SPECIAL' : selectedItem?.category"></span>
             <h4 class="text-lg md:text-2xl font-black" x-text="selectedItem?.title"></h4>
             <p class="text-sm text-slate-300 mt-2 font-medium" x-text="selectedItem?.desc"></p>
         </div>
     </div>
 
-    <!-- FOOTER (Do NOT modify, replace, remove, or restyle) -->
+    <!-- Footer -->
+    <footer class="bg-white py-12 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="flex items-center gap-3">
+                    <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" alt="S2H Logo" class="h-10 w-auto opacity-80">
+                    <div class="flex flex-col">
+                        <span class="font-bold text-[#0d3b44]">Step2Heal</span>
+                        <span class="text-[9px] text-gray-400 uppercase tracking-wider">Advanced Physiotherapy and Rehabilitation Centre</span>
+                    </div>
+                </div>
+                <div class="flex flex-wrap justify-center gap-8 text-sm font-semibold text-gray-500">
+                    <a href="/" class="hover:text-teal-600 transition-colors">Home</a>
+                    <a href="founders.html" class="hover:text-teal-600 transition-colors">Founders</a>
+                    <a href="services.html" class="hover:text-teal-600 transition-colors">Services</a>
+                    <a href="blog.html" class="hover:text-teal-600 transition-colors">Blog</a>
+                    <a href="contact.html" class="hover:text-teal-600 transition-colors">Contact</a>
+                </div>
+                <div class="flex gap-5">
+                    <a href="https://www.instagram.com/pt_step2heal/" target="_blank" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-teal-50 hover:text-teal-600 transition-all" title="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/share/157uL5uYit/?mibextid=wwXIfr" target="_blank" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-teal-50 hover:text-teal-600 transition-all" title="Facebook">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <p class="text-center text-gray-400 text-[10px] uppercase tracking-widest mt-12">© 2026 Step2Heal Advanced Physiotherapy and Rehabilitation Centre. All Rights Reserved.</p>
+        </div>
+    </footer>
 
     <script>
         document.addEventListener('alpine:init', () => {
@@ -388,13 +432,10 @@
                     { id: 12, category: 'Posts', title: 'Night View', url: 'b1113011-2f24-4a6a-a7e9-0d5823ec1386.jpg', fallback: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200', desc: 'Night view.' },
                     { id: 13, category: 'Clinic', title: 'Front View', url: 'download (3).jpg', fallback: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800', desc: 'Daylight view.' },
                     { id: 14, category: 'Posts', title: 'Cerebral Palsy', url: 'download (2).jpg', fallback: 'https://images.unsplash.com/photo-1508847154043-be12a3b4dca9?auto=format&fit=crop&q=80&w=800', desc: 'About CP.' },
-                    { id: 15, category: 'Results', title: 'Shoulder Mobility', url: 'WhatsApp Image 2026-05-10 at 10.15.22.jpeg', fallback: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=800', desc: 'Mobility recovery.' },
                     { id: 16, category: 'Treatments', title: 'Dry Needling', url: 'WhatsApp Image 2026-05-12 at 11.20.10.jpeg', fallback: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&q=80&w=800', desc: 'Dry needling therapy.' },
-                    { id: 17, category: 'Clinic', title: 'Electrotherapy', url: 'WhatsApp Image 2026-05-14 at 09.30.45.jpeg', fallback: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200', desc: 'Electrotherapy suite.' },
-                    { id: 18, category: 'Results', title: 'Knee Rehab', url: 'WhatsApp Image 2026-05-15 at 14.45.00.jpeg', fallback: 'https://images.unsplash.com/photo-1597764690523-15bea4c581c9?auto=format&fit=crop&q=80&w=800', desc: 'Knee rehab.' },
-                    { id: 19, category: 'Treatments', title: 'Sports Injury', url: 'WhatsApp Image 2026-05-16 at 16.10.12.jpeg', fallback: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=800', desc: 'Sports injury.' },
                     { id: 20, category: 'Posts', title: '1st Anniversary', url: 'WhatsApp Image 2026-05-06 at 19.02.30.jpeg', fallback: 'https://placehold.co/800x600/eee/333?text=Anniversary', desc: 'Step2Heal 1st Anniversary.' },
-                    { id: 23, category: 'Videos', type: 'video', title: 'Clinic Virtual Tour', url: 'WhatsApp Video 2026-05-15 at 09.30.13.webm', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200', desc: 'VIRTUAL TOUR OF STEP2HEAL.' }
+                    { id: 23, category: 'Videos', type: 'video', title: 'Clinic Virtual Tour', url: 'WhatsApp Video 2026-05-15 at 09.30.13.webm', fallback: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200', desc: 'VIRTUAL TOUR OF STEP2HEAL.' },
+                    { id: 24, category: 'Clinic', title: 'Move better, feel better, live better', url: 'ChatGPT Image May 24, 2026, 02_37_56 PM.png', fallback: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800', desc: 'Our healing philosophy.' }
                 ],
 
                 // Predefined featured items for Section 1
@@ -404,11 +445,12 @@
 
                 init() {
                     // Manually selecting 4 premium clinic milestone/achievement images
+                    // Replaced electrotherapy (17) with At Noida Chase (8)
                     this.featuredItems = [
                         this.items.find(i => i.id === 20), // 1st Anniversary
                         this.items.find(i => i.id === 7),  // 9th Royal Challenges Cup
                         this.items.find(i => i.id === 3),  // Therapy Hall Active Space
-                        this.items.find(i => i.id === 17)  // Advanced Electrotherapy
+                        this.items.find(i => i.id === 8)   // At Noida Chase
                     ].filter(Boolean);
 
                     // Auto-advance featured showcase slides

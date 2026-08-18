@@ -1,21 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XG3J8PES22"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XG3J8PES22');
-    </script>
-    
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Physiotherapy Tips & Health Blog | Step2Heal</title>
+    <title>Step2Heal Blog | Expert Physiotherapy Insights</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -32,16 +23,16 @@
         [x-cloak] { display: none !important; }
         
         .card-hover { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
-        .card-hover:hover { transform: translateY(-6px); }
+        .card-hover:hover { transform: translateY(-8px); }
         
         .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
         
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(16px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .animate-slide { animation: slideIn 0.4s ease-out forwards; }
+        .animate-slide { animation: slideIn 0.5s ease-out forwards; }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
@@ -49,19 +40,132 @@
         ::-webkit-scrollbar-thumb { background: #0d3b44; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #14b8a6; }
 
-        .logo-img { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05)); }
-        .substack-card { background: linear-gradient(135deg, #0d3b44 0%, #1a5a66 100%); }
+        /* Modal transitions */
+        .modal-overlay {
+            background-color: rgba(13, 59, 68, 0.85);
+            backdrop-filter: blur(8px);
+        }
+        
+        .logo-img {
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+        }
     </style>
 </head>
-<body class="bg-slate-50/50 text-gray-900 selection:bg-teal-100 selection:text-[#0d3b44]" 
-      x-data="blogApp()">
+<body class="bg-white text-gray-900 selection:bg-teal-100 selection:text-[#0d3b44]" 
+      x-data="{ 
+        scrolled: false, 
+        mobileMenu: false,
+        searchQuery: '',
+        activeCategory: 'All',
+        sortBy: 'newest',
+        selectedPost: null,
+        isReading: false,
+        whatsappNumber: '919773960242',
+        bookingMessage: 'Hi Step2Heal! 👋 I\'d like to book a physiotherapy session. Could you please share the available slots? Thank you!',
+        categories: ['All', 'Exercises', 'Recovery', 'Lifestyle'],
+        posts: [
+            {
+                id: 1,
+                category: 'Exercises',
+                title: 'MOVE BETTER. FEEL BETTER. LIVE BETTER.',
+                excerpt: 'Why exercise is at the heart of physiotherapy. Explore how movement serves as a clear, step-by-step road map back to health.',
+                content: `
+                    <p class='mb-4'>When people think of physiotherapy, they often picture massage tables and ultrasound machines. But there's one tool we use more than anything else — and it's free, always available, and incredibly powerful: movement itself.</p>
+                    <p class='mb-4 font-bold text-[#0d3b44]'>The Logic of Movement</p>
+                    <p class='mb-4'>Exercise isn't just about 'getting fit.' In a clinical setting, movement is medicine. It stimulates tissue repair, increases blood flow to injured areas, and retrains the nervous system to process pain signals differently.</p>
+                    <p class='mb-4'>Our approach at Step2Heal focuses on functional movement. We don't just want you to do 10 reps of a stretch; we want you to be able to pick up your child, climb stairs without wincing, and enjoy your weekend hikes again.</p>
+                    <blockquote class='border-l-4 border-teal-500 pl-4 py-2 italic text-gray-600 mb-4'>'The best posture is your next posture.' — Movement is continuous.</blockquote>
+                `,
+                date: '2026-05-03',
+                displayDate: '3 May 2026',
+                author: 'Step2heal Team',
+                readTime: '4 min read',
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=800'
+            },
+            {
+                id: 2,
+                category: 'Recovery',
+                title: 'The Science of Post-Surgical Healing',
+                excerpt: 'Understanding the biological timeline of recovery and how targeted intervention speeds up the natural healing process.',
+                content: `
+                    <p class='mb-4'>Recovery is not just about time; it is about active engagement with the healing process. After surgery, the body initiates a complex inflammatory response that is necessary for repair.</p>
+                    <p class='mb-4 font-bold text-[#0d3b44]'>Phase 1: Protection & Controlled Stress</p>
+                    <p class='mb-4'>Immediately after surgery, the priority is reducing swelling while maintaining joint mobility. Many patients are afraid to move, but early, gentle intervention prevents scar tissue from 'freezing' the joint.</p>
+                    <p class='mb-4'>At Step2Heal, we monitor these biological windows closely. We ensure that the load we put on your body matches exactly what your healing tissues can handle—no more, no less.</p>
+                `,
+                date: '2026-05-03',
+                displayDate: '3 May 2026',
+                author: 'Step2heal Team',
+                readTime: '5 min read',
+                image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800'
+            },
+            {
+                id: 3,
+                category: 'Lifestyle',
+                title: 'Daily Habits for a Pain-Free Spine',
+                excerpt: 'Simple adjustments to your daily routine that can significantly reduce the risk of chronic back and neck pain.',
+                content: `
+                    <p class='mb-4'>Your spine is your lifeline, yet we often subject it to hours of static loading. Small lifestyle changes—like the 20-20-20 rule for movement and ergonomic desk setups—can prevent cumulative stress.</p>
+                    <ul class='list-disc pl-5 mb-4 space-y-2'>
+                        <li><strong>Micro-breaks:</strong> Stand up every 20 minutes to reset your spinal alignment.</li>
+                        <li><strong>Eye-level screens:</strong> Ensure your monitor is at eye level to prevent 'Tech Neck'.</li>
+                        <li><strong>Hydration:</strong> Your spinal discs need water to stay plump and shock-absorbent.</li>
+                    </ul>
+                    <p class='mb-4'>Consistency beats intensity. It is better to have 10 small movement moments throughout the day than one hour at the gym followed by 8 hours of sitting.</p>
+                `,
+                date: '2026-05-03',
+                displayDate: '3 May 2026',
+                author: 'Step2heal Team',
+                readTime: '4 min read',
+                image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800'
+            }
+        ],
+        get filteredPosts() {
+            let result = this.posts.filter(post => {
+                const matchesCategory = this.activeCategory === 'All' || post.category === this.activeCategory;
+                const matchesSearch = post.title.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
+                                     post.excerpt.toLowerCase().includes(this.searchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
 
-    <!-- HEADER / NAVIGATION (Preserved exactly) -->
+            if (this.sortBy === 'newest') {
+                return result.sort((a, b) => new Date(b.date) - new Date(a.date));
+            } else if (this.sortBy === 'alphabetical') {
+                return result.sort((a, b) => a.title.localeCompare(b.title));
+            }
+            return result;
+        },
+        openPost(post) {
+            this.selectedPost = post;
+            this.isReading = true;
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => lucide.createIcons(), 50);
+        },
+        closePost() {
+            this.isReading = false;
+            document.body.style.overflow = 'auto';
+            setTimeout(() => { this.selectedPost = null; }, 300);
+        },
+        bookSession() {
+            const url = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(this.bookingMessage)}`;
+            window.open(url, '_blank');
+        },
+        handleQuerySubmit(e) {
+            e.preventDefault();
+            const query = e.target.querySelector('input').value;
+            if(query) {
+                const message = encodeURIComponent(`Hello Step2Heal! I have a query regarding my recovery: ${query}`);
+                window.open(`https://wa.me/${this.whatsappNumber}?text=${message}`, '_blank');
+            }
+        }
+      }" @scroll.window="scrolled = (window.pageYOffset > 20)">
+
+    <!-- Navbar -->
     <nav :class="scrolled ? 'shadow-sm py-2 bg-white/90' : 'py-5 bg-transparent'" 
          class="fixed w-full z-[60] transition-all duration-300 nav-blur">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center">
-                <div class="flex items-center gap-4 group cursor-pointer" onclick="window.location.href='/'">
+                <div class="flex items-center gap-4 group cursor-pointer" onclick="window.location.href='index.html'">
                     <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" alt="Step2Heal Logo" class="h-14 w-auto object-contain">
                     <div class="flex flex-col leading-none">
                         <span class="font-extrabold text-xl text-[#0d3b44] tracking-tight">Step2Heal</span>
@@ -70,7 +174,7 @@
                 </div>
 
                 <div class="hidden md:flex space-x-8 items-center">
-                    <a href="/" class="text-sm font-bold text-gray-600 hover:text-teal-600 transition-colors">Home</a>
+                    <a href="home.html" class="text-sm font-bold text-gray-600 hover:text-teal-600 transition-colors">Home</a>
                     <a href="services.html" class="text-sm font-bold text-gray-600 hover:text-teal-600 transition-colors">Services</a>
                     <a href="founders.html" class="text-sm font-bold text-gray-600 hover:text-teal-600 transition-colors">Founders</a>
                     <a href="gallery.html" class="text-sm font-bold text-gray-600 hover:text-teal-600 transition-colors">Gallery</a>
@@ -80,8 +184,8 @@
                 </div>
 
                 <button @click="mobileMenu = !mobileMenu" class="md:hidden p-2 text-[#0d3b44]">
-                    <svg x-show="!mobileMenu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-                    <svg x-show="mobileMenu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+                    <i data-lucide="menu" x-show="!mobileMenu"></i>
+                    <i data-lucide="x" x-show="mobileMenu"></i>
                 </button>
             </div>
         </div>
@@ -90,7 +194,7 @@
     <!-- Mobile Menu -->
     <div x-show="mobileMenu" x-transition x-cloak class="fixed inset-0 z-[55] bg-white pt-24 px-8 md:hidden">
         <div class="flex flex-col space-y-6 text-center">
-            <a href="/" class="text-2xl font-bold">Home</a>
+            <a href="home.html" class="text-2xl font-bold">Home</a>
             <a href="services.html" class="text-2xl font-bold">Services</a>
             <a href="founders.html" class="text-2xl font-bold">Founders</a>
             <a href="gallery.html" class="text-2xl font-bold">Gallery</a>
@@ -100,835 +204,280 @@
         </div>
     </div>
 
-    <!-- Hero Header Section -->
-    <section class="blog-gradient pt-32 pb-8 md:pt-48 md:pb-12 border-b border-slate-100">
+    <!-- Hero -->
+    <section class="blog-gradient pt-32 pb-16 md:pt-36 md:pb-20">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <span class="inline-block px-4 py-1.5 rounded-full bg-teal-100 text-teal-700 text-[10px] font-black uppercase tracking-widest mb-6 animate-fade">Clinical Education Portal</span>
             <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-[#0d3b44] leading-tight tracking-tighter mb-6">
                 Recovery <span class="text-teal-600">Insights</span> & Movement.
             </h1>
             <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto font-medium mb-10 leading-relaxed">
-                Evidence-based guides, physiological studies, and actionable lifestyle upgrades crafted directly by the Step2Heal clinical team.
+                Expert knowledge from Step2Heal to help you understand your body and accelerate your recovery.
             </p>
             
-            <!-- Unified Navigation Filter & Search Bar (Clean UI, No Pills) -->
-            <div class="max-w-4xl mx-auto flex flex-col sm:flex-row gap-4 items-center justify-between bg-white border border-slate-200/60 p-3 rounded-2xl shadow-xl shadow-slate-100/40">
-                <div class="w-full sm:flex-1 relative">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <!-- Search & Sort -->
+            <div class="max-w-4xl mx-auto flex flex-col md:flex-row gap-4">
+                <div class="flex-1 relative group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i data-lucide="search" class="w-5 h-5 text-gray-400 group-focus-within:text-teal-600 transition-colors"></i>
                     </div>
                     <input 
                         type="text" 
                         x-model="searchQuery"
-                        placeholder="Search for physical symptoms, articles..." 
-                        class="w-full bg-transparent border-0 rounded-xl py-3 pl-11 pr-4 focus:ring-0 outline-none text-sm font-semibold text-slate-800"
+                        placeholder="Search articles..." 
+                        class="w-full bg-white border-2 border-gray-100 rounded-2xl py-4 pl-12 pr-4 focus:border-teal-500 focus:ring-4 focus:ring-teal-50/50 outline-none transition-all shadow-lg text-sm md:text-base font-medium"
                     >
                 </div>
-                
-                <div class="w-full sm:w-auto flex items-center gap-2 border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-100">
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider pl-2 whitespace-nowrap">Filter:</span>
-                    <select x-model="activeCategory" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 outline-none focus:border-teal-500 text-xs font-extrabold text-[#0d3b44] cursor-pointer w-full sm:w-48">
-                        <option value="All">All Categories</option>
-                        <option value="Exercises">Exercises</option>
-                        <option value="Recovery">Recovery</option>
-                        <option value="Lifestyle">Lifestyle</option>
-                        <option value="Substack">Substack Releases</option>
-                    </select>
-                </div>
+                <select x-model="sortBy" class="bg-white border-2 border-gray-100 rounded-2xl px-6 py-4 outline-none focus:border-teal-500 transition-all shadow-lg font-bold text-gray-700">
+                    <option value="newest">Newest First</option>
+                    <option value="alphabetical">A - Z</option>
+                </select>
             </div>
         </div>
     </section>
 
-    <!-- SECTION 1: PROMINENT FEATURED POST SHOWCASE (Shoulder Pain Flagship Guide) -->
-    <section class="max-w-7xl mx-auto px-4 mt-16 mb-20" x-show="activeCategory === 'All' && searchQuery === ''">
-        <div class="bg-white border border-slate-200/80 rounded-[2.5rem] overflow-hidden shadow-xl shadow-slate-100/50 flex flex-col lg:flex-row">
-            <div class="lg:w-1/2 relative h-80 lg:h-auto min-h-[340px]">
-                <img :src="featuredPost.image" :alt="featuredPost.title" class="absolute inset-0 w-full h-full object-cover">
-                <div class="absolute top-6 left-6">
-                    <span class="inline-block bg-teal-600 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-md" x-text="featuredPost.category"></span>
-                </div>
-            </div>
-            <div class="lg:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center">
-                <div class="flex items-center gap-3 text-xs font-bold text-teal-600 uppercase tracking-wider mb-4">
-                    <span class="flex h-2.5 w-2.5 relative">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-teal-600"></span>
-                    </span>
-                    <span>Editor's Featured Guide</span>
-                </div>
-                <h2 class="text-2xl md:text-4xl font-extrabold text-[#0d3b44] leading-tight mb-4 tracking-tight hover:text-teal-600 transition-colors cursor-pointer" @click="openPost(featuredPost)" x-text="featuredPost.title"></h2>
-                <p class="text-slate-500 font-medium text-sm md:text-base leading-relaxed mb-6" x-text="featuredPost.excerpt"></p>
-                <div class="flex items-center justify-between pt-6 border-t border-slate-100">
-                    <div class="flex items-center gap-3">
-                        <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" class="w-8 h-8 rounded-full object-contain bg-slate-50" alt="Step2Heal Team">
-                        <div>
-                            <p class="text-xs font-black text-slate-800" x-text="featuredPost.author"></p>
-                            <p class="text-[10px] font-bold text-slate-400" x-text="featuredPost.displayDate"></p>
-                        </div>
-                    </div>
-                    <button @click="openPost(featuredPost)" class="inline-flex items-center gap-2 bg-[#0d3b44] hover:bg-teal-600 text-white px-5 py-3 rounded-xl text-xs font-black transition-all shadow-md">
-                        <span>Read Article</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                    </button>
-                </div>
+    <!-- Highlight Blogs Carousel -->
+    <section class="max-w-7xl mx-auto px-4 mb-20"
+             x-data="{
+                 activeSlide: 0,
+                 slides: [
+                     {
+                         title: 'Why Does My Shoulder Hurt?',
+                         content: 'Shoulder pain can restrict your daily life. Discover the common causes, from rotator cuff injuries to frozen shoulder, and learn how targeted physiotherapy interventions can help you regain pain-free movement. Early diagnosis and proper mobility exercises are the key to a full recovery.',
+                         image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800'
+                     },
+                     {
+                         title: 'Celebrating a Finish Line: Lake to Lake Ultra 2026',
+                         content: 'We are proud to celebrate one of our patients who recently completed the Lake to Lake Ultra 2026 in Chandigarh and proudly earned a Finisher Medal.<br><br>An achievement like this takes dedication, endurance, and consistent effort. It is also a great reminder of how important proper physical preparation, recovery, and injury prevention are for anyone taking on an endurance challenge.<br><br>Physiotherapy plays an important role in supporting mobility, strength, recovery, and safe return to physical activity, helping individuals stay active and work towards their goals with greater confidence.<br><br>Congratulations on this incredible achievement! 🏅<br><br>From recovery to the finish line, every step matters.<br><strong>Step2Heal Advanced Physiotherapy and Rehabilitation Centre</strong>',
+                         image: 'WhatsApp Image 2026-08-17 at 22.52.47.jpeg'
+                     }
+                 ],
+                 sharePost(slide) {
+                     if (navigator.share) {
+                         navigator.share({
+                             title: slide.title,
+                             text: slide.content.replace(/<[^>]*>?/gm, ''),
+                             url: window.location.href
+                         }).catch(console.error);
+                     } else {
+                         alert('Sharing is not supported on this browser.');
+                     }
+                 }
+             }"
+             x-init="setInterval(() => { activeSlide = (activeSlide + 1) % slides.length }, 5500)">
+        
+        <div class="mb-6 flex items-center justify-between">
+            <h2 class="text-2xl font-black text-[#0d3b44] flex items-center gap-2">
+                <i data-lucide="zap" class="w-6 h-6 text-orange-500 fill-orange-500"></i> Highlights
+            </h2>
+            <div class="flex gap-2">
+                <template x-for="(slide, index) in slides" :key="index">
+                    <button @click="activeSlide = index"
+                            :class="activeSlide === index ? 'w-8 bg-[#0d3b44]' : 'w-2 bg-gray-300'"
+                            class="h-2 rounded-full transition-all duration-300"></button>
+                </template>
             </div>
         </div>
-    </section>
 
-    <!-- MAIN GRID SECTION -->
-    <main class="max-w-7xl mx-auto px-4 pb-24">
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Substack Integrated Dynamic Promo Box -->
-            <template x-if="activeCategory === 'All' || activeCategory === 'Substack'">
-                <div class="substack-card rounded-[2.5rem] p-8 relative overflow-hidden group flex flex-col justify-between shadow-lg shadow-teal-900/10 min-h-[380px]">
-                    <div class="relative z-10">
-                        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full text-teal-300 text-[10px] font-black uppercase tracking-widest mb-6">
-                            Live Newsletter
+        <div class="relative overflow-hidden rounded-[2.5rem] bg-white border border-gray-100 shadow-xl shadow-gray-200/50">
+            <div class="flex transition-transform duration-700 ease-in-out" :style="`transform: translateX(-${activeSlide * 100}%)`">
+                <template x-for="(slide, index) in slides" :key="index">
+                    <div class="w-full flex-shrink-0 flex flex-col md:flex-row h-auto md:h-[450px]">
+                        <div class="md:w-1/2 h-64 md:h-full relative overflow-hidden shrink-0">
+                            <img :src="slide.image" :alt="slide.title" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0d3b44]/80 to-transparent md:hidden"></div>
                         </div>
-                        <h3 class="text-xl md:text-2xl font-black text-white mb-4 leading-snug">Weekly Recovery & Movement Blueprints</h3>
-                        <p class="text-teal-50/80 text-sm leading-relaxed mb-6 font-medium">Join patients and therapists receiving long-form physiotherapy insights, active restoration strategies, and evidence-based healing guides directly to their email inbox.</p>
-                    </div>
-                    <div class="relative z-10 pt-4">
-                        <a href="https://step2heal.substack.com/" target="_blank" class="w-full inline-flex items-center justify-center gap-3 bg-white text-[#0d3b44] py-4 rounded-xl font-black text-sm hover:bg-teal-50 transition-all transform hover:scale-[1.02] shadow-md">
-                            <span>Join Our Newsletter</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                        </a>
-                    </div>
-                    <!-- Decorative Elements -->
-                    <div class="absolute -right-16 -top-16 w-48 h-48 bg-teal-500/10 rounded-full blur-2xl"></div>
-                    <div class="absolute -left-16 -bottom-16 w-48 h-48 bg-white/5 rounded-full blur-2xl"></div>
-                </div>
-            </template>
-
-            <!-- Dynamic Post Loop Cards -->
-            <template x-for="post in filteredPosts" :key="post.id">
-                <article @click="openPost(post)" class="card-hover flex flex-col bg-white border border-slate-200/60 rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 animate-slide">
-                    <div class="relative h-56 overflow-hidden bg-slate-100">
-                        <img :src="post.image" :alt="post.title" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <div class="absolute top-4 left-4">
-                            <span class="bg-white/95 backdrop-blur-md text-[#0d3b44] px-3.5 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-sm border border-slate-100" x-text="post.category"></span>
-                        </div>
-                    </div>
-                    <div class="p-6 md:p-8 flex flex-col justify-between flex-1">
-                        <div>
-                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3" x-text="post.displayDate"></p>
-                            <h3 class="text-xl font-extrabold text-[#0d3b44] mb-3 leading-tight hover:text-teal-600 transition-colors" x-text="post.title"></h3>
-                            <p class="text-slate-500 text-xs md:text-sm leading-relaxed font-medium mb-6 line-clamp-3" x-text="post.excerpt"></p>
-                        </div>
-                        <div class="flex items-center justify-between pt-5 border-t border-slate-100">
-                            <div class="flex items-center gap-2">
-                                <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" class="w-6 h-6 rounded-full object-contain bg-slate-50" alt="Step2Heal Logo">
-                                <span class="text-[11px] font-bold text-slate-700" x-text="post.author"></span>
+                        <div class="md:w-1/2 p-6 md:p-12 flex flex-col h-full bg-white">
+                            <div class="inline-block bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 w-max">Featured</div>
+                            <h3 class="text-2xl md:text-3xl font-black text-[#0d3b44] mb-4 leading-tight" x-text="slide.title"></h3>
+                            <div class="text-gray-600 text-sm md:text-base leading-relaxed mb-6 overflow-y-auto pr-2" x-html="slide.content"></div>
+                            
+                            <div class="mt-auto pt-4 border-t border-gray-100 flex items-center">
+                                <button @click="sharePost(slide)" class="flex items-center gap-2 text-gray-500 hover:text-teal-600 transition-colors font-bold text-sm bg-gray-50 hover:bg-teal-50 px-4 py-2 rounded-xl">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                                    Share Post
+                                </button>
                             </div>
-                            <span class="text-teal-600 p-2 rounded-xl bg-teal-50 hover:bg-teal-600 hover:text-white transition-all">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-                            </span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <main class="max-w-7xl mx-auto px-4 pb-24">
+        <!-- Categories -->
+        <div class="flex flex-wrap items-center justify-center gap-3 mb-12">
+            <template x-for="cat in categories" :key="cat">
+                <button 
+                    @click="activeCategory = cat"
+                    :class="activeCategory === cat ? 'bg-teal-600 text-white shadow-lg shadow-teal-200' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'"
+                    class="px-6 py-2.5 rounded-full text-sm font-bold transition-all"
+                    x-text="cat"
+                ></button>
+            </template>
+        </div>
+
+        <!-- Blog Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <template x-for="post in filteredPosts" :key="post.id">
+                <article @click="openPost(post)" class="card-hover group flex flex-col bg-white border border-gray-100 rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl animate-slide">
+                    <div class="relative h-60 overflow-hidden">
+                        <img :src="post.image" :alt="post.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-white/95 backdrop-blur-md text-[#0d3b44] px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm" x-text="post.category"></span>
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col flex-1">
+                        <div class="flex items-center gap-4 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">
+                            <span x-text="post.displayDate"></span>
+                            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+                            <span x-text="post.readTime"></span>
+                        </div>
+                        <h3 class="text-xl font-black text-[#0d3b44] mb-4 leading-tight group-hover:text-teal-600 transition-colors" x-text="post.title"></h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3 flex-1" x-text="post.excerpt"></p>
+                        
+                        <div class="flex items-center justify-between pt-6 border-t border-gray-50">
+                            <div class="flex items-center gap-2">
+                                <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" class="w-6 h-6 rounded-full object-contain bg-gray-50" alt="Logo" onerror="this.src='https://ui-avatars.com/api/?name=S2H&background=0d3b44&color=fff'">
+                                <span class="text-[11px] font-bold text-gray-900" x-text="post.author"></span>
+                            </div>
+                            <button class="text-teal-600 p-2 rounded-full bg-teal-50 group-hover:bg-teal-600 group-hover:text-white transition-all">
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
                         </div>
                     </div>
                 </article>
             </template>
         </div>
 
-        <!-- Empty Filtered States -->
-        <div x-show="filteredPosts.length === 0" class="py-24 text-center" x-cloak>
-            <div class="max-w-md mx-auto">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-slate-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.128 11.25H21v9.75h-1.872v-9.75zm-3.75 0h1.872v9.75h-1.872v-9.75zm-3.75 0h1.872v9.75h-1.872v-9.75zm-3.75 0h1.872v9.75h-1.872v-9.75z"/></svg>
-                <h4 class="text-lg font-bold text-[#0d3b44] mb-2">No matching clinical posts found</h4>
-                <p class="text-slate-500 text-sm font-medium mb-6">We couldn't find any articles matching your active search parameter. Try selecting another filter or clearing search words.</p>
-                <button @click="searchQuery = ''; activeCategory = 'All';" class="bg-teal-50 text-teal-700 px-6 py-2.5 rounded-xl text-xs font-black tracking-wider uppercase transition-all">Clear Filters</button>
+        <!-- Empty State -->
+        <div x-show="filteredPosts.length === 0" class="py-20 text-center space-y-6">
+            <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto">
+                <i data-lucide="search-x" class="text-gray-300 w-10 h-10"></i>
             </div>
+            <h3 class="text-2xl font-black text-[#0d3b44]">No articles found</h3>
+            <p class="text-gray-500">Try adjusting your search or category filter.</p>
+            <button @click="searchQuery = ''; activeCategory = 'All'" class="text-teal-600 font-bold underline">View all posts</button>
         </div>
     </main>
 
-    <!-- HIGH-FIDELITY BLOG READER PORTAL Overlay/Lightbox View (Optimized for Mobile) -->
+    <!-- Reading Modal -->
     <div x-show="isReading" 
-         x-cloak 
-         class="fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-md overflow-y-auto"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0">
-         
-         <!-- Responsive Padding and Alignment (Fullscreen on Mobile, Elegant bounds on Desktop) -->
-         <div class="min-h-screen sm:py-10 px-0 sm:px-4 md:px-10 lg:px-20 flex justify-center items-start">
-             <div class="bg-white w-full max-w-7xl shadow-2xl overflow-hidden relative border border-slate-200 animate-slide rounded-none sm:rounded-[3rem]">
-                 
-                 <!-- Reader Top Header Bar (Sticky & Comfortable Tap Targets) -->
-                 <div class="sticky top-0 bg-white/95 backdrop-blur-md px-4 sm:px-6 py-4 border-b border-slate-100 flex items-center justify-between z-50">
-                     <div class="flex items-center gap-3">
-                         <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" class="h-8 w-auto object-contain" alt="Step2Heal logo">
-                         <span class="text-xs font-black text-slate-400 uppercase tracking-widest hidden sm:inline">Physiotherapy Portal</span>
-                     </div>
-                     <div class="flex items-center gap-2">
-                         <!-- Copy Link Button -->
-                         <button @click="copyBlogLink()" class="p-3 bg-slate-50 hover:bg-teal-50 text-[#0d3b44] hover:text-teal-700 rounded-xl transition-all flex items-center gap-2 min-h-[44px] min-w-[44px]" title="Copy Article Share Link">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                             <span class="text-xs font-black hidden sm:inline">Copy Link</span>
-                         </button>
-                         <!-- Close Button -->
-                         <button @click="closePost()" class="p-3 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl transition-all min-h-[44px] min-w-[44px]" title="Exit Reader View">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
-                         </button>
-                     </div>
-                 </div>
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8" x-cloak>
+        
+        <!-- Backdrop -->
+        <div class="absolute inset-0 modal-overlay" @click="closePost"></div>
 
-                 <!-- Hero Image with Fluid Heights -->
-                 <div class="relative h-56 sm:h-80 md:h-[400px] w-full bg-slate-900">
-                     <img :src="selectedPost?.image" :alt="selectedPost?.title" class="w-full h-full object-cover opacity-90">
-                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
-                     <div class="absolute bottom-4 left-4 sm:bottom-6 sm:left-12 text-white pr-4">
-                         <span class="inline-block bg-teal-500 text-white px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-widest shadow-md mb-2 sm:mb-3" x-text="selectedPost?.category"></span>
-                         <h1 class="text-lg sm:text-4xl lg:text-5xl font-extrabold tracking-tight" x-text="selectedPost?.title"></h1>
-                     </div>
-                 </div>
+        <!-- Content -->
+        <div class="relative bg-white w-full max-w-4xl max-h-[90vh] rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col"
+             x-transition:enter="transition ease-out duration-300 transform"
+             x-transition:enter-start="scale-95 translate-y-8"
+             x-transition:enter-end="scale-100 translate-y-0">
+            
+            <!-- Modal Header -->
+            <div class="absolute top-6 right-6 z-10">
+                <button @click="closePost" class="p-3 bg-white/90 backdrop-blur rounded-full text-[#0d3b44] hover:bg-red-50 hover:text-red-600 transition-all shadow-lg">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
 
-                 <!-- Main Article Area -->
-                 <div class="p-4 sm:p-8 md:p-12 lg:p-16 flex flex-col lg:flex-row gap-12">
-                     
-                     <!-- Left Sticky Table of Contents (Desktop only) -->
-                     <aside class="hidden lg:block lg:w-1/4">
-                         <div class="sticky top-28 space-y-8">
-                             <div class="bg-slate-50 border border-slate-200/60 p-6 rounded-2xl">
-                                 <h4 class="text-xs font-black text-[#0d3b44] uppercase tracking-wider mb-4 border-b border-slate-200 pb-2">Table of Contents</h4>
-                                 <nav class="space-y-3">
-                                     <template x-for="heading in selectedPost?.toc" :key="heading.id">
-                                         <a :href="'#' + heading.id" class="block text-xs font-semibold text-slate-500 hover:text-teal-600 transition-colors leading-relaxed" x-text="heading.text"></a>
-                                     </template>
-                                 </nav>
-                             </div>
+            <!-- Scrollable Content -->
+            <div class="overflow-y-auto flex-1 pb-12">
+                <div class="relative h-64 md:h-96">
+                    <img :src="selectedPost?.image" :alt="selectedPost?.title" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
+                </div>
 
-                             <div class="bg-[#0d3b44] text-white p-6 rounded-2xl">
-                                 <h4 class="text-sm font-black mb-2">Need Clinical Advice?</h4>
-                                 <p class="text-xs text-slate-300 leading-relaxed mb-4">Connect directly with our senior physiotherapists on WhatsApp for quick symptom assessments.</p>
-                                 <button @click="bookSession" class="w-full text-center py-3 rounded-xl bg-teal-500 text-white font-bold text-xs hover:bg-teal-400 transition-all">Consult Today</button>
-                             </div>
-                         </div>
-                     </aside>
+                <div class="px-6 md:px-16 -mt-12 relative">
+                    <div class="bg-teal-600 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest inline-block mb-6 shadow-xl shadow-teal-100" x-text="selectedPost?.category"></div>
+                    
+                    <h2 class="text-3xl md:text-5xl font-black text-[#0d3b44] mb-6 leading-tight" x-text="selectedPost?.title"></h2>
+                    
+                    <div class="flex flex-wrap items-center gap-6 mb-10 pb-8 border-b border-gray-100">
+                        <div class="flex items-center gap-3">
+                            <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" class="w-10 h-10 rounded-full object-contain bg-gray-50 p-1" alt="Author" onerror="this.src='https://ui-avatars.com/api/?name=S2H&background=0d3b44&color=fff'">
+                            <div>
+                                <p class="text-sm font-bold text-gray-900" x-text="selectedPost?.author"></p>
+                                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider" x-text="selectedPost?.displayDate"></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-400">
+                            <i data-lucide="clock" class="w-4 h-4"></i>
+                            <span class="text-xs font-bold" x-text="selectedPost?.readTime"></span>
+                        </div>
+                    </div>
 
-                     <!-- Center Readable Content Body -->
-                     <article class="flex-1 max-w-3xl">
-                         
-                         <!-- Author and Metadata -->
-                         <div class="flex items-center justify-between pb-6 sm:pb-8 border-b border-slate-100 mb-6 sm:mb-8">
-                             <div class="flex items-center gap-3">
-                                 <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" class="w-10 h-10 rounded-full object-contain bg-slate-50" alt="Step2Heal Team">
-                                 <div>
-                                     <p class="text-xs sm:text-sm font-black text-slate-800" x-text="selectedPost?.author"></p>
-                                     <p class="text-[10px] sm:text-xs font-bold text-slate-400" x-text="'Published ' + selectedPost?.displayDate"></p>
-                                 </div>
-                             </div>
-                             
-                             <div class="flex items-center gap-2">
-                                 <span class="text-xs font-bold text-slate-400">Share:</span>
-                                 <button @click="shareOnWhatsApp()" class="p-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 rounded-xl transition-all" title="Share to WhatsApp">
-                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.05 12.008.05c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.957-11.953 11.957-2.005-.001-3.973-.502-5.717-1.458L0 24zm6.59-4.846c1.657.982 3.278 1.499 5.353 1.5 5.372 0 9.742-4.298 9.745-9.58a9.49 9.49 0 0 0-2.852-6.78A9.55 9.55 0 0 0 12.01 1.55c-5.38 0-9.752 4.301-9.755 9.584-.002 2.122.54 4.113 1.566 5.883L2.83 21.147l4.31-.133c.002-.001.005-.001.007-.001zm12.519-7.143c-.3-.15-1.772-.875-2.047-.975-.276-.1-.477-.15-.677.15-.2.3-.777.975-.951 1.175-.175.2-.35.225-.65.075-.3-.15-1.267-.467-2.414-1.492-.893-.797-1.496-1.782-1.671-2.082-.176-.3-.019-.462.13-.611.135-.134.3-.35.45-.525.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.677-1.625-.927-2.225-.244-.588-.492-.507-.677-.517-.174-.01-.375-.012-.576-.012-.2 0-.525.075-.8.4-.275.325-1.05 1.025-1.05 2.5s1.075 2.9 1.225 3.1c.15.2 2.115 3.23 5.124 4.53 3.01 1.3 3.01.867 3.56.817.55-.05 1.772-.725 2.022-1.425.25-.7.25-1.3.175-1.425-.075-.1-.275-.2-.575-.35z"/></svg>
-                                 </button>
-                                 <button @click="shareOnFacebook()" class="p-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-xl transition-all" title="Share to Facebook">
-                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z"/></svg>
-                                 </button>
-                                 <button @click="shareOnLinkedIn()" class="p-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl transition-all" title="Share to LinkedIn">
-                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                                 </button>
-                             </div>
-                         </div>
+                    <!-- Article Body -->
+                    <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed space-y-4" x-html="selectedPost?.content"></div>
 
-                         <!-- Content Renderer -->
-                         <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-6 text-sm md:text-base font-medium" x-html="selectedPost?.content"></div>
-
-                         <!-- Newsletter Box directly below the article content -->
-                         <div class="substack-card rounded-3xl p-6 sm:p-8 text-white mt-12 sm:mt-16 shadow-xl relative overflow-hidden">
-                             <div class="relative z-10 text-center sm:text-left">
-                                 <h4 class="text-lg sm:text-xl font-extrabold mb-2">Enjoyed this health guide?</h4>
-                                 <p class="text-teal-50/80 text-[11px] sm:text-sm leading-relaxed mb-6 max-w-xl">Subscribe to the official Step2Heal Substack to receive clinical rehabilitation strategies directly in your inbox.</p>
-                                 <div class="flex flex-col sm:flex-row gap-3">
-                                     <a href="https://step2heal.substack.com/" target="_blank" class="px-6 py-3.5 bg-white text-[#0d3b44] font-black rounded-xl text-xs hover:bg-teal-50 transition-all text-center">
-                                         Subscribe on Substack
-                                     </a>
-                                 </div>
-                             </div>
-                             <div class="absolute -right-12 -bottom-12 w-32 h-32 bg-white/5 rounded-full blur-xl"></div>
-                         </div>
-                     </article>
-                 </div>
-             </div>
-         </div>
-    </div>
-
-    <!-- TOAST CONFIRMATION FOR SHARE LINKS -->
-    <div x-show="copiedToast" 
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 translate-y-4"
-         x-transition:enter-end="opacity-100 translate-y-0"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100 translate-y-0"
-         x-transition:leave-end="opacity-0 translate-y-4"
-         class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[110] bg-teal-600 text-white px-6 py-3 rounded-full shadow-2xl font-bold text-sm flex items-center gap-2"
-         x-cloak>
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-        <span>Article link copied to clipboard!</span>
-    </div>
-
-    <!-- FOOTER (Preserved exactly) -->
-    <footer class="bg-white py-12 border-t border-gray-100">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
-                <div class="flex items-center gap-3">
-                    <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" alt="S2H Logo" class="h-10 w-auto opacity-80">
-                    <div class="flex flex-col">
-                        <span class="font-bold text-[#0d3b44]">Step2Heal</span>
-                        <span class="text-[9px] text-gray-400 uppercase tracking-wider">Advanced Physiotherapy and Rehabilitation Centre</span>
+                    <!-- Post Footer -->
+                    <div class="mt-12 p-8 bg-gray-50 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="text-center md:text-left">
+                            <p class="font-black text-[#0d3b44] text-lg">Was this helpful?</p>
+                            <p class="text-sm text-gray-500">Reach out for a personalized consultation.</p>
+                        </div>
+                        <button @click="bookSession" class="bg-[#0d3b44] text-white px-8 py-3 rounded-2xl font-bold hover:bg-teal-700 transition-all flex items-center gap-2">
+                            <span>Book an Appointment</span>
+                            <i data-lucide="calendar" class="w-4 h-4"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="flex flex-wrap justify-center gap-8 text-sm font-semibold text-gray-500">
-                    <a href="/" class="hover:text-teal-600 transition-colors">Home</a>
-                    <a href="founders.html" class="hover:text-teal-600 transition-colors">Founders</a>
-                    <a href="services.html" class="hover:text-teal-600 transition-colors">Services</a>
-                    <a href="gallery.html" class="hover:text-teal-600 transition-colors">Gallery</a>
-                    <a href="contact.html" class="hover:text-teal-600 transition-colors">Contact</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Query Section -->
+    <section class="bg-white py-20 px-4">
+        <div class="max-w-5xl mx-auto bg-[#0d3b44] rounded-[3rem] p-8 md:p-16 relative overflow-hidden text-center md:text-left shadow-2xl">
+            <div class="relative z-10 flex flex-col md:flex-row items-center gap-10">
+                <div class="md:w-3/5 space-y-4">
+                    <h2 class="text-3xl md:text-4xl font-black text-white leading-tight">Need Expert Advice?</h2>
+                    <p class="text-teal-50/70 text-lg">Send us your physical health concerns and our lead therapists will guide you through the next steps.</p>
                 </div>
-                <div class="flex gap-5">
-                    <a href="https://www.instagram.com/pt_step2heal/" target="_blank" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-teal-50 hover:text-teal-600 transition-all" title="Instagram">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                        </svg>
-                    </a>
-                    <a href="https://www.facebook.com/share/157uL5uYit/?mibextid=wwXIfr" target="_blank" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-teal-50 hover:text-teal-600 transition-all" title="Facebook">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                        </svg>
-                    </a>
+                <div class="md:w-2/5 w-full">
+                    <form @submit="handleQuerySubmit" class="flex flex-col sm:flex-row gap-2 bg-white/5 p-2 rounded-2xl backdrop-blur-sm border border-white/10">
+                        <input type="text" required placeholder="Your query (e.g. Back pain)" class="flex-1 bg-transparent text-white placeholder:text-teal-100/50 px-4 py-3 outline-none font-medium">
+                        <button type="submit" class="bg-teal-500 text-white px-8 py-3 rounded-xl font-bold hover:bg-teal-400 transition-all shadow-lg flex items-center justify-center gap-2">
+                            <span>Ask</span>
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                        </button>
+                    </form>
+                    <p class="text-[10px] text-teal-100/40 mt-3 text-center md:text-left">Redirects to WhatsApp for instant consultation.</p>
                 </div>
             </div>
-            <p class="text-center text-gray-400 text-[10px] uppercase tracking-widest mt-12">© 2026 Step2Heal Advanced Physiotherapy and Rehabilitation Centre. All Rights Reserved.</p>
+            <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-teal-500/10 rounded-full"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-12 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center gap-2">
+                <img src="WhatsApp_Image_2026-04-21_at_17.24.20-removebg-preview.png" alt="S2H Logo" class="h-8 md:h-10 logo-img" onerror="this.src='https://ui-avatars.com/api/?name=S2H&background=0d3b44&color=fff'">
+                <div class="flex flex-col">
+                    <span class="font-bold text-[#0d3b44]">Step2Heal</span>
+                    <span class="text-[8px] italic text-orange-500">Where every step matters</span>
+                </div>
+            </div>
+            <p class="text-xs text-gray-400">© 2026 Step2Heal Advanced Physiotherapy and Rehabilitation Centre Noida. All rights reserved.</p>
+            <div class="flex gap-6">
+                <a href="#" class="text-gray-400 hover:text-teal-600 transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                <a href="#" class="text-gray-400 hover:text-teal-600 transition-colors"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                <a href="#" class="text-gray-400 hover:text-teal-600 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+            </div>
         </div>
     </footer>
 
-    <!-- ALPINE ENGINE & CENTRALIZED CLINICAL DATA -->
     <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('blogApp', () => ({
-                scrolled: false,
-                mobileMenu: false,
-                searchQuery: '',
-                activeCategory: 'All',
-                selectedPost: null,
-                isReading: false,
-                copiedToast: false,
-                whatsappNumber: '919773960242',
-                bookingMessage: 'Hello Step2Heal! I would like to schedule an advanced physiotherapy assessment session. Please let me know your available slots at the Noida center. Thank you.',
-
-                // High-fidelity clinical database (Featured post June 2026 added, others preserved exactly)
-                posts: [
-                    {
-                        id: 5,
-                        slug: 'why-does-my-shoulder-hurt',
-                        category: 'Recovery',
-                        title: "Why Does My Shoulder Hurt?",
-                        excerpt: 'A complete guide to understanding, treating, and preventing shoulder pain, including diagnostic insights, roadmaps, and core rehabilitation exercises.',
-                        author: 'Step2Heal Physio Team',
-                        date: '2026-06-09',
-                        displayDate: '9 June 2026',
-                        image: 'ChatGPT Image Jun 9, 2026, 09_05_49 PM.png',
-                        toc: [
-                            { id: 'introduction', text: 'Understanding Shoulder Mechanics' },
-                            { id: 'statistics', text: 'Shoulder Pain Statistics' },
-                            { id: 'pathologies', text: 'Common Causes of Shoulder Pain' },
-                            { id: 'warning-box', text: 'Emergency Warning Indicators' },
-                            { id: 'roadmap', text: 'Physiotherapy Roadmap' },
-                            { id: 'exercises', text: 'Core Rehabilitation Exercises' },
-                            { id: 'pro-tips', text: 'Physiotherapist Pro-Tips' },
-                            { id: 'cta-shoulder', text: 'Book Consultation' }
-                        ],
-                        content: `
-                            <p id="introduction" class="text-slate-700 text-base leading-relaxed mb-6">
-                                Shoulder pain is one of the most common musculoskeletal complaints we treat at Step2Heal — and unfortunately, one of the most misunderstood.
-                            </p>
-
-                            <!-- Statistics Grid Layout -->
-                            <div id="statistics" class="grid grid-cols-1 md:grid-cols-3 gap-6 my-10">
-                                <div class="bg-slate-50 border border-slate-200/60 p-6 rounded-2xl text-center shadow-sm">
-                                    <p class="text-4xl font-extrabold text-[#0d3b44] mb-2">26%</p>
-                                    <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Adult Experience Rate</p>
-                                    <p class="text-xs text-slate-400 mt-2 font-medium">Of adults experience limiting shoulder pain at some point in their life.</p>
-                                </div>
-                                <div class="bg-slate-50 border border-slate-200/60 p-6 rounded-2xl text-center shadow-sm">
-                                    <p class="text-4xl font-extrabold text-[#0d3b44] mb-2">3rd</p>
-                                    <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Complaint Frequency</p>
-                                    <p class="text-xs text-slate-400 mt-2 font-medium">Ranked as the third most common musculoskeletal complaint globally.</p>
-                                </div>
-                                <div class="bg-slate-50 border border-slate-200/60 p-6 rounded-2xl text-center shadow-sm">
-                                    <p class="text-4xl font-extrabold text-teal-600 mb-2">90%</p>
-                                    <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Physio Improvement Rate</p>
-                                    <p class="text-xs text-slate-400 mt-2 font-medium">Of cases show significant improvement with conservative physical therapy.</p>
-                                </div>
-                            </div>
-
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                Whether it's a dull ache when you raise your arm, a sharp pain while sleeping, or stiffness that limits your daily activities — shoulder pain can quietly rob you of your quality of life. The good news? Most shoulder conditions respond remarkably well to physiotherapy when caught early and treated correctly.
-                            </p>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                In this article, our team at Step2Heal Physiotherapy & Rehabilitation Centre, Noida walks you through everything you need to know about shoulder pain — from causes and warning signs to treatment and prevention.
-                            </p>
-
-                            <h2 id="mechanics" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Understanding the shoulder</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                The shoulder is the most mobile joint in your entire body — it can rotate nearly 360°. This incredible range of motion is made possible by a complex arrangement of bones, muscles, tendons, and ligaments. But that same mobility makes it inherently vulnerable to injury and wear.
-                            </p>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                The rotator cuff — a group of four muscles and their tendons — is the unsung hero of the shoulder. It stabilises the joint and powers most arm movements. When any part of this system is overloaded or inflamed, you feel it immediately.
-                            </p>
-
-                            <h2 id="pathologies" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Common causes of shoulder pain</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                Shoulder pain rarely comes from one single cause. Here are the most frequent conditions we diagnose at our clinic:
-                            </p>
-                            <div class="space-y-4 my-6">
-                                <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm">
-                                    <h4 class="text-sm font-black text-slate-800 uppercase tracking-wide mb-1">Rotator cuff tear or tendinitis</h4>
-                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Inflammation or micro-tears in the tendons, often from repetitive overhead activity or ageing.</p>
-                                </div>
-                                <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm">
-                                    <h4 class="text-sm font-black text-slate-800 uppercase tracking-wide mb-1">Frozen shoulder (adhesive capsulitis)</h4>
-                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Gradual stiffening and pain that develops over months, more common in people aged 40–60.</p>
-                                </div>
-                                <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm">
-                                    <h4 class="text-sm font-black text-slate-800 uppercase tracking-wide mb-1">Shoulder impingement</h4>
-                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Tendons get pinched between bones during arm lifts, causing sharp pain and weakness.</p>
-                                </div>
-                                <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm">
-                                    <h4 class="text-sm font-black text-slate-800 uppercase tracking-wide mb-1">Postural overload</h4>
-                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Hours at a desk or on a phone creates muscle imbalances that strain the shoulder complex.</p>
-                                </div>
-                                <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm">
-                                    <h4 class="text-sm font-black text-slate-800 uppercase tracking-wide mb-1">Sports or trauma injury</h4>
-                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Dislocations, labral tears, and AC joint sprains from falls, contact sports, or overuse.</p>
-                                </div>
-                                <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm">
-                                    <h4 class="text-sm font-black text-slate-800 uppercase tracking-wide mb-1">Bursitis</h4>
-                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Inflammation of the fluid-filled sac (bursa) that cushions the shoulder joint, causing a deep aching pain.</p>
-                                </div>
-                            </div>
-
-                            <!-- Callout / Emergency Warning Box -->
-                            <div id="warning-box" class="bg-rose-50 border-l-4 border-rose-500 p-6 rounded-r-2xl my-8">
-                                <div class="flex items-start gap-3">
-                                    <div class="text-rose-600 mt-0.5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                                    </div>
-                                    <div>
-                                        <h4 class="text-sm font-extrabold text-rose-950 uppercase tracking-wider mb-1">When to seek immediate care</h4>
-                                        <p class="text-xs text-rose-800 leading-relaxed font-medium">
-                                            Sudden severe pain after a fall or accident, visible deformity, inability to lift the arm at all, numbness or tingling radiating down the arm, or shoulder pain accompanied by chest tightness — these require urgent medical evaluation. Do not delay.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h2 id="not-ignore" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Signs you should not ignore</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                People often dismiss shoulder pain as "just tension" and wait months before seeking help. Here are signs that deserve prompt attention from a physiotherapist:
-                            </p>
-                            <ul class="list-disc pl-5 mb-6 space-y-2 text-slate-700">
-                                <li><strong>Pain that disturbs your sleep:</strong> Especially lying on the affected side — a classic sign of rotator cuff or bursitis issues.</li>
-                                <li><strong>Stiffness progressing over weeks:</strong> Frozen shoulder worsens rapidly without early intervention.</li>
-                                <li><strong>Weakness lifting everyday objects:</strong> Difficulty lifting a bag, a water bottle, or reaching overhead signals rotator cuff involvement.</li>
-                                <li><strong>Clicking or catching sensation:</strong> With pain — may indicate a labral tear or impingement that needs early physio.</li>
-                            </ul>
-
-                            <!-- Treatment Roadmap Phase Cards -->
-                            <h2 id="roadmap" class="text-xl font-bold text-[#0d3b44] mt-10 mb-4">How physiotherapy helps</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                At Step2Heal, we approach shoulder pain with a detailed assessment first. We don't believe in cookie-cutter treatments. Your shoulder pain has a specific pattern, a specific cause, and it needs a specific plan.
-                            </p>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                A typical physiotherapy programme for shoulder pain is structured in three phases:
-                            </p>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
-                                <div class="border border-slate-200 p-5 rounded-2xl bg-white shadow-sm">
-                                    <span class="inline-block px-2.5 py-1 mb-3 rounded-md bg-rose-50 text-rose-600 text-[9px] font-black uppercase tracking-widest">Phase 1</span>
-                                    <h4 class="text-sm font-extrabold text-slate-800 mb-1">Pain relief & protection</h4>
-                                    <p class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Weeks 1–2</p>
-                                    <p class="text-xs text-slate-500 mt-2 leading-relaxed font-medium">Focuses on reducing inflammation, calming irritated neural pathways, and gentle offloaded tissue protection.</p>
-                                </div>
-                                <div class="border border-slate-200 p-5 rounded-2xl bg-white shadow-sm">
-                                    <span class="inline-block px-2.5 py-1 mb-3 rounded-md bg-amber-50 text-amber-600 text-[9px] font-black uppercase tracking-widest">Phase 2</span>
-                                    <h4 class="text-sm font-extrabold text-slate-800 mb-1">Restore mobility & strength</h4>
-                                    <p class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Weeks 3–6</p>
-                                    <p class="text-xs text-slate-500 mt-2 leading-relaxed font-medium">Focuses on dynamic glenohumeral tracking, active-assisted exercises, and localized rotator cuff loading.</p>
-                                </div>
-                                <div class="border border-slate-200 p-5 rounded-2xl bg-white shadow-sm">
-                                    <span class="inline-block px-2.5 py-1 mb-3 rounded-md bg-emerald-50 text-emerald-600 text-[9px] font-black uppercase tracking-widest">Phase 3</span>
-                                    <h4 class="text-sm font-extrabold text-slate-800 mb-1">Function & prevention</h4>
-                                    <p class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Weeks 7–12</p>
-                                    <p class="text-xs text-slate-500 mt-2 leading-relaxed font-medium">Focuses on structural integration, full dynamic resistance training, and return-to-sport protocols.</p>
-                                </div>
-                            </div>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                Treatment techniques used at Step2Heal may include manual therapy, dry needling, TENS, ultrasound therapy, postural correction, and a personalised exercise programme you can continue at home.
-                            </p>
-
-                            <!-- Core Rehab Exercises Section -->
-                            <h2 id="exercises" class="text-xl font-bold text-[#0d3b44] mt-10 mb-4">5 exercises for shoulder health</h2>
-                            <p class="text-slate-500 text-sm font-medium mb-6">These gentle exercises are safe for most people with mild shoulder discomfort. Always consult your physiotherapist before starting — some exercises may be contraindicated based on your specific condition.</p>
-                            
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6">
-                                <div class="bg-slate-50/50 border border-slate-100 p-5 rounded-2xl">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="bg-[#0d3b44] text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">1</span>
-                                        <h4 class="text-xs font-black text-slate-800 uppercase tracking-widest">Pendulum swings</h4>
-                                    </div>
-                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Lean forward, let your arm hang freely, and make small circles. Relieves joint compression gently. 2 × 10 circles each direction.</p>
-                                </div>
-                                <div class="bg-slate-50/50 border border-slate-100 p-5 rounded-2xl">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="bg-[#0d3b44] text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">2</span>
-                                        <h4 class="text-xs font-black text-slate-800 uppercase tracking-widest">Doorway chest stretch</h4>
-                                    </div>
-                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Stand in a doorway, arms at 90°, gently step forward to open the chest and front shoulder. Hold 20–30 seconds, 3 reps.</p>
-                                </div>
-                                <div class="bg-slate-50/50 border border-slate-100 p-5 rounded-2xl">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="bg-[#0d3b44] text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">3</span>
-                                        <h4 class="text-xs font-black text-slate-800 uppercase tracking-widest">Scapular squeezes</h4>
-                                    </div>
-                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Sit tall, squeeze your shoulder blades together without shrugging. Strengthens mid-back stabilisers. 3 × 15 reps.</p>
-                                </div>
-                                <div class="bg-slate-50/50 border border-slate-100 p-5 rounded-2xl">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="bg-[#0d3b44] text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">4</span>
-                                        <h4 class="text-xs font-black text-slate-800 uppercase tracking-widest">External rotation with resistance band</h4>
-                                    </div>
-                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Elbow bent at 90°, rotate forearm outward against band resistance. Core rotator cuff strengthener. 3 × 12 reps.</p>
-                                </div>
-                                <div class="bg-slate-50/50 border border-slate-100 p-5 rounded-2xl sm:col-span-2">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="bg-[#0d3b44] text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">5</span>
-                                        <h4 class="text-xs font-black text-slate-800 uppercase tracking-widest">Wall angel slides</h4>
-                                    </div>
-                                    <p class="text-xs text-slate-500 leading-relaxed font-medium">Stand with back flat against wall, slowly slide arms overhead keeping contact. Restores overhead mobility. 2 × 8 reps.</p>
-                                </div>
-                            </div>
-
-                            <!-- Highlighted Physiotherapist Pro-Tip Box -->
-                            <div id="pro-tips" class="bg-teal-50 border-l-4 border-teal-500 p-6 rounded-r-2xl my-8">
-                                <div class="flex items-start gap-3">
-                                    <div class="text-teal-600 mt-0.5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                                    </div>
-                                    <div>
-                                        <h4 class="text-sm font-extrabold text-teal-950 uppercase tracking-wider mb-1">Pro tip from our physios</h4>
-                                        <p class="text-xs text-teal-800 leading-relaxed font-medium">
-                                            Stop any exercise that causes sharp or shooting pain. Mild discomfort is normal — pain beyond 3/10 is your body asking you to stop. Progress is gradual; consistency beats intensity every time.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h2 id="prevention" class="text-xl font-bold text-[#0d3b44] mt-10 mb-4">Preventing shoulder pain in daily life</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                Prevention is always better than treatment. Small habit changes make a significant difference:
-                            </p>
-                            
-                            <h3 class="text-base font-extrabold text-[#0d3b44] mt-6 mb-2">For desk workers in Noida</h3>
-                            <p class="text-slate-700 text-sm leading-relaxed mb-4">
-                                Set your monitor at eye level, keep your elbows at 90° while typing, and take a 2-minute movement break every 45 minutes. Chin tucks and shoulder rolls at your desk go a long way over time.
-                            </p>
-
-                            <h3 class="text-base font-extrabold text-[#0d3b44] mt-6 mb-2">For active individuals and gym-goers</h3>
-                            <p class="text-slate-700 text-sm leading-relaxed mb-4">
-                                Never skip a warm-up. Prioritise rotator cuff strengthening exercises alongside heavy pressing movements. If you feel impingement-like pain during overhead press or bench press, get assessed before continuing — training through it often turns a minor issue into a major one.
-                            </p>
-
-                            <h3 class="text-base font-extrabold text-[#0d3b44] mt-6 mb-2">Sleeping position</h3>
-                            <p class="text-slate-700 text-sm leading-relaxed mb-4">
-                                Avoid sleeping on the affected shoulder. Sleep on your back with a small pillow supporting your arm, or on the opposite side with a pillow hugged to the chest.
-                            </p>
-
-                            <h3 id="why-s2h" class="text-xl font-bold text-[#0d3b44] mt-10 mb-4">Why choose Step2Heal?</h3>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                At Step2Heal Physiotherapy & Rehabilitation Centre in Noida, we combine evidence-based treatment with genuine care. Every patient gets a thorough initial assessment, a personalised treatment plan, and a dedicated therapist who tracks your progress session by session.
-                            </p>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                We treat everything from acute injuries to complex post-surgical rehabilitation — and we believe that education is as important as treatment. A patient who understands their condition heals faster and stays well longer.
-                            </p>
-
-                            <!-- Professional CTA Section -->
-                            <div id="cta-shoulder" class="mt-12 p-8 bg-slate-50 border border-slate-200 rounded-3xl text-center">
-                                <h3 class="text-xl md:text-2xl font-extrabold text-[#0d3b44] mb-3">Ready to move pain-free again?</h3>
-                                <p class="text-slate-600 text-sm md:text-base leading-relaxed mb-6 max-w-xl mx-auto">
-                                    Book a consultation at Step2Heal, Noida. Our physiotherapists will assess your shoulder, explain your diagnosis clearly, and get you on the path to recovery.
-                                </p>
-                                <button onclick="window.open('https://wa.me/919773960242?text=Hello%20Step2Heal%21%20I%20read%20your%20Shoulder%20Pain%20guide%20and%20would%20like%20to%20book%20a%20shoulder%20assessment%20consultation.%20Please%20share%20available%20slots.%20Thank%20you.', '_blank')" class="inline-flex items-center gap-2 bg-[#0d3b44] text-white font-black text-sm px-8 py-4 rounded-xl hover:bg-teal-600 transition-all shadow-md">
-                                    <span>Book a consultation ↗</span>
-                                </button>
-                            </div>
-                        `
-                    },
-                    {
-                        id: 4,
-                        slug: '5-things-back-pain-wrong',
-                        category: 'Lifestyle',
-                        title: "4 things you've been told about back pain that are probably wrong",
-                        excerpt: 'Back pain is one of the most common reasons people visit a physiotherapist — and also one of the most misunderstood.',
-                        author: 'Step2Heal Team',
-                        date: '2026-05-06',
-                        displayDate: '6 May 2026',
-                        image: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&q=80&w=800',
-                        toc: [
-                            { id: 'introduction', text: 'Introduction' },
-                            { id: 'bed-rest-myth', text: 'Myth 1: Bed Rest is Best' },
-                            { id: 'scan-misinterpret', text: 'Myth 2: Scans Tell All' },
-                            { id: 'firm-mattress', text: 'Myth 3: Hard Mattresses Always Win' },
-                            { id: 'permanent-sentence', text: 'Myth 4: A Bad Back is Forever' },
-                            { id: 'practical-remedies', text: 'Clinical Next Steps' }
-                        ],
-                        content: `
-                            <p id="introduction" class="text-slate-700 text-base leading-relaxed mb-6">
-                                Back pain is one of the most common reasons people visit a physiotherapist — and also one of the most misunderstood. A lot of what we've been taught about it, often by well-meaning friends, parents, or outdated medical trends, quietly makes the condition worse.
-                            </p>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                In our clinical experience at Step2Heal, we witness the real-world consequences of these misconceptions daily. Patients enter our Noida facility fearful, restricted, and under-active simply due to a lack of accurate guidance. Let's look at the primary myths with the lens of modern mechanobiology and functional movement sciences.
-                            </p>
-                            
-                            <h2 id="bed-rest-myth" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Myth 1: Absolute Bed Rest is the Best Medicine</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                Complete bed rest was once standard treatment for spinal pain. Today, we know this can prolong your recovery. When spinal stabilizers are static, muscle degeneration begins, joint lubrication drops, and blood flow declines. Movement stimulates fluid exchange in the intervertebral discs and maintains neural mobility. Even on painful days, controlled, progressive physical therapy exercises are recommended to help resolve spasms.
-                            </p>
-                            
-                            <h2 id="scan-misinterpret" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Myth 2: Scans Automatically Reveal the Source of Your Pain</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                Magnetic Resonance Imaging (MRI) and X-ray scans are helpful diagnostic tools, but they do not always explain your physical discomfort. Scientific studies have shown that a high percentage of individuals with zero spinal pain have disc bulges, protrusions, or degenerative signs on scans. Often, these findings are normal signs of aging. At Step2Heal, we prioritize a thorough functional assessment of how your body moves over scan readouts alone.
-                            </p>
-                            
-                            <h2 id="firm-mattress" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Myth 3: Hard Mattresses are Better for Spinal Health</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                Choosing a mattress that is too hard can sometimes increase joint and muscle tension because it does not support the natural curves of your body. An ideal sleep surface should keep your head, neck, shoulders, and hips in neutral alignment. Your sleeping posture (such as lying on your side vs. your back) determines the level of firmness that will best support your spine.
-                            </p>
-                            
-                            <h2 id="permanent-sentence" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Myth 4: A Bad Back is a Permanent Sentence</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                Believing your back is permanently weak can lead to protective habits and fear of movement, which can prolong your pain. The structures of your spine—including the ligaments, muscles, and vertebrae—are highly adaptable. With targeted core stabilization, proper physical therapy, and a progressive exercise plan, most patients can return to active sports and pain-free daily activities.
-                            </p>
-                            
-                            <h2 id="practical-remedies" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Clinical Next Steps</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                If you are managing back pain, avoid waiting in bed for it to resolve. Instead, focus on gentle walking, deep breathing, and consult a qualified physiotherapist. A professional evaluation can help you understand your pain and build the physical strength needed for active recovery.
-                            </p>
-                        `
-                    },
-                    {
-                        id: 1,
-                        slug: 'move-better-feel-better',
-                        category: 'Exercises',
-                        title: "MOVE BETTER. FEEL BETTER. LIVE BETTER.",
-                        excerpt: 'Why exercise is at the heart of physiotherapy. Explore how movement serves as a clear, step-by-step road map back to health.',
-                        author: 'Step2Heal Team',
-                        date: '2026-05-03',
-                        displayDate: '3 May 2026',
-                        image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=800',
-                        toc: [
-                            { id: 'intro-movement', text: 'Introduction to Movement' },
-                            { id: 'biology', text: 'The Biological Science' },
-                            { id: 'functional', text: 'Functional Rehabilitation' },
-                            { id: 'gradual-load', text: 'Understanding Progressive Loading' }
-                        ],
-                        content: `
-                            <p id="intro-movement" class="text-slate-700 text-base leading-relaxed mb-6">
-                                Physiotherapy is more than passive treatments like hot packs, ultrasound, or hands-on therapy. While those therapies can help manage pain, movement is what truly drives recovery. Exercise is a key tool in clinical therapy for restoring functional mobility.
-                            </p>
-                            
-                            <h2 id="biology" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">The Biological Science of Movement</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                The human body adapts directly to physical stimulus. When a joint or muscle is injured, progressive movement helps direct new collagen fibers to align along lines of stress, which can help prevent stiff scar tissue. This process also stimulates blood circulation to deliver oxygen and nutrients to healing tissues, helping to reduce swelling.
-                            </p>
-                            
-                            <h2 id="functional" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Functional Rehabilitation vs. Short-Term Relief</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                At Step2Heal, we design exercise plans that translate directly to your daily activities. If you find it painful to reach overhead, we focus on shoulder blades, thoracic mobility, and rotator cuff stability. This approach aims to restore your functional range of motion so you can lift, carry, and move comfortably during your day.
-                            </p>
-                            
-                            <h2 id="gradual-load" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Understanding Progressive Loading</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                Successful exercise therapy depends on managing the physical load on your body. Applying too little stimulus may not trigger tissue adaptation, while applying too much can aggravate your symptoms. Our clinicians guide you through gradual progressions to help you safely build strength and confidence.
-                            </p>
-                        `
-                    },
-                    {
-                        id: 2,
-                        slug: 'post-surgical-healing',
-                        category: 'Recovery',
-                        title: "The Science of Post-Surgical Healing",
-                        excerpt: 'Understanding the biological timeline of recovery and how targeted intervention speeds up the natural healing process.',
-                        author: 'Step2Heal Team',
-                        date: '2026-05-03',
-                        displayDate: '3 May 2026',
-                        image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800',
-                        toc: [
-                            { id: 'healing-phases', text: 'Three Stages of Tissue Repair' },
-                            { id: 'early-rehab', text: 'Why Early Movement Matters' },
-                            { id: 'custom-timeline', text: 'Physiological Healing Timelines' }
-                        ],
-                        content: `
-                            <p id="healing-phases" class="text-slate-700 text-base leading-relaxed mb-6">
-                                Recovering from surgery is a journey that depends on active participation. After procedures like an ACL reconstruction, knee replacement, or rotator cuff repair, the body moves through predictable stages of healing: inflammation, proliferation, and remodeling. Understanding these stages can help guide a safer recovery.
-                            </p>
-                            
-                            <h2 id="early-rehab" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Why Early Movement Matters</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                Many patients are hesitant to move after surgery due to fear of pain or reinjury. However, early, controlled motion is important for managing scar tissue. If joints are kept still for too long, joint capsules can stiffen and surrounding muscles can weaken. Early physiotherapy focus on swelling control, muscle activation, and safe joint range of motion can help set up a smoother recovery.
-                            </p>
-                            
-                            <h2 id="custom-timeline" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Physiological Healing Timelines</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                Muscle, tendon, and bone each heal at different rates. We monitor these biological windows closely to ensure that the exercises we introduce are appropriate for the strength of your healing tissues. This helps you recover safely and steadily.
-                            </p>
-                        `
-                    },
-                    {
-                        id: 3,
-                        slug: 'pain-free-spine',
-                        category: 'Lifestyle',
-                        title: "Daily Habits for a Pain-Free Spine",
-                        excerpt: 'Simple adjustments to your daily routine that can significantly reduce the risk of chronic back and neck pain.',
-                        author: 'Step2Heal Team',
-                        date: '2026-05-03',
-                        displayDate: '3 May 2026',
-                        image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800',
-                        toc: [
-                            { id: 'posture-sitting', text: 'Spinal Alignment in Daily Life' },
-                            { id: 'hydration', text: 'Hydration and Disc Health' },
-                            { id: 'micro-movements', text: 'Incorporating Movement Breaks' }
-                        ],
-                        content: `
-                            <p id="posture-sitting" class="text-slate-700 text-base leading-relaxed mb-6">
-                                Sitting at a desk for several hours can place constant pressure on your lower back and neck, which can lead to cumulative muscle fatigue and joint strain. Making small adjustments to your daily routine can help protect your spine.
-                            </p>
-                            
-                            <h2 id="hydration" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Hydration and Disc Health</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                The intervertebral discs that cushion your spine are made mostly of water. During the day, sitting and standing can cause these discs to lose fluid. Staying well-hydrated and moving regularly can help these discs absorb the nutrients they need to stay healthy and functional.
-                            </p>
-                            
-                            <h2 id="micro-movements" class="text-xl font-bold text-[#0d3b44] mt-8 mb-4">Incorporating Movement Breaks</h2>
-                            <p class="text-slate-700 text-base leading-relaxed mb-6">
-                                Instead of sitting in one position for hours, try taking short movement breaks throughout the day. Getting up for a quick walk, gently rolling your shoulders, or doing a light standing stretch every 30 to 45 minutes can help reset your posture and keep your muscles active.
-                            </p>
-                        `
-                    }
-                ],
-
-                // Dynamic properties
-                featuredPost: null,
-
-                init() {
-                    // Set up scrolling event tracker
-                    window.addEventListener('scroll', () => {
-                        this.scrolled = window.pageYOffset > 20;
-                    });
-
-                    // Define which post is featured (the newly added Shoulder Pain flagship guide)
-                    this.featuredPost = this.posts.find(p => p.id === 5);
-
-                    // Auto deep-linking: Check URL hash on page load
-                    this.checkUrlHash();
-                    window.addEventListener('hashchange', () => this.checkUrlHash());
-                },
-
-                get filteredPosts() {
-                    return this.posts.filter(post => {
-                        // Exclude the currently featured post from the grid list so content is not duplicated on screen
-                        const isFeaturedOnTop = (post.id === this.featuredPost?.id && this.activeCategory === 'All' && this.searchQuery === '');
-                        
-                        const matchesCategory = this.activeCategory === 'All' || post.category === this.activeCategory;
-                        const matchesSearch = post.title.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
-                                              post.excerpt.toLowerCase().includes(this.searchQuery.toLowerCase());
-                        
-                        return matchesCategory && matchesSearch && !isFeaturedOnTop;
-                    });
-                },
-
-                checkUrlHash() {
-                    const hash = window.location.hash;
-                    if (hash && hash.startsWith('#blog-')) {
-                        const postSlug = hash.replace('#blog-', '');
-                        const matchedPost = this.posts.find(p => p.slug === postSlug);
-                        if (matchedPost) {
-                            this.openPost(matchedPost);
-                        }
-                    } else if (hash === '') {
-                        this.isReading = false;
-                    }
-                },
-
-                openPost(post) {
-                    this.selectedPost = post;
-                    this.isReading = true;
-                    document.body.style.overflow = 'hidden';
-                    
-                    // Update URL hash cleanly
-                    if (window.location.hash !== '#blog-' + post.slug) {
-                        history.replaceState(null, null, '#blog-' + post.slug);
-                    }
-                    
-                    setTimeout(() => lucide.createIcons(), 50);
-                },
-
-                closePost() {
-                    this.isReading = false;
-                    document.body.style.overflow = 'auto';
-                    
-                    // Clear the hash state cleanly
-                    if (window.location.hash.startsWith('#blog-')) {
-                        history.replaceState(null, null, ' ');
-                    }
-                    setTimeout(() => { this.selectedPost = null; }, 300);
-                },
-
-                copyBlogLink() {
-                    const shareUrl = window.location.origin + window.location.pathname + '#blog-' + this.selectedPost.slug;
-                    const tempEl = document.createElement('textarea');
-                    tempEl.value = shareUrl;
-                    document.body.appendChild(tempEl);
-                    tempEl.select();
-                    try {
-                        document.execCommand('copy');
-                        this.copiedToast = true;
-                        setTimeout(() => {
-                            this.copiedToast = false;
-                        }, 2500);
-                    } catch (err) {
-                        console.error('Failed to copy blog URL:', err);
-                    }
-                    document.body.removeChild(tempEl);
-                },
-
-                shareOnWhatsApp() {
-                    const articleUrl = encodeURIComponent(window.location.origin + window.location.pathname + '#blog-' + this.selectedPost.slug);
-                    const text = encodeURIComponent(`Check out this excellent physiotherapy guide from Step2Heal: "${this.selectedPost.title}" - `);
-                    window.open(`https://wa.me/?text=${text}${articleUrl}`, '_blank');
-                },
-
-                shareOnFacebook() {
-                    const articleUrl = encodeURIComponent(window.location.origin + window.location.pathname + '#blog-' + this.selectedPost.slug);
-                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${articleUrl}`, '_blank');
-                },
-
-                shareOnLinkedIn() {
-                    const articleUrl = encodeURIComponent(window.location.origin + window.location.pathname + '#blog-' + this.selectedPost.slug);
-                    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${articleUrl}`, '_blank');
-                },
-
-                bookSession() {
-                    const url = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(this.bookingMessage)}`;
-                    window.open(url, '_blank');
-                }
-            }));
-        });
-        window.onload = () => lucide.createIcons();
+        // Initialize Lucide icons
+        lucide.createIcons();
     </script>
 </body>
 </html>
